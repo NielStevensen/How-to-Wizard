@@ -4,19 +4,23 @@ using UnityEngine;
 
 public class FireController : MonoBehaviour
 {
-    public float lifetime = 5;
-    // Start is called before the first frame update
+	//Lifetime
+	[Tooltip("Lifetime of the flame object.")]
+	public float lifetime = 5;
+
+    //Setup
     void Start()
     {
         Destroy(gameObject, lifetime);
     }
 
-    // Update is called once per frame
+    //...
     void Update()
     {
         
     }
 
+	//On entering the flame, set flammable objects on fire
     private void OnTriggerEnter(Collider other)
     {
         

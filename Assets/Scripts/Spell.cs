@@ -4,20 +4,45 @@ using UnityEngine;
 
 public class Spell : MonoBehaviour
 {
-    public string[] Modules;
+	//Spell delay
+	[Tooltip("Delay between using spells in seconds.")]
+	public float spellDelay = 2.5f;
+	private bool isSpellCooldown = false;
+	[HideInInspector]
+	public bool isSpellCasted = false;
+	
+	[Space(10)]
+
+	//Modules in spell
+	public string[] Modules;
 
     public SpellModuleList list;
 
-    bool pressed = false;
-
-    // Update is called once per frame
+    //Handle spell input
     void Update()
     {
-        if (Input.GetButtonDown("Fire1") && !pressed)
+        if (Input.GetButtonDown("Fire1") && !isSpellCooldown)
         {
-            pressed = true;
+			StartCoroutine(HandleSpellDelay());
 
-            list.StartCoroutine(list.HandleSpell(Modules));
+			list.StartCoroutine(list.HandleSpell(Modules));
         }
     }
+
+	//Handle spell delay
+	IEnumerator HandleSpellDelay()
+	{
+		isSpellCooldown = true;
+
+		while (!isSpellCasted)
+		{
+			yield return new WaitForEndOfFrame();
+		}
+
+		isSpellCasted = false;
+
+		yield return new WaitForSeconds(spellDelay);
+
+		isSpellCooldown = false;
+	}
 }

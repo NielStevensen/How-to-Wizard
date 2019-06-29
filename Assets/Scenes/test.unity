@@ -306,7 +306,7 @@ GameObject:
   - component: {fileID: 1887336152}
   - component: {fileID: 1887336151}
   - component: {fileID: 1887336154}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: spell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -325,7 +325,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11974b55573e0de458170e8dcae47866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fire: {fileID: 6496678034007525816, guid: 154f9437a95a7fe4184ca185e3819846, type: 3}
+  projectilePrefab: {fileID: 0}
+  aoePrefab: {fileID: 0}
+  proxPrefab: {fileID: 0}
+  timerPrefab: {fileID: 0}
+  firePrefab: {fileID: 6496678034007525816, guid: 154f9437a95a7fe4184ca185e3819846,
+    type: 3}
+  weightPrefab: {fileID: 0}
+  barrierPrefab: {fileID: 0}
 --- !u!114 &1887336152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,6 +345,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bd868a1606ce54449b79341a942e611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spellDelay: 2.5
+  isSpellCasted: 0
   Modules:
   - Charge
   - Fire
