@@ -10,6 +10,16 @@ public class SpellModuleList : MonoBehaviour
 	//Line renderer for charge module
 	private LineRenderer lineRenderer;
 
+	//AOE values
+	[Tooltip("A multiplier on how much potency affects AOE range.")]
+	public float aoeSizeAmplifier = 2.5f;
+
+	//Push/pull values
+	[Tooltip("The max distace from the first point of contact that push/pull force is applied.")]
+	public float maxForceDistance = 7.5f;
+	[Tooltip("The maximum amount of force applied by the push/pull modules.")]
+	public float maxForce = 25.0f;
+
 	#region Prefabs
 	//Prefabs
 	[Tooltip("Projectile object spawned by projectile and split modules.")]
@@ -124,6 +134,11 @@ public class SpellModuleList : MonoBehaviour
 		yield return info;
 
 		spell.isSpellCasted = true;
+
+		//could try calling handlespell 3 times with projectile in place of split
+		//develop a system that only renders the projectile once
+		//then yield break and tell the original coroutine to break
+		//how to tell split projectiles to have randomised trajectories?
 	}
 
 	//Beam maintained while button is held
@@ -174,9 +189,21 @@ public class SpellModuleList : MonoBehaviour
 	#endregion
 
 	#region Secondary casting modules
-	//Comment
+	//Affect everything in the radius of the prefab
 	IEnumerator AOE(SpellInfo info)
 	{
+		GameObject aoeObject = Instantiate(aoePrefab, info.collisionPoints[0], Quaternion.identity);
+		aoeObject.transform.localScale *= info.potency * aoeSizeAmplifier;
+
+		yield return info;
+
+		foreach(GameObject obj in aoeObject.GetComponent<SpellTriggerHandler>().containedObjects)
+		{
+			info.collisionObjects.Add(obj);
+		}
+		
+		Destroy(aoeObject);
+
 		yield return info;
 	}
 
@@ -200,7 +227,7 @@ public class SpellModuleList : MonoBehaviour
         foreach (GameObject obj in info.collisionObjects)
         {
             // light on fire
-            Debug.Log("am buring");
+            //Debug.Log("am buring");
         }
 
         GameObject flame = Instantiate(firePrefab, info.collisionPoints[0], Quaternion.identity);
@@ -209,16 +236,49 @@ public class SpellModuleList : MonoBehaviour
         yield return info;
     }
 
-	//Comment
+	//Apply a repelling force from the first point of contact
 	IEnumerator Push(SpellInfo info)
 	{
+		ApplyForce(info, 1);
+
 		yield return info;
 	}
 
-	//Comment
+	//Apply an attracting force from the first point of contact
 	IEnumerator Pull(SpellInfo info)
 	{
+		ApplyForce(info, -1);
+
 		yield return info;
+	}
+
+	//Apply force to the parsed objects
+	void ApplyForce(SpellInfo info, int forceModifier)
+	{
+		GameObject firstImpactObject = info.collisionObjects[0];
+
+		Vector3 origin = info.collisionPoints[0];
+
+		RaycastHit hit;
+
+		for (int i = 0; i < info.collisionObjects.Count; i++)
+		{
+			GameObject obj = info.collisionObjects[i];
+			
+			if (i == 0)
+			{
+				obj.GetComponent<Rigidbody>().AddForce(Vector3.Normalize(obj.transform.position - origin) * maxForce * forceModifier);
+			}
+			else if (obj != firstImpactObject && Physics.Raycast(origin, obj.transform.position - origin, out hit, 1000, ~(1 << LayerMask.NameToLayer("Ignore Raycast"))))
+			{
+				if (hit.collider.gameObject == obj)
+				{
+					float pushForce = (1 - (hit.distance / maxForceDistance)) * maxForce * forceModifier;
+
+					obj.GetComponent<Rigidbody>().AddForce(Vector3.Normalize(obj.transform.position - origin) * pushForce);
+				}
+			}
+		}
 	}
 
 	//Comment
