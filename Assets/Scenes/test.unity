@@ -240,7 +240,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 381853485}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -422,7 +422,8 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
-  m_Layer: 0
+  - component: {fileID: 963194229}
+  m_Layer: 8
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -487,13 +488,34 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
-  m_LocalPosition: {x: 0, y: 3, z: -2}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7214154460214911395}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &963194229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87500d720cd765f4598fa5ec8d4cfa85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isRotatingHorizontally: 0
+  mouseSensitivityX: 3.75
+  mouseSensitivityY: 3.75
+  minVerticalRotation: -45
+  maxVerticalRotation: 45
+  isMouseInverted: 0
+  rotationHorizontal: 0
+  rotationVertical: 0
+  showDebug: 0
 --- !u!1 &979885881
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,7 +611,7 @@ GameObject:
   - component: {fileID: 1887336152}
   - component: {fileID: 1887336151}
   - component: {fileID: 1887336154}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: spell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -611,7 +633,9 @@ MonoBehaviour:
   aoeSizeAmplifier: 2.5
   maxForceDistance: 7.5
   maxForce: 25
-  projectilePrefab: {fileID: 0}
+  activeprojectile: 1
+  projectilePrefab: {fileID: 7679059604262710080, guid: dba57a152f7942d41adfb60ea2b67c51,
+    type: 3}
   aoePrefab: {fileID: 96611120828246474, guid: 9193f010abb585848a41b6f37a4bdb91, type: 3}
   proxPrefab: {fileID: 0}
   timerPrefab: {fileID: 0}
@@ -634,9 +658,8 @@ MonoBehaviour:
   spellDelay: 0.1
   isSpellCasted: 0
   Modules:
-  - Charge
+  - Projectile
   - AOE
-  - Push
   - Push
   list: {fileID: 1887336151}
 --- !u!4 &1887336153
@@ -776,7 +799,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1968874523}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -871,9 +894,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1642922291392788727}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc6a7af513fb4da4fbd736758f8e5634, type: 3}
+  m_Script: {fileID: 11500000, guid: 87500d720cd765f4598fa5ec8d4cfa85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isRotatingHorizontally: 1
+  mouseSensitivityX: 3.75
+  mouseSensitivityY: 3.75
+  minVerticalRotation: -45
+  maxVerticalRotation: 45
+  isMouseInverted: 0
+  rotationHorizontal: 0
+  rotationVertical: 0
+  showDebug: 0
 --- !u!1001 &3773541408552790723
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -885,6 +917,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Charecter
+      objectReference: {fileID: 0}
+    - target: {fileID: 1642922291392788727, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7214154460214911395, guid: b8ef9db6933a38e499a23b2504bf2dfd,
         type: 3}
@@ -940,6 +977,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1354099226651646126, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8ef9db6933a38e499a23b2504bf2dfd, type: 3}

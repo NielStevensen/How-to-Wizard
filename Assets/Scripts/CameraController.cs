@@ -39,14 +39,6 @@ public class CameraController : MonoBehaviour {
 	[HideInInspector]
     public float rotationVertical;
 
-	//Has the game started?
-	[HideInInspector]
-	public bool hasGameStarted = false;
-
-	//Should input be taken?
-	[HideInInspector]
-	public bool shouldTakeInput = true;
-
     [Space(10)]
 
     //Show debug layers
@@ -90,16 +82,12 @@ public class CameraController : MonoBehaviour {
 	//Handle camera
 	void Update ()
     {
-		if (hasGameStarted)
-		{
+
 			if (isRotatingHorizontally)
 			{
 				float rotationValue = 0;
 
-				if (shouldTakeInput)
-				{
-					rotationValue = Input.GetAxis("Mouse X") * mouseSensitivityX;
-				}
+				rotationValue = Input.GetAxis("Mouse X") * mouseSensitivityX;
 
 				rotationHorizontal += rotationValue;
 
@@ -110,19 +98,11 @@ public class CameraController : MonoBehaviour {
 			else
 			{
 				float rotationValue = 0;
-
-				if (shouldTakeInput)
-				{
-					rotationValue = Input.GetAxis("Mouse Y") * mouseSensitivityY * mouseInversion;
-				}
-
+				rotationValue = Input.GetAxis("Mouse Y") * mouseSensitivityY * mouseInversion;
 				rotationVertical += rotationValue;
 				rotationVertical = Mathf.Clamp(rotationVertical, minVerticalRotation, maxVerticalRotation);
-
 				Quaternion quaternionVertical = Quaternion.AngleAxis(rotationVertical, Vector3.left);
-
 				transform.localRotation = Quaternion.identity * quaternionVertical;
 			}
-		}
 	}
 }
