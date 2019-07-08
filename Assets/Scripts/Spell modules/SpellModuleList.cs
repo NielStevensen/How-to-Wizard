@@ -155,10 +155,16 @@ public class SpellModuleList : MonoBehaviour
             //make it cast from hand
             if(Physics.Raycast(transform.position, transform.forward, out hit, 1000.0f))
             {
+                Debug.DrawLine(transform.position, hit.point, Color.green, 5.0f);
+
                 lineRenderer.SetPosition(0, this.transform.position);
                 lineRenderer.SetPosition(1, hit.point);
 
                 lineRenderer.SetWidth(Mathf.Min(holdTime / 5, 1.0f), Mathf.Min(holdTime / 5, 1.0f));
+            }
+            else
+            {
+                print("no hit");
             }
 
             yield return info;
