@@ -28,6 +28,11 @@ public class Spell : MonoBehaviour
 			list.StartCoroutine(list.HandleSpell(Modules));
         }
     }
+    public void VRSpell ()
+    {
+        Debug.Log("pickup");
+        list.StartCoroutine(list.HandleSpell(Modules));
+    }
 
 	//Handle spell delay
 	IEnumerator HandleSpellDelay()

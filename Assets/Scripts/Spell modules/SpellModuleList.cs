@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VR;
 
 public class SpellModuleList : MonoBehaviour
 {
@@ -130,28 +131,40 @@ public class SpellModuleList : MonoBehaviour
 	{
         activeprojectile = true;
         float holdTime = 0.0f;
+        Vector3 direction = Vector3.zero;
 
-        while (Input.GetButton("Fire1"))
-        {      
-            holdTime += Time.deltaTime;
-            yield return info;
-        }
-
-        GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-        projectile.GetComponent<Rigidbody>().AddForce(transform.forward * holdTime * 10);
-        projectile.GetComponent<ProjectileReturn>().caller = this;
-
-        while (activeprojectile)
+        var inputDevices = new List<UnityEngine.XR.InputDevice>();
+        UnityEngine.XR.InputDevices.GetDevices(inputDevices);
+        if (inputDevices.Count > 0)
         {
-            yield return info;
+            holdTime = 1f;
+        }
+        else
+        {
+            while (Input.GetButton("Fire1"))
+            {
+                holdTime += Time.deltaTime;
+                direction = transform.forward;
+                yield return info;
+            }
         }
 
-        info.potency = 1;
-        info.collisionPoints.Add(projectile.GetComponent<ProjectileReturn>().whereHit);
-        info.collisionObjects.Add(projectile.GetComponent<ProjectileReturn>().whatHit);
-        Destroy(projectile);
-        yield return info;
+            GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
 
+            projectile.GetComponent<Rigidbody>().AddForce(direction* holdTime * 10);
+
+            projectile.GetComponent<ProjectileReturn>().caller = this;
+
+            while (activeprojectile)
+            {
+                yield return info;
+            }
+
+            info.potency = 1;
+            info.collisionPoints.Add(projectile.GetComponent<ProjectileReturn>().whereHit);
+            info.collisionObjects.Add(projectile.GetComponent<ProjectileReturn>().whatHit);
+            Destroy(projectile);
+            yield return info; 
         spell.isSpellCasted = true;
     }
 

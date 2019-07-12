@@ -10,9 +10,30 @@ public class ProjectileReturn : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        caller.activeprojectile = false;
-        Debug.Log("hit");
-        whatHit = collision.gameObject;
-        whereHit = collision.contacts[0].point;
+        var inputDevices = new List<UnityEngine.XR.InputDevice>();
+        UnityEngine.XR.InputDevices.GetDevices(inputDevices);
+        if (inputDevices.Count > 0)
+        {
+            if(collision.gameObject.layer == 8)
+            {
+                GetComponent<Rigidbody>().useGravity = false;
+                transform.SetParent(collision.transform);
+            }
+            else
+            {
+                //transform.SetParent(null);
+                GetComponent<Rigidbody>().useGravity = true;
+                caller.activeprojectile = false;
+                Debug.Log("hit");
+                whatHit = collision.gameObject;
+                whereHit = collision.contacts[0].point;
+                Debug.Log(collision.gameObject.name);
+            }
+        }
+    }
+
+    private void Update()
+    {
+        //if()
     }
 }

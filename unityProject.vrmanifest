@@ -1,0 +1,16 @@
+{
+  "source": "Unity",
+  "applications": [
+    {
+      "app_key": "application.generated.unity.howtowizard.exe",
+      "launch_type": "url",
+      "url": "steam://launch/",
+      "action_manifest_path": "C:\\Users\\Snielsen2\\Documents\\GitHub\\How-to-Wizard\\actions.json",
+      "strings": {
+        "en_us": {
+          "name": "How to wizard [Testing]"
+        }
+      }
+    }
+  ]
+}
