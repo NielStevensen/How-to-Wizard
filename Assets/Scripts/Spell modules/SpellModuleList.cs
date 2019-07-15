@@ -246,11 +246,9 @@ public class SpellModuleList : MonoBehaviour
             isVR = true;
         }
 
-        Debug.Log(obj == null);
+        Debug.Log(obj.hand == null);
         while (Input.GetButton("Fire1") || !holdAction.GetLastStateUp(obj.hand))
         {
-            print("asaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaA");
-
             if (isVR)
             {
                 //print((handTransform == null).ToString());

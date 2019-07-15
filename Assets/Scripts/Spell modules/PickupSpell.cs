@@ -17,7 +17,7 @@ public class PickupSpell : MonoBehaviour
     private void Update()
     {
         
-        if(grabAction.GetLastStateDown(hand))
+        if(grabAction.GetLastStateDown(hand) && holdAction.GetState(hand))
         {
             if(collidingObject)
             {
