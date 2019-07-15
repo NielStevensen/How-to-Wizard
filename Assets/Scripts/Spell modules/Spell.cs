@@ -30,7 +30,6 @@ public class Spell : MonoBehaviour
     }
     public void VRSpell ()
     {
-        Debug.Log("pickup");
         list.StartCoroutine(list.HandleSpell(Modules));
     }
 

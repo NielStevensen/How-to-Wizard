@@ -2,18 +2,45 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VR;
+using Valve.VR;
 
 public class SpellModuleList : MonoBehaviour
 {
-	//References
-	private Spell spell;
-	
-	//Line renderer for charge module
-	private LineRenderer lineRenderer;
+    //VR hand reference
+    [HideInInspector]
+    public SteamVR_Input_Sources hand;
+    [HideInInspector]
+    public Transform handTransform;
+    [HideInInspector]
+    public PickupSpell obj;
 
-	//AOE values
-	[Tooltip("A multiplier on how much potency affects AOE range.")]
+    //References
+    private Spell spell;
+
+    //Projectile values
+    public float projectileSpeedMultiplier = 10.0f;
+    [HideInInspector]
+    public Vector3 projectileVelocity;
+    [HideInInspector]
+    public Vector3 projectileAngularV;
+
+    [Space(10)]
+
+    //Line renderer for charge module
+    private LineRenderer lineRenderer;
+    public SteamVR_Action_Boolean holdAction;
+
+    //projectile check
+    [HideInInspector]
+    public bool activeprojectile = true;
+
+    [Space(10)]
+
+    //AOE values
+    [Tooltip("A multiplier on how much potency affects AOE range.")]
 	public float aoeSizeAmplifier = 2.5f;
+
+    [Space(10)]
 
 	//Push/pull values
 	[Tooltip("The max distace from the first point of contact that push/pull force is applied.")]
@@ -21,10 +48,7 @@ public class SpellModuleList : MonoBehaviour
 	[Tooltip("The maximum amount of force applied by the push/pull modules.")]
 	public float maxForce = 25.0f;
 
-    //projectile check
-
-    [HideInInspector]
-    public bool activeprojectile = true;
+    [Space(10)]
 
     #region Prefabs
     //Prefabs
@@ -47,14 +71,14 @@ public class SpellModuleList : MonoBehaviour
 	//Set references
 	private void Start()
     {
-        var inputDevices = new List<UnityEngine.XR.InputDevice>();
+        /*var inputDevices = new List<UnityEngine.XR.InputDevice>();
         UnityEngine.XR.InputDevices.GetDevices(inputDevices);
         Debug.Log(inputDevices.Count);
 
         foreach(UnityEngine.XR.InputDevice a in inputDevices)
         {
             print(string.Format("Device found with name '{0}' and role '{1}'", a.name, a.role.ToString()));
-        }
+        }*/
 
         spell = GetComponent<Spell>();
 
@@ -146,7 +170,7 @@ public class SpellModuleList : MonoBehaviour
         UnityEngine.XR.InputDevices.GetDevices(inputDevices);
         if (inputDevices.Count > 0)
         {
-            holdTime = 1f;
+
         }
         else
         {
@@ -159,8 +183,19 @@ public class SpellModuleList : MonoBehaviour
         }
 
             GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+        if (inputDevices.Count > 0)
+        {
+            projectile.GetComponent<Rigidbody>().velocity = projectileVelocity * projectileSpeedMultiplier;
+            projectile.GetComponent<Rigidbody>().angularVelocity = projectileAngularV ;
 
-            projectile.GetComponent<Rigidbody>().AddForce(direction* holdTime * 10);
+            projectileVelocity = Vector3.zero;
+            projectileAngularV = Vector3.zero;
+        }
+        else
+        {
+            projectile.GetComponent<Rigidbody>().velocity = (direction * holdTime * 10);
+        }
+        
 
             projectile.GetComponent<ProjectileReturn>().caller = this;
 
@@ -199,14 +234,41 @@ public class SpellModuleList : MonoBehaviour
 
         lineRenderer.enabled = true;
 
-        while (Input.GetButton("Fire1"))
+        bool hitTest = false;
+
+        bool isVR = false;
+
+        var inputDevices = new List<UnityEngine.XR.InputDevice>();
+        UnityEngine.XR.InputDevices.GetDevices(inputDevices);
+
+        if (inputDevices.Count > 0)
         {
+            isVR = true;
+        }
+
+        Debug.Log(obj == null);
+        while (Input.GetButton("Fire1") || !holdAction.GetLastStateUp(obj.hand))
+        {
+            print("asaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaA");
+
+            if (isVR)
+            {
+                //print((handTransform == null).ToString());
+
+                hitTest = Physics.Raycast(obj.gameObject.transform.position, handTransform.forward, out hit, 1000.0f);
+                lineRenderer.SetPosition(0, obj.gameObject.transform.position);
+            }
+            else
+            {
+                hitTest = Physics.Raycast(transform.position, transform.forward, out hit, 1000.0f);
+                lineRenderer.SetPosition(0, this.transform.position);
+            }
+            
             //make it cast from hand
-            if(Physics.Raycast(transform.position, transform.forward, out hit, 1000.0f))
+            if(hitTest)
             {
                 Debug.DrawLine(transform.position, hit.point, Color.green, 5.0f);
 
-                lineRenderer.SetPosition(0, this.transform.position);
                 lineRenderer.SetPosition(1, hit.point);
 
                 lineRenderer.SetWidth(Mathf.Min(holdTime / 5, 1.0f), Mathf.Min(holdTime / 5, 1.0f));
@@ -220,6 +282,8 @@ public class SpellModuleList : MonoBehaviour
         lineRenderer.enabled = false;
 
         holdTime = Mathf.Min(holdTime, 5.0f);
+
+        print((hit.transform.gameObject == null).ToString());
 
         info.potency = 0.5f + 1.0f * holdTime / 5.0f;
         info.collisionPoints.Add(hit.point);

@@ -8,6 +8,7 @@ public class PickupSpell : MonoBehaviour
     public SteamVR_Input_Sources hand;
     public SteamVR_Behaviour_Pose controllerPose;
     public SteamVR_Action_Boolean grabAction;
+    public SteamVR_Action_Boolean holdAction;
 
     private GameObject collidingObject;
     private GameObject objectInHand;
@@ -15,15 +16,18 @@ public class PickupSpell : MonoBehaviour
 
     private void Update()
     {
+        
         if(grabAction.GetLastStateDown(hand))
         {
             if(collidingObject)
             {
                 GrabObject();
             }
-        }        if(grabAction.GetLastStateUp(hand))
+        }
+
+        if (grabAction.GetLastStateUp(hand))
         {
-            if(collidingObject)
+            if (collidingObject)
             {
                 ReleaseObject();
             }
@@ -70,8 +74,10 @@ public class PickupSpell : MonoBehaviour
     private FixedJoint AddFixedJoint()
     {
         FixedJoint fx = gameObject.AddComponent<FixedJoint>();
-        fx.breakForce = 1000000;
-        fx.breakTorque = 1000000;
+
+        fx.breakForce = 200000;
+        fx.breakTorque = 200000;
+
         return fx;
     }
     
@@ -81,8 +87,17 @@ public class PickupSpell : MonoBehaviour
         {
             GetComponent<FixedJoint>().connectedBody = null;
             Destroy(GetComponent<FixedJoint>());
-            if(objectInHand.GetComponent<Spell>())
+
+            if (objectInHand.GetComponent<Spell>())
             {
+                SpellModuleList sml = objectInHand.GetComponent<SpellModuleList>();
+
+                sml.obj = this;
+                sml.hand = hand;
+                sml.handTransform = gameObject.transform;
+                sml.projectileVelocity = controllerPose.GetVelocity();
+                sml.projectileAngularV = controllerPose.GetAngularVelocity();
+
                 objectInHand.GetComponent<Spell>().VRSpell();
                 objectInHand.transform.position = new Vector3(0, -100, 0);
             }

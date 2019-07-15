@@ -28,6 +28,10 @@
       "type": "pose"
     },
     {
+      "name": "/actions/default/in/Hold",
+      "type": "boolean"
+    },
+    {
       "name": "/actions/default/out/Haptic",
       "type": "vibration"
     },
