@@ -47,7 +47,16 @@ public class SpellModuleList : MonoBehaviour
 	//Set references
 	private void Start()
     {
-		spell = GetComponent<Spell>();
+        var inputDevices = new List<UnityEngine.XR.InputDevice>();
+        UnityEngine.XR.InputDevices.GetDevices(inputDevices);
+        Debug.Log(inputDevices.Count);
+
+        foreach(UnityEngine.XR.InputDevice a in inputDevices)
+        {
+            print(string.Format("Device found with name '{0}' and role '{1}'", a.name, a.role.ToString()));
+        }
+
+        spell = GetComponent<Spell>();
 
 		lineRenderer = GetComponent<LineRenderer>();
     }
