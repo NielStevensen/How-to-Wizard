@@ -23,14 +23,21 @@ public class Spell : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1") && !isSpellCooldown)
         {
-			StartCoroutine(HandleSpellDelay());
-
-			list.StartCoroutine(list.HandleSpell(Modules));
+			CallSpell();
         }
     }
-    public void VRSpell ()
+
+	//Handle casting a spell
+    public void CallSpell ()
     {
-        list.StartCoroutine(list.HandleSpell(Modules));
+		StartCoroutine(HandleSpellDelay());
+
+		SingleInstanceEnforcer sie = FindObjectOfType<SingleInstanceEnforcer>();
+
+		list.spellID = sie.currentSpellID;
+		sie.currentSpellID++;
+
+		list.StartCoroutine(list.HandleSpell(Modules));
     }
 
 	//Handle spell delay

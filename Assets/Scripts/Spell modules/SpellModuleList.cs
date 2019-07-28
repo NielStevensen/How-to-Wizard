@@ -16,6 +16,8 @@ public class SpellModuleList : MonoBehaviour
 
     //References
     private Spell spell;
+	[Tooltip("Spell ID.")]
+	public int spellID = -1;
 
     //Projectile values
     public float projectileSpeedMultiplier = 10.0f;

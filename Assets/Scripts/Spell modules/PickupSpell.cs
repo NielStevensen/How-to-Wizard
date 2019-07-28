@@ -98,7 +98,7 @@ public class PickupSpell : MonoBehaviour
                 sml.projectileVelocity = controllerPose.GetVelocity();
                 sml.projectileAngularV = controllerPose.GetAngularVelocity();
 
-                objectInHand.GetComponent<Spell>().VRSpell();
+                objectInHand.GetComponent<Spell>().CallSpell();
                 objectInHand.transform.position = new Vector3(0, -100, 0);
             }
             else
