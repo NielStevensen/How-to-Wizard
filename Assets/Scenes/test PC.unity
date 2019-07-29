@@ -832,6 +832,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Character
       objectReference: {fileID: 0}
+    - target: {fileID: 1642922291392788727, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 7214154460214911395, guid: b8ef9db6933a38e499a23b2504bf2dfd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -886,6 +891,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7173184208746770719, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076509265724892908, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6813502977297102182, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: Modules.Array.data[0]
+      value: Projectile
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8ef9db6933a38e499a23b2504bf2dfd, type: 3}

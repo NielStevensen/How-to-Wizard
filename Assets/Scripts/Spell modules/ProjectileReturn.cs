@@ -10,9 +10,7 @@ public class ProjectileReturn : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        var inputDevices = new List<UnityEngine.XR.InputDevice>();
-        UnityEngine.XR.InputDevices.GetDevices(inputDevices);
-        if (inputDevices.Count > 0)
+        if (SpellModuleList.IsCurrentlyVR())
         {
             if(collision.gameObject.layer == 8)
             {
@@ -30,7 +28,20 @@ public class ProjectileReturn : MonoBehaviour
                 Debug.Log(collision.gameObject.name);
             }
         }
-    }
+		else
+		{
+			if (collision.gameObject.layer != 8)
+			{
+				//transform.SetParent(null);
+				GetComponent<Rigidbody>().useGravity = true;
+				caller.activeprojectile = false;
+				Debug.Log("hit");
+				whatHit = collision.gameObject;
+				whereHit = collision.contacts[0].point;
+				Debug.Log(collision.gameObject.name);
+			}
+		}
+	}
 
     private void Update()
     {

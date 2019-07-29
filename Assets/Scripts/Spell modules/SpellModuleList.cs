@@ -418,7 +418,7 @@ public class SpellModuleList : MonoBehaviour
 	#endregion
 
 	//Determine if VR is being used
-	bool IsCurrentlyVR()
+	public static bool IsCurrentlyVR()
 	{
 		var inputDevices = new List<UnityEngine.XR.InputDevice>();
 		UnityEngine.XR.InputDevices.GetDevices(inputDevices);
