@@ -90,7 +90,7 @@ public class PickupSpell : MonoBehaviour
 
             if (objectInHand.GetComponent<Spell>())
             {
-                SpellModuleList sml = objectInHand.GetComponent<SpellModuleList>();
+                SpellModuleList sml = objectInHand.GetComponent<SpellModuleList>(); // if the object is spell
 
                 sml.obj = this;
                 sml.hand = hand;
@@ -100,6 +100,11 @@ public class PickupSpell : MonoBehaviour
 
                 objectInHand.GetComponent<Spell>().CallSpell();
                 objectInHand.transform.position = new Vector3(0, -100, 0);
+            }
+            else if (objectInHand.GetComponent<Spell>()) // dont apply force to crystals relased
+            {
+                objectInHand.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+                objectInHand.GetComponent<Rigidbody>().angularVelocity = new Vector3(0,0,0);
             }
             else
             {
