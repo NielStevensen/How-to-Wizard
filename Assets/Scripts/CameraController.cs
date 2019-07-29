@@ -38,13 +38,7 @@ public class CameraController : MonoBehaviour {
 	public float rotationHorizontal;
 	[HideInInspector]
     public float rotationVertical;
-
-    [Space(10)]
-
-    //Show debug layers
-    [Tooltip("Should debug layers be rendered (editor only)?\nCurrently only applies to wander points.")]
-    public bool showDebug = false;
-
+	
 	//Set settings values
 	private void Awake()
 	{
@@ -57,15 +51,6 @@ public class CameraController : MonoBehaviour {
 	//Only render debug stuff if in editor and desired, initialise mouse inversion and set initial rotation
 	void Start ()
     {
-        #if UNITY_EDITOR
-
-        if (gameObject.GetComponent<Camera>() != null && showDebug)
-        {
-            gameObject.GetComponent<Camera>().cullingMask = -1;
-        }
-
-		#endif
-		
 		if (isMouseInverted)
         {
             mouseInversion = -1;

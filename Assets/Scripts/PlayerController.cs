@@ -11,19 +11,19 @@ public class PlayerController : MonoBehaviour {
     //Movement expressed as a vector3
     private Vector3 movement = Vector3.zero;
 	
-    //Set references and values
+    //Set cursor state
     private void Start()
     {
-		//Cursor.lockState = CursorLockMode.Locked;
-		//Cursor.visible = false;
+		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
     }
 
     //Handle movement and phone
     void Update ()
     {
-			movement = Vector3.Normalize(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"))) * movementSpeed;
-			movement = transform.TransformDirection(movement);
-		    CharacterController characterController = GetComponent<CharacterController>();
+		movement = Vector3.Normalize(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"))) * movementSpeed;
+		movement = transform.TransformDirection(movement);
+		CharacterController characterController = GetComponent<CharacterController>();
 
 		if (characterController.enabled)
 		{
