@@ -151,6 +151,11 @@ public class SpellModuleList : MonoBehaviour
 
 			yield return dc.coroutine;
 
+			if (!dc.result.shouldContinue)
+			{
+				yield break;
+			}
+
 			info.potency = dc.result.potency;
 			info.collisionPoints = dc.result.collisionPoints;
 			info.collisionObjects = dc.result.collisionObjects;
@@ -299,6 +304,10 @@ public class SpellModuleList : MonoBehaviour
 	//Comment
 	IEnumerator Touch(SpellInfo info)
 	{
+		//Important note for functionality with push/pull
+		//For collision objects, add a null
+		//For collision points, add position of hand
+
 		yield return info;
 
 		spell.isSpellCasted = true;
@@ -314,7 +323,9 @@ public class SpellModuleList : MonoBehaviour
 
 		yield return info;
 
-		foreach(GameObject obj in aoeObject.GetComponent<SpellTriggerHandler>().containedObjects)
+		info.collisionObjects.Clear();
+
+		foreach (GameObject obj in aoeObject.GetComponent<SpellTriggerHandler>().containedObjects)
 		{
 			info.collisionObjects.Add(obj);
 		}
@@ -330,18 +341,53 @@ public class SpellModuleList : MonoBehaviour
 		yield return info;
 	}
 
-	//Comment
+	//Affect everything in a small area around the point of impact after a delay
 	IEnumerator Timer(SpellInfo info)
 	{
-		yield return info;
+		SingleInstanceEnforcer sie = FindObjectOfType<SingleInstanceEnforcer>();
+
+		GameObject obj = sie.SpawnAsSet(spellID, timerPrefab, "Timer", info.potency, info.collisionPoints[0]);
+		obj.transform.localScale *= info.potency;
+		TimerController timer = obj.GetComponent<TimerController>();
+		timer.sml = this;
+		timer.potency = info.potency;
+		
+		while (!timer.isDepleted)
+		{
+			yield return info;
+		}
+		
+		if (timer.shouldContinue)
+		{
+			info.collisionObjects.Clear();
+
+			foreach (GameObject gameObj in timer.timerObj.GetComponent<SpellTriggerHandler>().containedObjects)
+			{
+				info.collisionObjects.Add(gameObj);
+			}
+			
+			Destroy(timer.timerObj);
+			Destroy(timer.gameObject);
+
+			yield return info;
+		}
+		else
+		{
+			Destroy(timer.gameObject);
+
+			info.shouldContinue = false;
+
+			yield return info;
+		}
 	}
 	#endregion
 
 	#region Spell effect modules
-	//Spawn a flame at point of collision
+	//Spawn a flame at the point of collision
 	IEnumerator Fire(SpellInfo info)
     {
-        foreach (GameObject obj in info.collisionObjects)
+		//foreach no longer used
+		foreach (GameObject obj in info.collisionObjects)
         {
             // light on fire
             //Debug.Log("am buring");
@@ -372,27 +418,30 @@ public class SpellModuleList : MonoBehaviour
 	//Apply force to the parsed objects
 	void ApplyForce(SpellInfo info, int forceModifier)
 	{
-		GameObject firstImpactObject = info.collisionObjects[0];
-
 		Vector3 origin = info.collisionPoints[0];
+		Vector3 direction;
 
 		RaycastHit hit;
 
 		for (int i = 0; i < info.collisionObjects.Count; i++)
 		{
 			GameObject obj = info.collisionObjects[i];
-			
-			if (i == 0)
-			{
-				obj.GetComponent<Rigidbody>().AddForce(Vector3.Normalize(obj.transform.position - origin) * maxForce * forceModifier);
-			}
-			else if (obj != firstImpactObject && Physics.Raycast(origin, obj.transform.position - origin, out hit, 1000, ~(1 << LayerMask.NameToLayer("Ignore Raycast"))))
-			{
-				if (hit.collider.gameObject == obj)
-				{
-					float pushForce = (1 - (hit.distance / maxForceDistance)) * maxForce * forceModifier;
 
-					obj.GetComponent<Rigidbody>().AddForce(Vector3.Normalize(obj.transform.position - origin) * pushForce);
+			if(obj != null)
+			{
+				if (obj.GetComponent<Rigidbody>() != null)
+				{
+					direction = obj.transform.position - origin;
+
+					if (Physics.Raycast(origin - Vector3.Normalize(direction) * 0.01f, direction, out hit, 1000, ~(1 << LayerMask.NameToLayer("Ignore Raycast"))))
+					{
+						if (hit.collider.gameObject == obj)
+						{
+							float pushForce = (1 - (hit.distance / maxForceDistance)) * maxForce * forceModifier;
+
+							obj.GetComponent<Rigidbody>().AddForce(Vector3.Normalize(obj.transform.position - origin) * pushForce);
+						}
+					}
 				}
 			}
 		}
@@ -436,6 +485,8 @@ public class SpellInfo
     public List<Vector3> collisionPoints;
 	//Objects collided with
     public List<GameObject> collisionObjects;
+	//Should the spell countinue?
+	public bool shouldContinue = true;
 
     public SpellInfo(float _potency, List<Vector3> _points, List<GameObject> _objects)
     {

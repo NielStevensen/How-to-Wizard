@@ -11,7 +11,9 @@ public class SpellTriggerHandler : MonoBehaviour
 	//Find all objects contained in trigger
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.gameObject.layer != LayerMask.NameToLayer("Ignore Raycast"))
+		int otherLayer = other.gameObject.layer;
+
+		if (otherLayer != LayerMask.NameToLayer("Ignore Raycast") && otherLayer != LayerMask.NameToLayer("Player"))
 		{
 			containedObjects.Add(other.gameObject);
 		}

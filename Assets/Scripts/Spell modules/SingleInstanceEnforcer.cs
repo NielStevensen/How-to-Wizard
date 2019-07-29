@@ -40,7 +40,8 @@ public class SingleInstanceEnforcer : MonoBehaviour
 							//Set a bool in each object of the old set to false
 							//This bool is checked every frame
 							//If false, stop functionality and fade/destroy
-							//timer.GetComponent<ModuleSpecificComponent>().shouldContinue = false;
+							
+							timer.GetComponent<TimerController>().shouldContinue = false;
 						}
 					}
 
