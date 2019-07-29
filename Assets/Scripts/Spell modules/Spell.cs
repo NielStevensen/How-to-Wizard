@@ -14,7 +14,7 @@ public class Spell : MonoBehaviour
 	[Space(10)]
 
 	//Modules in spell
-	public string[] Modules;
+	public List<string> Modules = new List<string>();
 
     public SpellModuleList list;
 

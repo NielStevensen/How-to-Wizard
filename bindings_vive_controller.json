@@ -101,7 +101,7 @@
    "category" : "steamvr_input",
    "controller_type" : "vive_controller",
    "description" : "",
-   "name" : "My How to wizard [Testing]",
+   "name" : "My How to wizard [Testing] configuration for Vive Controller",
    "options" : {},
    "simulated_actions" : []
 }

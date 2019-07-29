@@ -85,7 +85,7 @@ public class SpellModuleList : MonoBehaviour
     }
 
 	//Calls components based on a parsed list
-	public IEnumerator HandleSpell(string[] modules)
+	public IEnumerator HandleSpell(List<string> modules)
 	{
 		SpellInfo info = new SpellInfo(0, new List<Vector3>(), new List<GameObject>());
 
