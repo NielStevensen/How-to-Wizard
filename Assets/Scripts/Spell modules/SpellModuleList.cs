@@ -386,15 +386,8 @@ public class SpellModuleList : MonoBehaviour
 	//Spawn a flame at the point of collision
 	IEnumerator Fire(SpellInfo info)
     {
-		//foreach no longer used
-		foreach (GameObject obj in info.collisionObjects)
-        {
-            // light on fire
-            //Debug.Log("am buring");
-        }
-
         GameObject flame = Instantiate(firePrefab, info.collisionPoints[0], Quaternion.identity);
-        flame.transform.localScale = new Vector3 (info.potency, info.potency, info.potency);
+        flame.transform.localScale *= info.potency;
 		
         yield return info;
     }

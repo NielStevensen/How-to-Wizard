@@ -13,16 +13,15 @@ public class FireController : MonoBehaviour
     {
         Destroy(gameObject, lifetime);
     }
-
-    //...
-    void Update()
-    {
-        
-    }
-
+	
 	//On entering the flame, set flammable objects on fire
     private void OnTriggerEnter(Collider other)
     {
-        
+		BurnController bc = other.gameObject.GetComponent<BurnController>();
+
+		if (bc != null)
+		{
+			bc.enabled = true;
+		}
     }
 }
