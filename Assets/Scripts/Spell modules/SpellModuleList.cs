@@ -153,9 +153,9 @@ public class SpellModuleList : MonoBehaviour
 
 			if (!dc.result.shouldContinue)
 			{
-				yield break;
+                yield break;
 			}
-
+            
 			info.potency = dc.result.potency;
 			info.collisionPoints = dc.result.collisionPoints;
 			info.collisionObjects = dc.result.collisionObjects;
@@ -207,7 +207,16 @@ public class SpellModuleList : MonoBehaviour
         {
             yield return info;
         }
+        
+        if(projectile == null) // iof the projectile destrys itself without a target
+        {
+            info.shouldContinue = false;
 
+            yield return info;
+
+            yield break;
+        }
+        
         info.potency = 1;
         info.collisionPoints.Add(projectile.GetComponent<ProjectileReturn>().whereHit);
         info.collisionObjects.Add(projectile.GetComponent<ProjectileReturn>().whatHit);

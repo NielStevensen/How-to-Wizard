@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class ProjectileReturn : MonoBehaviour
 {
+    public float lifeTime = 7.5f;
+
+    [HideInInspector]
     public GameObject whatHit;
+    [HideInInspector]
     public Vector3 whereHit;
+    [HideInInspector]
     public SpellModuleList caller;
 
     private void OnCollisionEnter(Collision collision)
@@ -22,7 +27,6 @@ public class ProjectileReturn : MonoBehaviour
                 //transform.SetParent(null);
                 GetComponent<Rigidbody>().useGravity = true;
                 caller.activeprojectile = false;
-                Debug.Log("hit");
                 whatHit = collision.gameObject;
                 whereHit = collision.contacts[0].point;
                 Debug.Log(collision.gameObject.name);
@@ -35,7 +39,6 @@ public class ProjectileReturn : MonoBehaviour
 				//transform.SetParent(null);
 				GetComponent<Rigidbody>().useGravity = true;
 				caller.activeprojectile = false;
-				Debug.Log("hit");
 				whatHit = collision.gameObject;
 				whereHit = collision.contacts[0].point;
 				Debug.Log(collision.gameObject.name);
@@ -43,8 +46,15 @@ public class ProjectileReturn : MonoBehaviour
 		}
 	}
 
-    private void Update()
+    private void Start()
     {
-        //if()
+       StartCoroutine(destroyLifetime());
+    }
+
+    IEnumerator destroyLifetime()
+    {
+        yield return new WaitForSeconds(lifeTime);
+        caller.activeprojectile = false;
+        Destroy(gameObject);
     }
 }

@@ -69,6 +69,11 @@ public class PickupSpell : MonoBehaviour
 
         var joint = AddFixedJoint();
         joint.connectedBody = objectInHand.GetComponent<Rigidbody>();
+
+        if (objectInHand.GetComponent<CrystalInfo>())
+        {
+            objectInHand.GetComponent<Rigidbody>().isKinematic = false;
+        }
     }
 
     private FixedJoint AddFixedJoint()
@@ -101,10 +106,9 @@ public class PickupSpell : MonoBehaviour
                 objectInHand.GetComponent<Spell>().CallSpell();
                 objectInHand.transform.position = new Vector3(0, -100, 0);
             }
-            else if (objectInHand.GetComponent<Spell>()) // dont apply force to crystals relased
+            else if (objectInHand.GetComponent<CrystalInfo>()) // dont apply force to crystals relased
             {
-                objectInHand.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
-                objectInHand.GetComponent<Rigidbody>().angularVelocity = new Vector3(0,0,0);
+                objectInHand.GetComponent<Rigidbody>().isKinematic = true;
             }
             else
             {

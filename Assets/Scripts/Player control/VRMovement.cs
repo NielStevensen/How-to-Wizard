@@ -22,7 +22,6 @@ public class VRMovement : MonoBehaviour
     void Update()
     {
         movement = Vector3.Normalize(new Vector3(moveAction.GetAxis(hand).x, 0, moveAction.GetAxis(hand).y)) * movementSpeed;
-        Debug.Log(moveAction.GetAxis(hand));
         movement = cameraTransform.TransformDirection(movement);
         CharacterController characterController = GetComponent<CharacterController>();
 
