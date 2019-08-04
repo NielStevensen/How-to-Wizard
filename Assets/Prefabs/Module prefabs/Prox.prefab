@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 4123015612287994759}
   - component: {fileID: 8421424154037362521}
   - component: {fileID: 4818203158014252305}
-  - component: {fileID: 757316450424877330}
+  - component: {fileID: -9107085004772849578}
+  - component: {fileID: -4153631337927008228}
   m_Layer: 2
-  m_Name: Timer
+  m_Name: Prox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 7267610879259903273}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -58,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 71ba9dbf462fab842af6267314f8bd96, type: 2}
+  - {fileID: 2100000, guid: c5e8cfd047d54634aa0d641b8c4fea09, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -78,7 +79,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &757316450424877330
+--- !u!135 &-9107085004772849578
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7267610879259903273}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-4153631337927008228
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,12 +101,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7267610879259903273}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f30a270f5990bec4f9bbb0644a76ecb7, type: 3}
+  m_Script: {fileID: 11500000, guid: 25ca91e95a0573f459c0f2b03a94e874, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   shouldContinue: 1
   sml: {fileID: 0}
-  potency: -1
-  baseTime: 10
-  timerObj: {fileID: 0}
-  isDepleted: 0
+  lifeTime: 60
+  proxObj: {fileID: 0}
+  isTriggered: 0

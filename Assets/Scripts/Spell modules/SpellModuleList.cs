@@ -17,10 +17,14 @@ public class SpellModuleList : MonoBehaviour
 
     //References
     private Spell spell;
+	private SingleInstanceEnforcer sie;
 
 	//Spell ID
 	[Tooltip("Spell ID.")]
 	public int spellID = -1;
+
+	//Initial rotation of the player when the spell is cast. Used during instantiation
+	private Quaternion playerRotation;
 
 	[Space(10)]
 
@@ -80,6 +84,7 @@ public class SpellModuleList : MonoBehaviour
 	private void Start()
     {
         spell = GetComponent<Spell>();
+		sie = FindObjectOfType<SingleInstanceEnforcer>();
 
 		lineRenderer = GetComponent<LineRenderer>();
     }
@@ -223,6 +228,8 @@ public class SpellModuleList : MonoBehaviour
 
         Destroy(projectile);
 
+		playerRotation = FindObjectOfType<PlayerController>().transform.rotation;
+
         yield return info; 
 
         spell.isSpellCasted = true;
@@ -231,6 +238,8 @@ public class SpellModuleList : MonoBehaviour
 	//Comment
 	IEnumerator Split(SpellInfo info)
 	{
+		playerRotation = FindObjectOfType<PlayerController>().transform.rotation;
+		
 		yield return info;
 
 		spell.isSpellCasted = true;
@@ -292,7 +301,9 @@ public class SpellModuleList : MonoBehaviour
         info.collisionPoints.Add(hit.point);
         info.collisionObjects.Add(hit.transform.gameObject);
 
-        yield return info;
+		playerRotation = FindObjectOfType<PlayerController>().transform.rotation;
+
+		yield return info;
 
 		spell.isSpellCasted = true;
 	}
@@ -316,6 +327,8 @@ public class SpellModuleList : MonoBehaviour
 		//Important note for functionality with push/pull
 		//For collision objects, add a null
 		//For collision points, add position of hand
+
+		playerRotation = FindObjectOfType<PlayerController>().transform.rotation;
 
 		yield return info;
 
@@ -344,18 +357,47 @@ public class SpellModuleList : MonoBehaviour
 		yield return info;
 	}
 
-	//Comment
+	//Affect everything in a small area around the point of impact after something enters the area
 	IEnumerator Proximity(SpellInfo info)
 	{
+		GameObject obj = sie.SpawnAsSet(spellID, proxPrefab, "Prox", info.collisionPoints[0]);
+		obj.transform.localScale *= info.potency;
+		ProxController prox = obj.GetComponent<ProxController>();
+		prox.sml = this;
+		
+		while (!prox.isTriggered)
+		{
+			yield return info;
+		}
+		
+		if (prox.shouldContinue)
+		{
+			yield return info;
+			
+			info.collisionObjects.Clear();
+			
+			foreach (GameObject gameObj in prox.proxObj.GetComponent<SpellTriggerHandler>().containedObjects)
+			{
+				info.collisionObjects.Add(gameObj);
+			}
+
+			Destroy(prox.proxObj);
+			Destroy(prox.gameObject);
+		}
+		else
+		{
+			Destroy(prox.gameObject);
+
+			info.shouldContinue = false;
+		}
+		
 		yield return info;
 	}
 
 	//Affect everything in a small area around the point of impact after a delay
 	IEnumerator Timer(SpellInfo info)
 	{
-		SingleInstanceEnforcer sie = FindObjectOfType<SingleInstanceEnforcer>();
-
-		GameObject obj = sie.SpawnAsSet(spellID, timerPrefab, "Timer", info.potency, info.collisionPoints[0]);
+		GameObject obj = sie.SpawnAsSet(spellID, timerPrefab, "Timer", info.collisionPoints[0]);
 		obj.transform.localScale *= info.potency;
 		TimerController timer = obj.GetComponent<TimerController>();
 		timer.sml = this;
@@ -377,17 +419,15 @@ public class SpellModuleList : MonoBehaviour
 			
 			Destroy(timer.timerObj);
 			Destroy(timer.gameObject);
-
-			yield return info;
 		}
 		else
 		{
 			Destroy(timer.gameObject);
 
 			info.shouldContinue = false;
-
-			yield return info;
 		}
+
+		yield return info;
 	}
 	#endregion
 
@@ -449,15 +489,24 @@ public class SpellModuleList : MonoBehaviour
 		}
 	}
 
-	//Comment
+	//Produce a physical weight
 	IEnumerator Weight(SpellInfo info)
 	{
+		GameObject weight = sie.SpawnAsSet(spellID, weightPrefab, "Weight", info.collisionPoints[0]);
+		//weight.transform.rotation = playerRotation;
+		weight.transform.localScale *= info.potency;
+		weight.GetComponent<Rigidbody>().mass *= info.potency;
+		
 		yield return info;
 	}
 
-	//Comment
+	//Produce a non-physical barrier with collision
 	IEnumerator Barrier(SpellInfo info)
 	{
+		GameObject barrier = sie.SpawnAsSet(spellID, barrierPrefab, "Barrier", info.collisionPoints[0]);
+		barrier.transform.rotation = playerRotation;
+		barrier.transform.localScale *= info.potency;
+
 		yield return info;
 	}
 

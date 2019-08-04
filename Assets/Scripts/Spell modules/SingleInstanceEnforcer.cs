@@ -19,13 +19,10 @@ public class SingleInstanceEnforcer : MonoBehaviour
 	private List<GameObject> barrierList = new List<GameObject>();
 	
 	//Spawn an object as part of the same set. If another set exists, destroy it
-	public GameObject SpawnAsSet(int spellID, GameObject prefab, string module, float potency, Vector3 pos)
+	public GameObject SpawnAsSet(int spellID, GameObject prefab, string module, Vector3 pos)
 	{
 		GameObject obj = Instantiate(prefab, pos, Quaternion.identity);
 		
-		//Maybe look into pointers? Could seriously clean up this code (has certain compile requirements)
-		//Create a method that takes pointers to the relevant id and list of gameobjects
-		//This means the contents of each switch case can be put into the same method
 		switch (module)
 		{
 			case "Timer":
@@ -37,10 +34,6 @@ public class SingleInstanceEnforcer : MonoBehaviour
 					{
 						if(timer != null)
 						{
-							//Set a bool in each object of the old set to false
-							//This bool is checked every frame
-							//If false, stop functionality and fade/destroy
-							
 							timer.GetComponent<TimerController>().shouldContinue = false;
 						}
 					}
@@ -60,7 +53,7 @@ public class SingleInstanceEnforcer : MonoBehaviour
 					{
 						if (prox != null)
 						{
-							//prox.GetComponent<ModuleSpecificComponent>().shouldContinue = false;
+							prox.GetComponent<ProxController>().shouldContinue = false;
 						}
 					}
 
@@ -79,7 +72,7 @@ public class SingleInstanceEnforcer : MonoBehaviour
 					{
 						if (weight != null)
 						{
-							//weight.GetComponent<ModuleSpecificComponent>().DestrotObject();
+							Destroy(weight);
 						}
 					}
 
@@ -98,7 +91,7 @@ public class SingleInstanceEnforcer : MonoBehaviour
 					{
 						if (barrier != null)
 						{
-							//barrier.GetComponent<ModuleSpecificComponent>().DestrotObject();
+							Destroy(barrier);
 						}
 					}
 

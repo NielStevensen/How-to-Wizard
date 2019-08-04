@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour {
     //Handle movement and phone
     void Update ()
     {
-		movement = Vector3.Normalize(new Vector3(Input.GetAxis("Horizontal"), 0.1f, Input.GetAxis("Vertical"))) * movementSpeed;
+		movement = Vector3.Normalize(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"))) * movementSpeed;
 		movement = transform.TransformDirection(movement);
 		CharacterController characterController = GetComponent<CharacterController>();
 
