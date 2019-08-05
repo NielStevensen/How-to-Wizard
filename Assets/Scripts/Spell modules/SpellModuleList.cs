@@ -279,7 +279,8 @@ public class SpellModuleList : MonoBehaviour
         {
             if (isVR)
             {
-                hitTest = Physics.Raycast(obj.gameObject.transform.position, handTransform.forward, out hit, 1000.0f, ~LayerMask.NameToLayer("Player"));
+                hitTest = Physics.Raycast(obj.gameObject.transform.position, handTransform.forward, out hit, 1000.0f, ~(1<<8));
+                Debug.Log(hit.collider.gameObject.layer);
                 lineRenderer.SetPosition(0, obj.gameObject.transform.position);
             }
             else
