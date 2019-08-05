@@ -6,9 +6,11 @@ using Valve.VR;
 
 public class SpellModuleList : MonoBehaviour
 {
-	#region Variables
-	//VR hand reference
-	[HideInInspector]
+    #region Variables
+
+    public LayerMask ignoreRays; // layers to ignore
+    //VR hand reference
+    [HideInInspector]
     public SteamVR_Input_Sources hand;
     [HideInInspector]
     public Transform handTransform;
@@ -279,7 +281,7 @@ public class SpellModuleList : MonoBehaviour
         {
             if (isVR)
             {
-                hitTest = Physics.Raycast(obj.gameObject.transform.position, handTransform.forward, out hit, 1000.0f, ~(1<<8));
+                hitTest = Physics.Raycast(obj.gameObject.transform.position, handTransform.forward, out hit, 1000.0f, ~ignoreRays);
                 Debug.Log(hit.collider.gameObject.layer);
                 lineRenderer.SetPosition(0, obj.gameObject.transform.position);
             }

@@ -9,6 +9,7 @@ public class VRMovement : MonoBehaviour
 	[Tooltip("Whether the player is moving via trackpad or teleportation.")]
 	public bool isTeleportation = true;
 
+    public LayerMask ignoreRays;
     public SteamVR_Input_Sources hand;
 	public GameObject handObject;
     public Transform cameraTransform;
@@ -45,7 +46,7 @@ public class VRMovement : MonoBehaviour
 		{
 			if (teleportAction.GetLastState(hand))
 			{
-				if (Physics.Raycast(handObject.transform.position, handObject.transform.forward, out initialHit, teleportMaxDistance))
+				if (Physics.Raycast(handObject.transform.position, handObject.transform.forward, out initialHit, teleportMaxDistance, ~ignoreRays))
 				{
 					lineRenderer.enabled = true;
 					lineRenderer.SetPosition(0, handObject.transform.position);
