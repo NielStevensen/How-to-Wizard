@@ -6,7 +6,7 @@ public class PressurePlateController : MonoBehaviour
 {
 	//Activation details
 	[Tooltip("The object this pressure plate activates.")]
-	public ActivationManager target;
+	public List<ActivationManager> targets;
 	[Tooltip("The state passed to a door on activation.")]
 	public DoorState activeState;
 	[Tooltip("The state passed to a door on deactivation.")]
@@ -30,7 +30,7 @@ public class PressurePlateController : MonoBehaviour
 	{
 		if(other.tag == "Interactable")
 		{
-			objectsAbove.Add(other.gameObject);
+            objectsAbove.Add(other.gameObject);
 
 			currentWeight += other.attachedRigidbody.mass;
 
@@ -43,7 +43,7 @@ public class PressurePlateController : MonoBehaviour
 	{
 		if (objectsAbove.Contains(other.gameObject))
 		{
-			objectsAbove.Remove(other.gameObject);
+            objectsAbove.Remove(other.gameObject);
 
 			currentWeight -= other.attachedRigidbody.mass;
 			
@@ -58,13 +58,19 @@ public class PressurePlateController : MonoBehaviour
 		{
 			isActivated = true;
 
-			target.HandleDoor(activeState);
+            foreach(ActivationManager target in targets)
+            {
+                target.HandleDoor(activeState);
+            }
 		}
 		else if(currentWeight < weightThreshold && isActivated)
 		{
 			isActivated = false;
 
-			target.HandleDoor(inactiveState);
+            foreach (ActivationManager target in targets)
+            {
+                target.HandleDoor(inactiveState);
+            }
 		}
 	}
 }

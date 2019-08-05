@@ -13,6 +13,9 @@ public class PickupSpell : MonoBehaviour
     private GameObject collidingObject;
     private GameObject objectInHand;
 
+    [Tooltip(" array of the belt slots and if they are acceptable placement locations")]
+    public bool[] beltSlots;
+    public GameObject[] beltObjects;
 
     private void Update()
     {
@@ -93,7 +96,17 @@ public class PickupSpell : MonoBehaviour
             GetComponent<FixedJoint>().connectedBody = null;
             Destroy(GetComponent<FixedJoint>());
 
-            if (objectInHand.GetComponent<Spell>())
+            bool belt = false;
+            foreach( bool a in beltSlots) // check all slots to see if any are suitable
+            {
+                if (a)
+                {
+                    belt = true;
+                }
+
+            }
+
+            if (objectInHand.GetComponent<Spell>() != null && belt == false)
             {
                 SpellModuleList sml = objectInHand.GetComponent<SpellModuleList>(); // if the object is spell
 
@@ -105,6 +118,16 @@ public class PickupSpell : MonoBehaviour
 
                 objectInHand.GetComponent<Spell>().CallSpell();
                 objectInHand.transform.position = new Vector3(0, -100, 0);
+            }
+            else if (objectInHand.GetComponent<Spell>() != null) // if the spell is on the belt
+            {
+                for(int i = 0; i > beltObjects.Length; i ++) // check all slots to see if any are suitable
+                {
+                    if (beltSlots[i])
+                    {
+                        objectInHand.transform.SetParent(beltObjects[i].transform);
+                    }
+                }
             }
             else if (objectInHand.GetComponent<CrystalInfo>()) // dont apply force to crystals relased
             {

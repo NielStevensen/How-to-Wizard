@@ -10,6 +10,8 @@ public class SpellCreation : MonoBehaviour
     public List<int> moduletypes = new List<int>();
     bool isValid;
     public GameObject spellPrefab;
+    public GameObject IncorrectSpell;
+    public Transform spawnpoint;
 
     // Start is called before the first frame update
     void Start()
@@ -51,11 +53,15 @@ public class SpellCreation : MonoBehaviour
 
         if(isValid == true) // if the spell passes al checks
         {
-        GameObject currentSpell = Instantiate(spellPrefab, transform.position + new Vector3(0, 1, 0), Quaternion.identity);// create a spell object
+        GameObject currentSpell = Instantiate(spellPrefab, spawnpoint.position, Quaternion.identity);// create a spell object
             for (int k = 0; k < moduletypes.Count; k++)
             {
                     currentSpell.GetComponent<Spell>().Modules.Add(spellInstructions[k]); // add relevant modules to list
             }
+        }
+        else
+        {
+            Instantiate(IncorrectSpell, spawnpoint.position, Quaternion.identity);
         }
 
        }

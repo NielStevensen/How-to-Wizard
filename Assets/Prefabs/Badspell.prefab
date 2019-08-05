@@ -12,12 +12,10 @@ GameObject:
   - component: {fileID: 7585976291535763644}
   - component: {fileID: 7585976291535763645}
   - component: {fileID: 7585976291535763646}
-  - component: {fileID: 7585976291535763647}
-  - component: {fileID: 7585976291535763641}
-  - component: {fileID: 7585976291535763642}
   - component: {fileID: 7585976291535763640}
+  - component: {fileID: 3323870351363175794}
   m_Layer: 9
-  m_Name: Spell
+  m_Name: Badspell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 4cf62e57f28eccb478556a8fe56444d3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -95,82 +93,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &7585976291535763647
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7585976291535763584}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &7585976291535763641
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7585976291535763584}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11974b55573e0de458170e8dcae47866, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ignoreRays:
-    serializedVersion: 2
-    m_Bits: 260
-  hand: 0
-  handTransform: {fileID: 0}
-  obj: {fileID: 0}
-  spellID: -1
-  rotationReference: {fileID: 0}
-  projectileSpeedMultiplier: 2.5
-  projectileVelocity: {x: 0, y: 0, z: 0}
-  projectileAngularV: {x: 0, y: 0, z: 0}
-  activeprojectile: 1
-  maxChargeTime: 2.5
-  holdAction:
-    actionPath: /actions/default/in/Hold
-    needsReinit: 0
-  aoeSizeAmplifier: 2.5
-  maxForceDistance: 7.5
-  maxForce: 1000
-  projectilePrefab: {fileID: 7679059604262710080, guid: dba57a152f7942d41adfb60ea2b67c51,
-    type: 3}
-  aoePrefab: {fileID: 96611120828246474, guid: 9193f010abb585848a41b6f37a4bdb91, type: 3}
-  proxPrefab: {fileID: 7267610879259903273, guid: 43a166dc2f11c1a4c9021a8d1bb6e291,
-    type: 3}
-  timerPrefab: {fileID: 7267610879259903273, guid: cdd3be71918512d4bb65eeef6cada51b,
-    type: 3}
-  firePrefab: {fileID: 6496678034007525816, guid: 154f9437a95a7fe4184ca185e3819846,
-    type: 3}
-  weightPrefab: {fileID: 1801681100854976075, guid: 05ddb5477e402984e84f1bae25f64c9f,
-    type: 3}
-  barrierPrefab: {fileID: 1801681100854976075, guid: 511f04f297c2c9045bbe6771e30a9822,
-    type: 3}
---- !u!114 &7585976291535763642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7585976291535763584}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bd868a1606ce54449b79341a942e611, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spellDelay: 0.1
-  isSpellCasted: 0
-  Modules: []
-  list: {fileID: 7585976291535763641}
 --- !u!120 &7585976291535763640
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -266,3 +188,18 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &3323870351363175794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7585976291535763584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9214cca1b8ab6334a888c22e7073f5cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  burnTime: 5
+  incinerateShader: {fileID: 4800000, guid: 1741f46f85720fe479f2bb023e3f05af, type: 3}
+  burningParticleEffect: {fileID: 0}

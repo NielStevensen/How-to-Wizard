@@ -5,7 +5,7 @@ using UnityEngine;
 public class AttachCrystal : MonoBehaviour
 {
     // Start is called before the first frame update
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if(other.gameObject.GetComponent<CrystalInfo>() != null) //if the object is a crystal
         {
