@@ -127,6 +127,7 @@ MonoBehaviour:
   handTransform: {fileID: 0}
   obj: {fileID: 0}
   spellID: -1
+  rotationReference: {fileID: 0}
   projectileSpeedMultiplier: 2.5
   projectileVelocity: {x: 0, y: 0, z: 0}
   projectileAngularV: {x: 0, y: 0, z: 0}
@@ -137,16 +138,20 @@ MonoBehaviour:
     needsReinit: 0
   aoeSizeAmplifier: 2.5
   maxForceDistance: 7.5
-  maxForce: 25
+  maxForce: 125
   projectilePrefab: {fileID: 7679059604262710080, guid: dba57a152f7942d41adfb60ea2b67c51,
     type: 3}
   aoePrefab: {fileID: 96611120828246474, guid: 9193f010abb585848a41b6f37a4bdb91, type: 3}
-  proxPrefab: {fileID: 0}
-  timerPrefab: {fileID: 0}
+  proxPrefab: {fileID: 7267610879259903273, guid: 43a166dc2f11c1a4c9021a8d1bb6e291,
+    type: 3}
+  timerPrefab: {fileID: 7267610879259903273, guid: cdd3be71918512d4bb65eeef6cada51b,
+    type: 3}
   firePrefab: {fileID: 6496678034007525816, guid: 154f9437a95a7fe4184ca185e3819846,
     type: 3}
-  weightPrefab: {fileID: 0}
-  barrierPrefab: {fileID: 0}
+  weightPrefab: {fileID: 1801681100854976075, guid: 05ddb5477e402984e84f1bae25f64c9f,
+    type: 3}
+  barrierPrefab: {fileID: 1801681100854976075, guid: 511f04f297c2c9045bbe6771e30a9822,
+    type: 3}
 --- !u!114 &7585976291535763642
 MonoBehaviour:
   m_ObjectHideFlags: 0

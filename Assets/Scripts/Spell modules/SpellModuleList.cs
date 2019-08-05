@@ -25,6 +25,7 @@ public class SpellModuleList : MonoBehaviour
 
 	//Initial rotation of the player when the spell is cast. Used during instantiation
 	private Quaternion playerRotation;
+    public GameObject rotationReference;
 
 	[Space(10)]
 
@@ -87,6 +88,15 @@ public class SpellModuleList : MonoBehaviour
 		sie = FindObjectOfType<SingleInstanceEnforcer>();
 
 		lineRenderer = GetComponent<LineRenderer>();
+
+        if (IsCurrentlyVR())
+        {
+            rotationReference = FindObjectOfType<Camera>().gameObject;
+        }
+        else
+        {
+            rotationReference = FindObjectOfType<PlayerController>().gameObject;
+        }
     }
 
 	//Calls components based on a parsed list
@@ -167,8 +177,10 @@ public class SpellModuleList : MonoBehaviour
 		}
 
 		yield return new WaitForEndOfFrame();
-
-		//Destroy(gameObject);
+        if (IsCurrentlyVR())
+        {
+            Destroy(gameObject);
+        }
 	}
 
 	#region Primary casting modules
@@ -228,7 +240,7 @@ public class SpellModuleList : MonoBehaviour
 
         Destroy(projectile);
 
-		playerRotation = FindObjectOfType<PlayerController>().transform.rotation;
+		playerRotation = rotationReference.transform.rotation;
 
         yield return info; 
 
@@ -238,7 +250,7 @@ public class SpellModuleList : MonoBehaviour
 	//Comment
 	IEnumerator Split(SpellInfo info)
 	{
-		playerRotation = FindObjectOfType<PlayerController>().transform.rotation;
+		playerRotation = rotationReference.transform.rotation;
 		
 		yield return info;
 
@@ -267,7 +279,7 @@ public class SpellModuleList : MonoBehaviour
         {
             if (isVR)
             {
-                hitTest = Physics.Raycast(obj.gameObject.transform.position, handTransform.forward, out hit, 1000.0f);
+                hitTest = Physics.Raycast(obj.gameObject.transform.position, handTransform.forward, out hit, 1000.0f, ~LayerMask.NameToLayer("Player"));
                 lineRenderer.SetPosition(0, obj.gameObject.transform.position);
             }
             else
@@ -285,7 +297,8 @@ public class SpellModuleList : MonoBehaviour
 
 				float tempWidth = 0.0125f + Mathf.Min(holdTime / maxChargeTime, 1.0f) / 10.0f;
 				
-				lineRenderer.SetWidth(tempWidth, tempWidth);
+                lineRenderer.startWidth = tempWidth;
+                lineRenderer.endWidth = tempWidth;
             }
 
             yield return info;
@@ -301,7 +314,7 @@ public class SpellModuleList : MonoBehaviour
         info.collisionPoints.Add(hit.point);
         info.collisionObjects.Add(hit.transform.gameObject);
 
-		playerRotation = FindObjectOfType<PlayerController>().transform.rotation;
+		playerRotation = rotationReference.transform.rotation;
 
 		yield return info;
 
@@ -328,7 +341,7 @@ public class SpellModuleList : MonoBehaviour
 		//For collision objects, add a null
 		//For collision points, add position of hand
 
-		playerRotation = FindObjectOfType<PlayerController>().transform.rotation;
+		playerRotation = rotationReference.transform.rotation;
 
 		yield return info;
 
