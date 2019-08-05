@@ -123,6 +123,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11974b55573e0de458170e8dcae47866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ignoreRays:
+    serializedVersion: 2
+    m_Bits: 260
   hand: 0
   handTransform: {fileID: 0}
   obj: {fileID: 0}
