@@ -22,6 +22,10 @@ public class TeleportPointGenerator : MonoBehaviour
 
 	//Distance between each point
 	private float pointDistance = 2.5f;
+
+	//All points. Here for retrieval
+	[HideInInspector]
+	public List<GameObject> allPoints = new List<GameObject>();
 	
 	//Start
     void Start()
@@ -48,7 +52,7 @@ public class TeleportPointGenerator : MonoBehaviour
 
 				if (Physics.Raycast(position, Vector3.down, out hit, 2.5f, 1 << LayerMask.NameToLayer("Teleport Point")))
 				{
-					Instantiate(pointPrefab, position, Quaternion.identity, transform);
+					allPoints.Add(Instantiate(pointPrefab, position, Quaternion.identity, transform));
 				}
 			}
 		}
