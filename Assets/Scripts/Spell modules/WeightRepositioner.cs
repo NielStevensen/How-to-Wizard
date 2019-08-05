@@ -32,7 +32,7 @@ public class WeightRepositioner : MonoBehaviour
 		//solution: the closest point will be from the position of the weight, in the opposite of the normal of the hit. therefore, to find the right point, raycast from the weight in the direction that is opposite the normal
 		//but apparently, the normal is set to opposite the direction of the sweep if intersecting at start of sweep. so, how to find the normal?
 					
-					/*Vector3 direction = hit.point - pos;
+					Vector3 direction = hit.point - pos;
 					RaycastHit objHit;
 
 					//Raycast from just away from the centre of the weight...
@@ -55,7 +55,7 @@ public class WeightRepositioner : MonoBehaviour
 					else
 					{
 						print("Weight somehow spawned entirely within another object!? Raycast did not hit anything");
-					}*/
+					}
 				}
 			}
 
