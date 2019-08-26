@@ -33,6 +33,10 @@ public class SpellModuleList : MonoBehaviour
 
 	//Projectile values
 	public float projectileSpeedMultiplier = 10.0f;
+    public float projectilePredictionDistance;
+    [Tooltip("the distance the line will travel before a new line is created in projectile predictions. Highernumbers will be more accurte to the real result")]
+    public int maxSimulationSegments;
+    [Tooltip("how many segments to attempt to simulate")]
     [HideInInspector]
     public Vector3 projectileVelocity;
     [HideInInspector]
@@ -191,9 +195,17 @@ public class SpellModuleList : MonoBehaviour
 	{
         activeprojectile = true;
         float holdTime = 0.0f;
+        float velocity = 0.0f;
         Vector3 direction = Vector3.zero;
+        float throwAngle = 0.0f;
+        float time = 0.0f;
+        bool simulationComplete = false; // has the throw simulation hit something (or to many segments)
+        int simulatedegments = 0;
 
-		bool isVR = IsCurrentlyVR();
+        Vector3 previousPoint;
+        Vector3 nextPoint = transform.position;
+
+        bool isVR = IsCurrentlyVR();
 
         if (!isVR)
         {
@@ -201,6 +213,26 @@ public class SpellModuleList : MonoBehaviour
             {
                 holdTime += Time.deltaTime;
                 direction = transform.forward;
+                velocity = (direction * holdTime * 10).magnitude; //velocity if simulated throw
+
+                // angle calculations and debug rays
+                Debug.DrawRay(transform.position, direction, Color.red, 20f); // your direction
+                Debug.DrawRay(transform.position, transform.parent.parent.forward, Color.blue, 20f); // only the y component
+                throwAngle = Vector3.Angle(direction, transform.parent.parent.forward); // calculat throw angle above
+
+                while (simulatedegments > maxSimulationSegments  && !simulationComplete)
+                {
+                    previousPoint = nextPoint;
+                    time += projectilePredictionDistance / velocity; // simulated time for prediction based on length of rendered line
+                    // todo 
+                    // check for collisions
+                    // render into line renderer
+                    previousPoint.x = (transform.parent.parent.forward.x * time);
+                    previousPoint.y = (direction.y * time) - (0.5f * Physics.gravity.y * (time * time));
+                    previousPoint.z = (transform.parent.parent.forward.z * time);
+                    simulatedegments += 1;
+                }
+
                 yield return info;
             }
         }
