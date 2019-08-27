@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum DoorState { Open = 0, Closed = 1}
-
-public class ActivationManager : MonoBehaviour
+public class MovingObstacleManager : MonoBehaviour
 {
 	//Current state
-	[Tooltip("The current state of the door.")]
-	public DoorState currentState = DoorState.Open;
+	[Tooltip("The current state of the object.")]
+	public bool isToggled = false;
+    [Tooltip("Whether or not the object can be toggled off.")]
+    public bool isDeactivatable = true;
 
 	//Movement values
-	[Tooltip("How far the door moves when activated.")]
+	[Tooltip("How far the object moves when activated.")]
 	public Vector3 activeDisplacement = Vector3.zero;
 	private Vector3 origin;
 
-	//Acting coroutine
+	//Acting coroutine and progress
 	private Coroutine actingCoroutine;
 	private int activationProgress = 0;
 
@@ -25,19 +25,26 @@ public class ActivationManager : MonoBehaviour
 		origin = transform.position;
 	}
 
-	//Handle activation/deactivation of a door
-	public void HandleDoor(DoorState state)
+	//Handle activation/deactivation of the object
+	public void HandleState(bool state)
 	{
-		if(actingCoroutine != null)
+        if (!isDeactivatable && !state)
+        {
+            return;
+        }
+
+        isToggled = state;
+
+        if (actingCoroutine != null)
 		{
 			StopCoroutine(actingCoroutine);
 		}
 		
-		actingCoroutine = StartCoroutine(MoveDoor(-((int)state * 2 - 1)));
+		actingCoroutine = StartCoroutine(MoveObstacle(-((state ? 0 : 1) * 2 - 1)));
 	}
 
-	//Move the door
-	IEnumerator MoveDoor(int alt)
+	//Move the object
+	IEnumerator MoveObstacle(int alt)
 	{
 		int lowerThreshold = 0 - alt;
 		int upperThreshold = 180 - alt;

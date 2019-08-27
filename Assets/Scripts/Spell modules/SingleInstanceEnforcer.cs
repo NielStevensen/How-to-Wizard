@@ -72,9 +72,7 @@ public class SingleInstanceEnforcer : MonoBehaviour
 					{
 						if (weight != null)
 						{
-                            //Destroy(weight);
-
-                            StartCoroutine(DelayedDesctruction(weight));
+                            Destroy(weight);
 						}
 					}
 
@@ -107,13 +105,4 @@ public class SingleInstanceEnforcer : MonoBehaviour
 		
 		return obj;
 	}
-
-    IEnumerator DelayedDesctruction(GameObject obj)
-    {
-        obj.transform.position = new Vector3(1000, 1000, 1000);
-
-        yield return new WaitForEndOfFrame();
-
-        Destroy(obj);
-    }
 }

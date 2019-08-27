@@ -49,7 +49,7 @@ public class BurnController : MonoBehaviour
 
 			yield return new WaitForEndOfFrame();
 		}
-
-		Destroy(gameObject);
+        
+        Destroy(gameObject);
 	}
 }
