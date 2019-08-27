@@ -197,10 +197,9 @@ public class SpellModuleList : MonoBehaviour
         float holdTime = 0.0f;
         float velocity = 0.0f;
         Vector3 direction = Vector3.zero;
-        float throwAngle = 0.0f;
         float time = 0.0f;
         bool simulationComplete = false; // has the throw simulation hit something (or to many segments)
-        int simulatedegments = 0;
+        int simulatedSegments = 0;
 
         Vector3 previousPoint;
         Vector3 nextPoint = transform.position;
@@ -211,26 +210,28 @@ public class SpellModuleList : MonoBehaviour
         {
             while (Input.GetButton("Fire1"))
             {
+                time = 0;
+                simulatedSegments = 0;
+                simulationComplete = false;
                 holdTime += Time.deltaTime;
                 direction = transform.forward;
                 velocity = (direction * holdTime * 10).magnitude; //velocity if simulated throw
 
-                // angle calculations and debug rays
-                Debug.DrawRay(transform.position, direction, Color.red, 20f); // your direction
-                Debug.DrawRay(transform.position, transform.parent.parent.forward, Color.blue, 20f); // only the y component
-                throwAngle = Vector3.Angle(direction, transform.parent.parent.forward); // calculat throw angle above
 
-                while (simulatedegments > maxSimulationSegments  && !simulationComplete)
+
+                while (simulatedSegments < maxSimulationSegments && !simulationComplete)
                 {
+                    lineRenderer.positionCount = maxSimulationSegments;
+                    lineRenderer.enabled = true;
                     previousPoint = nextPoint;
-                    time += projectilePredictionDistance / velocity; // simulated time for prediction based on length of rendered line
+                    time += (projectilePredictionDistance/100) / velocity; // simulated time for prediction based on length of rendered line
                     // todo 
                     // check for collisions
-                    // render into line renderer
-                    previousPoint.x = (transform.parent.parent.forward.x * time);
-                    previousPoint.y = (direction.y * time) - (0.5f * Physics.gravity.y * (time * time));
-                    previousPoint.z = (transform.parent.parent.forward.z * time);
-                    simulatedegments += 1;
+                    nextPoint.x = transform.position.x + ((direction * holdTime * 10).x * time);
+                    nextPoint.y = transform.position.y + ((direction * holdTime * 10).y * time) + (0.5f * Physics.gravity.y * (time  * time));
+                    nextPoint.z = transform.position.z + ((direction * holdTime * 10).z * time);
+                    lineRenderer.SetPosition(simulatedSegments, nextPoint);
+                    simulatedSegments += 1;
                 }
 
                 yield return info;
@@ -238,6 +239,7 @@ public class SpellModuleList : MonoBehaviour
         }
 
         GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+        if (lineRenderer.enabled) lineRenderer.enabled = false; // turn of line renderer when done
 
         if (isVR)
         {

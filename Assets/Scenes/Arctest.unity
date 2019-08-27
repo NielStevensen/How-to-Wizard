@@ -1115,7 +1115,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &963231841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1420,12 +1420,22 @@ PrefabInstance:
     - target: {fileID: 6813502977297102182, guid: b8ef9db6933a38e499a23b2504bf2dfd,
         type: 3}
       propertyPath: Modules.Array.data[0]
-      value: projectile
+      value: Projectile
       objectReference: {fileID: 0}
     - target: {fileID: 1062544496934716036, guid: b8ef9db6933a38e499a23b2504bf2dfd,
         type: 3}
       propertyPath: maxForce
       value: 1250
+      objectReference: {fileID: 0}
+    - target: {fileID: 1062544496934716036, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: maxSimulationSegments
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1062544496934716036, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: projectilePredictionDistance
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 4336506567663242915, guid: b8ef9db6933a38e499a23b2504bf2dfd,
         type: 3}
@@ -1456,6 +1466,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7641115976200492260, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7641115976200492260, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: m_Parameters.widthMultiplier
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8ef9db6933a38e499a23b2504bf2dfd, type: 3}
