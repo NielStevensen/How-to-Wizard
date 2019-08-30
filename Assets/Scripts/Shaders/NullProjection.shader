@@ -10,11 +10,11 @@
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "Queue"="Transparent" "RenderType"="Transparent" }
 
         CGPROGRAM
         //#pragma surface surf Lambert
-        #pragma surface surf Standard fullforwardshadows
+        #pragma surface surf Lambert alpha
         #pragma target 3.0
 
         struct Input
@@ -36,7 +36,7 @@
         half _Glossiness;
         half _Metallic;
         
-        void surf (Input IN, inout SurfaceOutputStandard o)
+        void surf (Input IN, inout SurfaceOutput o)
         {
 			fixed4 colour = tex2D(_MainTex, IN.uv_MainTex) * _Colour;
 			
