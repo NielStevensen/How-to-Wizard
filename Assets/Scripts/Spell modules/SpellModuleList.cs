@@ -37,6 +37,7 @@ public class SpellModuleList : MonoBehaviour
     [Tooltip("the distance the line will travel before a new line is created in projectile predictions. Highernumbers will be more accurte to the real result")]
     public int maxSimulationSegments;
     [Tooltip("how many segments to attempt to simulate")]
+    public float maxThrow;
     [HideInInspector]
     public Vector3 projectileVelocity;
     [HideInInspector]
@@ -97,7 +98,7 @@ public class SpellModuleList : MonoBehaviour
 
         if (IsCurrentlyVR())
         {
-            rotationReference = FindObjectOfType<Camera>().gameObject;
+            rotationReference = FindObjectOfType<VRMovement>().gameObject;
         }
         else
         {
@@ -193,15 +194,22 @@ public class SpellModuleList : MonoBehaviour
 	//Throw a projectile
 	IEnumerator Projectile(SpellInfo info)
 	{
-        activeprojectile = true;
-        float holdTime = 0.0f;
-        float velocity = 0.0f;
-        Vector3 direction = Vector3.zero;
-        float time = 0.0f;
+        #region localVariables
+        Vector3 direction = Vector3.zero; // the direction the projectile will be rleased in
+        float holdTime = 0.0f; // how long has the player held throw
+
+        //Projectilespawning + releasing
+        activeprojectile = true; // is there a projectile in the scene
+        float power = 0.0f; // the velocity trhe projectile will br relased with
+
+        // arc simulation
+        float time = 0.0f; //virtual time used for simulating arc in PC
         bool simulationComplete = false; // has the throw simulation hit something (or to many segments)
         int simulatedSegments = 0;
+        float speed = 0.0f; // the speed opf the projectile simulation
+        #endregion
 
-        Vector3 previousPoint;
+        Vector3 previousPoint = transform.position;
         Vector3 nextPoint = transform.position;
 
         bool isVR = IsCurrentlyVR();
@@ -214,27 +222,39 @@ public class SpellModuleList : MonoBehaviour
                 simulatedSegments = 0;
                 simulationComplete = false;
                 holdTime += Time.deltaTime;
+                power = Mathf.Min(holdTime, maxThrow) * 10;
                 direction = transform.forward;
-                velocity = (direction * holdTime * 10).magnitude; //velocity if simulated throw
+                speed = (direction * power).magnitude; //velocity if simulated throw
 
 
-
+                //simulate arc for up to maximum number of segments
                 while (simulatedSegments < maxSimulationSegments && !simulationComplete)
                 {
                     lineRenderer.positionCount = maxSimulationSegments;
                     lineRenderer.enabled = true;
                     previousPoint = nextPoint;
-                    time += (projectilePredictionDistance/100) / velocity; // simulated time for prediction based on length of rendered line
+                    time += (projectilePredictionDistance/100) / speed; // simulated time for prediction based on length of rendered line
                     // todo 
                     // check for collisions
-                    nextPoint.x = transform.position.x + ((direction * holdTime * 10).x * time);
-                    nextPoint.y = transform.position.y + ((direction * holdTime * 10).y * time) + (0.5f * Physics.gravity.y * (time  * time));
-                    nextPoint.z = transform.position.z + ((direction * holdTime * 10).z * time);
+                    nextPoint.x = transform.position.x + ((direction * power).x * time);
+                    nextPoint.y = transform.position.y + ((direction * power).y * time) + (0.5f * Physics.gravity.y * (time  * time));
+                    nextPoint.z = transform.position.z + ((direction * power).z * time);
+                    lineRenderer.SetPosition(simulatedSegments, nextPoint);
+                    simulatedSegments += 1;
+                    if (Physics.Raycast(previousPoint, nextPoint - previousPoint, out RaycastHit hit, (nextPoint - previousPoint).magnitude))
+                    {
+                        nextPoint = hit.point;
+                        simulationComplete = true;
+                    }
+                    
+                }
+                while (simulatedSegments < maxSimulationSegments && simulationComplete)
+                {
                     lineRenderer.SetPosition(simulatedSegments, nextPoint);
                     simulatedSegments += 1;
                 }
 
-                yield return info;
+                    yield return info;
             }
         }
 
@@ -251,7 +271,7 @@ public class SpellModuleList : MonoBehaviour
         }
         else
         {
-            projectile.GetComponent<Rigidbody>().velocity = direction * holdTime * 10;
+            projectile.GetComponent<Rigidbody>().velocity = direction * power;
         }
         
         projectile.GetComponent<ProjectileReturn>().caller = this;
@@ -374,8 +394,7 @@ public class SpellModuleList : MonoBehaviour
 	//Comment
 	IEnumerator Touch(SpellInfo info)
 	{
-		//Important note for functionality with push/pull
-		//For collision objects, add a null
+		//For collision objects, add all objects in trigger
 		//For collision points, add position of hand
 
 		playerRotation = rotationReference.transform.rotation;
@@ -519,19 +538,34 @@ public class SpellModuleList : MonoBehaviour
 		{
 			GameObject obj = info.collisionObjects[i];
 
-			if(obj != null)
+			if (obj != null)
 			{
 				if (obj.GetComponent<Rigidbody>() != null)
 				{
-					direction = obj.transform.position - origin;
+					bool canBeForced = true;
 
-					if (Physics.Raycast(origin - Vector3.Normalize(direction) * 0.01f, direction, out hit, 1000, ~(1 << LayerMask.NameToLayer("Ignore Raycast"))))
+					NullManager nullManager = obj.GetComponent<NullManager>();
+
+					if (nullManager != null)
 					{
-						if (hit.collider.gameObject == obj)
+						if (nullManager.IsNulled)
 						{
-							float pushForce = (1 - (hit.distance / maxForceDistance)) * maxForce * forceModifier;
+							canBeForced = false;
+						}
+					}
 
-							obj.GetComponent<Rigidbody>().AddForce(Vector3.Normalize(obj.transform.position - origin) * pushForce);
+					if (canBeForced)
+					{
+						direction = obj.transform.position - origin;
+
+						if (Physics.Raycast(origin - Vector3.Normalize(direction) * 0.01f, direction, out hit, 1000, ~(1 << LayerMask.NameToLayer("Ignore Raycast"))))
+						{
+							if (hit.collider.gameObject == obj)
+							{
+								float pushForce = (1 - (hit.distance / maxForceDistance)) * maxForce * forceModifier;
+
+								obj.GetComponent<Rigidbody>().AddForce(Vector3.Normalize(obj.transform.position - origin) * pushForce);
+							}
 						}
 					}
 				}
@@ -543,6 +577,7 @@ public class SpellModuleList : MonoBehaviour
 	IEnumerator Weight(SpellInfo info)
 	{
 		GameObject weight = sie.SpawnAsSet(spellID, weightPrefab, "Weight", info.collisionPoints[0]);
+		//this can affect repositiong calculations. commented out for now
 		//weight.transform.rotation = playerRotation;
 		weight.transform.localScale *= info.potency;
 		weight.GetComponent<Rigidbody>().mass *= info.potency;
@@ -555,14 +590,29 @@ public class SpellModuleList : MonoBehaviour
 	{
 		GameObject barrier = sie.SpawnAsSet(spellID, barrierPrefab, "Barrier", info.collisionPoints[0]);
 		barrier.transform.rotation = playerRotation;
-		barrier.transform.localScale *= info.potency;
+		barrier.transform.localScale = new Vector3(info.potency, 10000, 0.1f);
 
 		yield return info;
 	}
 
-	//Comment
+	//Invert the null stated of collided objects
 	IEnumerator Null(SpellInfo info)
 	{
+		for (int i = 0; i < info.collisionObjects.Count; i++)
+		{
+			GameObject obj = info.collisionObjects[i];
+
+			if (obj != null)
+			{
+				NullManager nullManager = obj.GetComponent<NullManager>();
+
+				if (nullManager != null)
+				{
+					nullManager.InvertNullState();
+				}
+			}
+		}
+
 		yield return info;
 	}
 	#endregion
