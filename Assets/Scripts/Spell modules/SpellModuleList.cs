@@ -52,7 +52,13 @@ public class SpellModuleList : MonoBehaviour
 	public float maxChargeTime = 2.5f;
     private LineRenderer lineRenderer;
     public SteamVR_Action_Boolean holdAction;
-	
+
+    [Space(10)]
+
+    //Touch values
+    public float touchDistance;
+    public float touchSize;
+
     [Space(10)]
 
     //AOE values
@@ -233,11 +239,9 @@ public class SpellModuleList : MonoBehaviour
                     lineRenderer.positionCount = maxSimulationSegments;
                     lineRenderer.enabled = true;
                     previousPoint = nextPoint;
-                    time += (projectilePredictionDistance/100) / speed; // simulated time for prediction based on length of rendered line
-                    // todo 
-                    // check for collisions
+                    time += (projectilePredictionDistance / 100) / speed; // simulated time for prediction based on length of rendered line
                     nextPoint.x = transform.position.x + ((direction * power).x * time);
-                    nextPoint.y = transform.position.y + ((direction * power).y * time) + (0.5f * Physics.gravity.y * (time  * time));
+                    nextPoint.y = transform.position.y + ((direction * power).y * time) + (0.5f * Physics.gravity.y * (time * time));
                     nextPoint.z = transform.position.z + ((direction * power).z * time);
                     lineRenderer.SetPosition(simulatedSegments, nextPoint);
                     simulatedSegments += 1;
@@ -246,7 +250,7 @@ public class SpellModuleList : MonoBehaviour
                         nextPoint = hit.point;
                         simulationComplete = true;
                     }
-                    
+
                 }
                 while (simulatedSegments < maxSimulationSegments && simulationComplete)
                 {
@@ -254,7 +258,7 @@ public class SpellModuleList : MonoBehaviour
                     simulatedSegments += 1;
                 }
 
-                    yield return info;
+                yield return info;
             }
         }
 
@@ -391,15 +395,43 @@ public class SpellModuleList : MonoBehaviour
 		}
 	}
 
-	//Comment
+	//Produce spell efects at the player's hand
 	IEnumerator Touch(SpellInfo info)
 	{
-		//For collision objects, add all objects in trigger
-		//For collision points, add position of hand
+        GameObject aoeObject = null;
+        Vector3 touchPoint = Vector3.zero;
 
-		playerRotation = rotationReference.transform.rotation;
+        if (!IsCurrentlyVR())
+        {
+            touchPoint = transform.position + transform.forward * touchDistance;
 
-		yield return info;
+            if (Physics.Raycast(transform.position, transform.forward , out RaycastHit hit, touchDistance))
+            {
+                touchPoint = hit.point;
+            }
+        }
+        else
+        {
+            touchPoint = handTransform.position;
+        }
+        
+        info.collisionPoints.Add(touchPoint);
+
+        aoeObject = Instantiate(aoePrefab, touchPoint, Quaternion.identity);
+        aoeObject.transform.localScale *= touchSize;
+
+        yield return info;
+
+        foreach (GameObject obj in aoeObject.GetComponent<SpellTriggerHandler>().containedObjects)
+        {
+            info.collisionObjects.Add(obj);
+        }
+
+        Destroy(aoeObject);
+
+        info.potency = 2;
+
+        yield return info;
 
 		spell.isSpellCasted = true;
 	}

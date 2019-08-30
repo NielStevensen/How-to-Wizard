@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1340,7 +1340,7 @@ PrefabInstance:
     - target: {fileID: 1642922291392788727, guid: b8ef9db6933a38e499a23b2504bf2dfd,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7214154460214911395, guid: b8ef9db6933a38e499a23b2504bf2dfd,
         type: 3}
@@ -1494,7 +1494,7 @@ PrefabInstance:
     - target: {fileID: 1642922291392788727, guid: b8ef9db6933a38e499a23b2504bf2dfd,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7214154460214911395, guid: b8ef9db6933a38e499a23b2504bf2dfd,
         type: 3}
@@ -1571,10 +1571,25 @@ PrefabInstance:
       propertyPath: Modules.Array.data[3]
       value: Push
       objectReference: {fileID: 0}
+    - target: {fileID: 6813502977297102182, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: Modules.Array.data[0]
+      value: Touch
+      objectReference: {fileID: 0}
     - target: {fileID: 1062544496934716036, guid: b8ef9db6933a38e499a23b2504bf2dfd,
         type: 3}
       propertyPath: maxForce
       value: 1250
+      objectReference: {fileID: 0}
+    - target: {fileID: 1062544496934716036, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: touchSize
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1062544496934716036, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: touchDistance
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4336506567663242915, guid: b8ef9db6933a38e499a23b2504bf2dfd,
         type: 3}

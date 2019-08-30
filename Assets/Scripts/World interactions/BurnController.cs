@@ -20,7 +20,7 @@ public class BurnController : MonoBehaviour
 	//on start, set the size of the particle effect to the scale of the object
 
 	//Spawn burning particle effect and cause disintegration
-	private void Start()
+	private void OnEnable()
 	{
 		//spawn particle effect here
 		if(burningParticleEffect != null)
@@ -32,6 +32,10 @@ public class BurnController : MonoBehaviour
 		{
 			StartCoroutine(Disintegrate());
 		}
+        else if(GetComponent<TorchTrigger>() != null)
+        {
+            GetComponent<TorchTrigger>().ToggleState(true);
+        }
 	}
 
 	//Control the disintegrating shader

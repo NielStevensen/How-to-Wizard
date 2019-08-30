@@ -90,6 +90,8 @@ public class NullManager : MonoBehaviour
     {
 		isNulled = !isNulled;
 
-		nullProjection.SetActive(isNulled);
+        if (GetComponent<TorchTrigger>() != null) GetComponent<TorchTrigger>().ToggleState(false);
+
+        nullProjection.SetActive(isNulled);
 	}
 }

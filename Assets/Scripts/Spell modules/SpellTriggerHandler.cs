@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpellTriggerHandler : MonoBehaviour
 {
 	//Values to retrieve
-	[HideInInspector]
+	//[HideInInspector]
 	public List<GameObject> containedObjects = new List<GameObject>();
 	
 	//Find all objects contained in trigger
