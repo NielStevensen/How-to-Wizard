@@ -33,7 +33,7 @@ public class PressurePlateController : MonoBehaviour
 	[Tooltip("The current activation state of the pressure plate.")]
 	public bool isActivated = false;
     private List<WeightedObject> objectsAbove = new List<WeightedObject>();
-    private List<WeightedObject> objectsDestroyed = new List<WeightedObject>();
+    private List<WeightedObject> objectsRemoved = new List<WeightedObject>();
     
     //Check that the objects above it still exist. If not, remove its weight and check activation state
     private void Update()
@@ -44,21 +44,23 @@ public class PressurePlateController : MonoBehaviour
             {
                 currentWeight -= obj.weight;
 
-                objectsDestroyed.Add(obj);
+                objectsRemoved.Add(obj);
             }
         }
 
-        if(objectsDestroyed.Count > 0)
+        if(objectsRemoved.Count > 0)
         {
             CheckActivationState();
 
-            foreach (WeightedObject obj in objectsDestroyed)
+            foreach (WeightedObject obj in objectsRemoved)
             {
                 if (objectsAbove.Contains(obj))
                 {
                     objectsAbove.Remove(obj);
                 }
             }
+
+			objectsRemoved.Clear();
         }
     }
 
@@ -82,13 +84,28 @@ public class PressurePlateController : MonoBehaviour
         {
             if(obj.obj == other.gameObject)
             {
-                objectsAbove.Remove(obj);
-
-                currentWeight -= other.attachedRigidbody.mass;
-
+				currentWeight -= obj.weight;
+				
+				objectsRemoved.Add(obj);
+				
                 CheckActivationState();
             }
         }
+
+		if (objectsRemoved.Count > 0)
+		{
+			CheckActivationState();
+
+			foreach (WeightedObject obj in objectsRemoved)
+			{
+				if (objectsAbove.Contains(obj))
+				{
+					objectsAbove.Remove(obj);
+				}
+			}
+
+			objectsRemoved.Clear();
+		}
 	}
 
 	//Check if the detected weight falls in the weight threshold and handle activation accordingly

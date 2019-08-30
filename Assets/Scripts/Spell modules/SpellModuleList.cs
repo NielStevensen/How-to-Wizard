@@ -596,7 +596,10 @@ public class SpellModuleList : MonoBehaviour
 							{
 								float pushForce = (1 - (hit.distance / maxForceDistance)) * maxForce * forceModifier;
 
-								obj.GetComponent<Rigidbody>().AddForce(Vector3.Normalize(obj.transform.position - origin) * pushForce);
+								Vector3 pushVector = Vector3.Normalize(obj.transform.position - origin) * pushForce;
+								pushVector.y = 0;
+								
+								obj.GetComponent<Rigidbody>().AddForce(pushVector);
 							}
 						}
 					}
