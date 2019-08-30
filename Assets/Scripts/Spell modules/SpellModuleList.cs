@@ -98,7 +98,7 @@ public class SpellModuleList : MonoBehaviour
 
         if (IsCurrentlyVR())
         {
-            rotationReference = FindObjectOfType<Camera>().gameObject;
+            rotationReference = FindObjectOfType<VRMovement>().gameObject;
         }
         else
         {
@@ -394,8 +394,7 @@ public class SpellModuleList : MonoBehaviour
 	//Comment
 	IEnumerator Touch(SpellInfo info)
 	{
-		//Important note for functionality with push/pull
-		//For collision objects, add a null
+		//For collision objects, add all objects in trigger
 		//For collision points, add position of hand
 
 		playerRotation = rotationReference.transform.rotation;
@@ -539,19 +538,34 @@ public class SpellModuleList : MonoBehaviour
 		{
 			GameObject obj = info.collisionObjects[i];
 
-			if(obj != null)
+			if (obj != null)
 			{
 				if (obj.GetComponent<Rigidbody>() != null)
 				{
-					direction = obj.transform.position - origin;
+					bool canBeForced = true;
 
-					if (Physics.Raycast(origin - Vector3.Normalize(direction) * 0.01f, direction, out hit, 1000, ~(1 << LayerMask.NameToLayer("Ignore Raycast"))))
+					NullManager nullManager = obj.GetComponent<NullManager>();
+
+					if (nullManager != null)
 					{
-						if (hit.collider.gameObject == obj)
+						if (nullManager.IsNulled)
 						{
-							float pushForce = (1 - (hit.distance / maxForceDistance)) * maxForce * forceModifier;
+							canBeForced = false;
+						}
+					}
 
-							obj.GetComponent<Rigidbody>().AddForce(Vector3.Normalize(obj.transform.position - origin) * pushForce);
+					if (canBeForced)
+					{
+						direction = obj.transform.position - origin;
+
+						if (Physics.Raycast(origin - Vector3.Normalize(direction) * 0.01f, direction, out hit, 1000, ~(1 << LayerMask.NameToLayer("Ignore Raycast"))))
+						{
+							if (hit.collider.gameObject == obj)
+							{
+								float pushForce = (1 - (hit.distance / maxForceDistance)) * maxForce * forceModifier;
+
+								obj.GetComponent<Rigidbody>().AddForce(Vector3.Normalize(obj.transform.position - origin) * pushForce);
+							}
 						}
 					}
 				}
@@ -563,6 +577,7 @@ public class SpellModuleList : MonoBehaviour
 	IEnumerator Weight(SpellInfo info)
 	{
 		GameObject weight = sie.SpawnAsSet(spellID, weightPrefab, "Weight", info.collisionPoints[0]);
+		//this can affect repositiong calculations. commented out for now
 		//weight.transform.rotation = playerRotation;
 		weight.transform.localScale *= info.potency;
 		weight.GetComponent<Rigidbody>().mass *= info.potency;
@@ -575,14 +590,29 @@ public class SpellModuleList : MonoBehaviour
 	{
 		GameObject barrier = sie.SpawnAsSet(spellID, barrierPrefab, "Barrier", info.collisionPoints[0]);
 		barrier.transform.rotation = playerRotation;
-		barrier.transform.localScale *= info.potency;
+		barrier.transform.localScale = new Vector3(info.potency, 10000, 0.1f);
 
 		yield return info;
 	}
 
-	//Comment
+	//Invert the null stated of collided objects
 	IEnumerator Null(SpellInfo info)
 	{
+		for (int i = 0; i < info.collisionObjects.Count; i++)
+		{
+			GameObject obj = info.collisionObjects[i];
+
+			if (obj != null)
+			{
+				NullManager nullManager = obj.GetComponent<NullManager>();
+
+				if (nullManager != null)
+				{
+					nullManager.InvertNullState();
+				}
+			}
+		}
+
 		yield return info;
 	}
 	#endregion
