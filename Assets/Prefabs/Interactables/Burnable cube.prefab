@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1355834719777138280}
   - component: {fileID: 6229825048526922351}
   - component: {fileID: 8296151465847748519}
+  - component: {fileID: 3798053452547577860}
   m_Layer: 0
   m_Name: Burnable cube
   m_TagString: Interactable
@@ -107,3 +108,17 @@ MonoBehaviour:
   burnTime: 5
   incinerateShader: {fileID: 4800000, guid: 1741f46f85720fe479f2bb023e3f05af, type: 3}
   burningParticleEffect: {fileID: 0}
+--- !u!114 &3798053452547577860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8056526125134693242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99db420fec14a6b41b929b207d0c830d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isNulled: 0
+  nullShader: {fileID: 0}
