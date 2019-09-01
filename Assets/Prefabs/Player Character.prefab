@@ -49,7 +49,7 @@ MonoBehaviour:
   isSpellCasted: 0
   Modules:
   - Projectile
-  - Weight
+  - Fire
   list: {fileID: 1062544496934716036}
 --- !u!114 &1062544496934716036
 MonoBehaviour:
@@ -74,7 +74,7 @@ MonoBehaviour:
   projectileSpeedMultiplier: 2.5
   projectilePredictionDistance: 70
   maxSimulationSegments: 30
-  maxThrow: 0
+  maxThrow: 2
   projectileVelocity: {x: 0, y: 0, z: 0}
   projectileAngularV: {x: 0, y: 0, z: 0}
   activeprojectile: 1
@@ -82,6 +82,8 @@ MonoBehaviour:
   holdAction:
     actionPath: /actions/default/in/Hold
     needsReinit: 0
+  touchDistance: 0.1
+  touchSize: 2
   aoeSizeAmplifier: 2.5
   maxForceDistance: 7.5
   maxForce: 1250
