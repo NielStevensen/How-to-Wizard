@@ -8,6 +8,8 @@ public class NullManager : MonoBehaviour
     [Tooltip("Whether or not this object is nulled.")]
     [SerializeField]
     private bool isNulled = false;
+	[Tooltip("Whether or not null destroys this object.")]
+	public bool willNullDestroy = false;
 
     //Null projection object
     private GameObject nullProjection;
@@ -15,6 +17,9 @@ public class NullManager : MonoBehaviour
 	public Shader nullShader;
 	[HideInInspector]
 	public bool isProjection = false;
+
+	//Torch component
+	private TorchTrigger torchComponent;
 
     //Retrieve null state
     public bool IsNulled
@@ -28,10 +33,12 @@ public class NullManager : MonoBehaviour
     //Create null projection
     void Start()
     {
-		if (isProjection)
+		if (isProjection || willNullDestroy)
 		{
 			return;
 		}
+
+		torchComponent = GetComponent<TorchTrigger>();
 
 		Rigidbody rb = GetComponent<Rigidbody>();
 		bool kinematicState = false;
@@ -62,12 +69,6 @@ public class NullManager : MonoBehaviour
 		
 		foreach (Material mat in nullProjection.GetComponent<MeshRenderer>().materials)
 		{
-			//temp
-			/*mat.shader = Shader.Find("Standard");
-			Color temp = mat.color;
-			temp.a = 0.625f;
-			mat.color = temp;*/
-
 			mat.shader = nullShader;
 		}
 		
@@ -86,11 +87,18 @@ public class NullManager : MonoBehaviour
 	}
 
     //Invert null state
-    public void InvertNullState()
+    public void HandleNullEvent()
     {
+		if (willNullDestroy)
+		{
+			Destroy(gameObject);
+
+			return;
+		}
+
 		isNulled = !isNulled;
 
-        if (GetComponent<TorchTrigger>() != null) GetComponent<TorchTrigger>().ToggleState(false);
+        if (torchComponent != null) torchComponent.ToggleState(false);
 
         nullProjection.SetActive(isNulled);
 	}

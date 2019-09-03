@@ -442,6 +442,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isNulled: 1
+  willNullDestroy: 0
   nullShader: {fileID: 4800000, guid: 358e88ce5fba08e48ae42706c075c8ea, type: 3}
   isProjection: 0
 --- !u!1 &247684829
@@ -749,6 +750,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isNulled: 1
+  willNullDestroy: 0
   nullShader: {fileID: 4800000, guid: 358e88ce5fba08e48ae42706c075c8ea, type: 3}
   isProjection: 0
 --- !u!1001 &385271377
@@ -1218,7 +1220,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &871331150
 Transform:
   m_ObjectHideFlags: 0
@@ -1460,7 +1462,7 @@ PrefabInstance:
     - target: {fileID: 6813502977297102182, guid: b8ef9db6933a38e499a23b2504bf2dfd,
         type: 3}
       propertyPath: Modules.Array.data[1]
-      value: Push
+      value: Weight
       objectReference: {fileID: 0}
     - target: {fileID: 6813502977297102182, guid: b8ef9db6933a38e499a23b2504bf2dfd,
         type: 3}
@@ -1471,6 +1473,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Modules.Array.data[3]
       value: Push
+      objectReference: {fileID: 0}
+    - target: {fileID: 6813502977297102182, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: Modules.Array.data[0]
+      value: Charge
       objectReference: {fileID: 0}
     - target: {fileID: 1062544496934716036, guid: b8ef9db6933a38e499a23b2504bf2dfd,
         type: 3}
@@ -1971,6 +1978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isNulled: 0
+  willNullDestroy: 0
   nullShader: {fileID: 4800000, guid: 358e88ce5fba08e48ae42706c075c8ea, type: 3}
   isProjection: 0
 --- !u!1 &1938091793
@@ -2203,6 +2211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isNulled: 0
+  willNullDestroy: 0
   nullShader: {fileID: 4800000, guid: 358e88ce5fba08e48ae42706c075c8ea, type: 3}
   isProjection: 0
 --- !u!114 &2039105506 stripped

@@ -15,15 +15,11 @@ public class VRMovement : MonoBehaviour
     public Transform cameraTransform;
     public SteamVR_Action_Vector2 moveAction;
 	public SteamVR_Action_Boolean teleportAction;
-
-	//Teleport points
-	private TeleportPointGenerator tpg;
-	private GameObject targetPoint;
-
+	
 	//Raycast info
 	public float teleportMaxDistance = 7.5f;
-	RaycastHit initialHit;
-	RaycastHit secondHit;
+	RaycastHit teleportHit;
+	Vector3 teleportLocation;
 	public LineRenderer lineRenderer;
 	
 	//Movement speed of the player
@@ -33,12 +29,10 @@ public class VRMovement : MonoBehaviour
     //Movement expressed as a vector3
     private Vector3 movement = Vector3.zero;
 
-	//Set references
-	private void Start()
-	{
-		tpg = FindObjectOfType<TeleportPointGenerator>();
-	}
-
+	//Trackpad deadzone
+	[Tooltip("Trackpad deadzone.")]
+	public float deadzone = 0.1f;
+	
 	//Handle movement and phone
 	void Update()
     {
@@ -46,60 +40,38 @@ public class VRMovement : MonoBehaviour
 		{
 			if (teleportAction.GetLastState(hand))
 			{
-				if (Physics.Raycast(handObject.transform.position, handObject.transform.forward, out initialHit, teleportMaxDistance, ~ignoreRays))
+				if (Physics.Raycast(handObject.transform.position, handObject.transform.forward, out teleportHit, teleportMaxDistance, ~ignoreRays))
 				{
-					lineRenderer.enabled = true;
-					lineRenderer.SetPosition(0, handObject.transform.position);
-					lineRenderer.SetPosition(1, initialHit.point);
+					//test location of hit
+					//test based on an ideal size
+					//if within a ertain range, can try to match those
+					//else, use maximum values based on ideal size
+					//when testing, should ignore certain objects: props, table (to an extent so the player can comfortably walk up to it), pressure plates
 
-					Vector3 heightCheckOrigin = initialHit.point - Vector3.Normalize(handObject.transform.forward) * 0.01f + Vector3.up * 0.01f;
-
-					if (Physics.Raycast(heightCheckOrigin, Vector3.down, out secondHit, 1000.0f, ~LayerMask.NameToLayer("Bounds")))
-					{
-						targetPoint = FindTeleportPoint(new Vector2(secondHit.point.x, secondHit.point.z));
-
-						if (targetPoint != null)
-						{
-							lineRenderer.SetPosition(2, heightCheckOrigin);
-							lineRenderer.SetPosition(3, secondHit.point);
-						}
-						else
-						{
-							lineRenderer.SetPosition(2, initialHit.point);
-							lineRenderer.SetPosition(3, initialHit.point);
-						}
-					}
-					else
-					{
-						lineRenderer.SetPosition(2, initialHit.point);
-						lineRenderer.SetPosition(3, initialHit.point);
-					}
+					//outside of the walls, there should be a foggy particle effect so that players can't see out past the walls
 				}
 				else
 				{
-					lineRenderer.enabled = false;
+					
 				}
 			}
 			else if (teleportAction.GetLastStateUp(hand))
 			{
-				GameObject targetPoint = FindTeleportPoint(new Vector2(secondHit.point.x, secondHit.point.z));
-
-				if(targetPoint != null)
-				{
-					gameObject.GetComponent<CharacterController>().enabled = false;
-					gameObject.transform.position = new Vector3(targetPoint.transform.position.x, transform.position.y, targetPoint.transform.position.z);
-					gameObject.GetComponent<CharacterController>().enabled = true;
-				}
+				
 			}
 			else
 			{
-				lineRenderer.enabled = false;
+				
 			}
 		}
 		else
 		{
-			movement = Vector3.Normalize(new Vector3(moveAction.GetAxis(hand).x, 0, moveAction.GetAxis(hand).y)) * movementSpeed;
-			movement = cameraTransform.TransformDirection(movement);
+			if(Vector2.Distance(Vector2.zero, new Vector2(moveAction.GetAxis(hand).x, moveAction.GetAxis(hand).y)) > deadzone)
+			{
+				movement = Vector3.Normalize(new Vector3(moveAction.GetAxis(hand).x, 0, moveAction.GetAxis(hand).y)) * movementSpeed;
+				movement = cameraTransform.TransformDirection(movement);
+			}
+			
 			CharacterController characterController = GetComponent<CharacterController>();
 
 			if (characterController.enabled)
@@ -108,29 +80,4 @@ public class VRMovement : MonoBehaviour
 			}
 		}
     }
-
-	//Find the teleport point closest to the sampled raycast hit point
-	GameObject FindTeleportPoint(Vector2 input)
-	{
-		Vector2 boundSize = new Vector2(1.25f, 1.25f);
-		Vector2 objPos;
-
-		foreach(GameObject point in tpg.allPoints)
-		{
-			objPos = new Vector2(point.transform.position.x, point.transform.position.z);
-
-			if (IsInBounds(input, objPos - boundSize, objPos + boundSize))
-			{
-				return point;
-			}
-		}
-
-		return null;
-	}
-
-	//Determine if the position is close to any teleport points
-	bool IsInBounds(Vector2 input, Vector2 areaBottomLeft, Vector2 areaTopRight)
-	{
-		return areaBottomLeft.x < input.x && input.x < areaTopRight.x && areaBottomLeft.y < input.y && input.y < areaTopRight.y;
-	}
 }

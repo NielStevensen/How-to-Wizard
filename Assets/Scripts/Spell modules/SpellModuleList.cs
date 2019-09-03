@@ -327,42 +327,47 @@ public class SpellModuleList : MonoBehaviour
     {
         float holdTime = 0.0f;
 
-        RaycastHit hit = new RaycastHit();
+		lineRenderer.enabled = true;
 
-        lineRenderer.enabled = true;
-
+		RaycastHit hit = new RaycastHit();
         bool hitTest = false;
 
 		bool isVR = IsCurrentlyVR();
+
+		Vector3 origin;
+		Vector3 direction;
 		
         while (IsChargeHeld(isVR))
         {
             if (isVR)
             {
-                hitTest = Physics.Raycast(obj.gameObject.transform.position, handTransform.forward, out hit, 1000.0f, ~ignoreRays);
-                Debug.Log(hit.collider.gameObject.layer);
-                lineRenderer.SetPosition(0, obj.gameObject.transform.position);
+				origin = obj.gameObject.transform.position;
+				direction = handTransform.forward;
             }
             else
             {
-                hitTest = Physics.Raycast(transform.position, transform.forward, out hit, 1000.0f);
-                lineRenderer.SetPosition(0, this.transform.position);
+				origin = transform.position;
+				direction = transform.forward;
             }
-            
-            //make it cast from hand
-            if(hitTest)
+
+			hitTest = Physics.Raycast(origin, direction, out hit, 1000.0f, ~ignoreRays);
+			lineRenderer.SetPosition(0, origin);
+			
+			if (hitTest)
             {
-                //Debug.DrawLine(transform.position, hit.point, Color.green, 5.0f);
-
                 lineRenderer.SetPosition(1, hit.point);
-
-				float tempWidth = 0.0125f + Mathf.Min(holdTime / maxChargeTime, 1.0f) / 10.0f;
-				
-                lineRenderer.startWidth = tempWidth;
-                lineRenderer.endWidth = tempWidth;
             }
+			else
+			{
+				lineRenderer.SetPosition(1, origin + Vector3.Normalize(direction) * 1000.0f);
+			}
 
-            yield return info;
+			float tempWidth = 0.0125f + Mathf.Min(holdTime / maxChargeTime, 1.0f) / 10.0f;
+
+			lineRenderer.startWidth = tempWidth;
+			lineRenderer.endWidth = tempWidth;
+
+			yield return info;
 
             holdTime += Time.deltaTime;
         }
@@ -370,13 +375,20 @@ public class SpellModuleList : MonoBehaviour
         lineRenderer.enabled = false;
 
         holdTime = Mathf.Min(holdTime, maxChargeTime);
+
+		if (hitTest)
+		{
+			info.potency = 0.5f + 1.0f * holdTime / maxChargeTime;
+			info.collisionPoints.Add(hit.point);
+			info.collisionObjects.Add(hit.transform.gameObject);
+
+			playerRotation = rotationReference.transform.rotation;
+		}
+		else
+		{
+			info.shouldContinue = false;
+		}
 		
-        info.potency = 0.5f + 1.0f * holdTime / maxChargeTime;
-        info.collisionPoints.Add(hit.point);
-        info.collisionObjects.Add(hit.transform.gameObject);
-
-		playerRotation = rotationReference.transform.rotation;
-
 		yield return info;
 
 		spell.isSpellCasted = true;
@@ -643,7 +655,7 @@ public class SpellModuleList : MonoBehaviour
 
 				if (nullManager != null)
 				{
-					nullManager.InvertNullState();
+					nullManager.HandleNullEvent();
 				}
 			}
 		}
