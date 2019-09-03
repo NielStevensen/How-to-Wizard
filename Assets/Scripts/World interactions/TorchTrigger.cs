@@ -5,10 +5,10 @@ using UnityEngine;
 public class TorchTrigger : MonoBehaviour
 {
 
-    [Tooltip("The moving obstacles this Torch activates.")]
+    [Tooltip("The moving obstacles this torch activates.")]
     public List<MovingObstacleManager> targetObstacles;
-    //[Tooltip("The lasers this toech activates.")]
-    //public List<LaserManager> targetLasers;
+    [Tooltip("The lasers this torch activates.")]
+    public List<LaserController> targetLasers;
 
     public GameObject flame;
 
@@ -27,14 +27,16 @@ public class TorchTrigger : MonoBehaviour
         {
             isActivated = updatedState;
             flame.SetActive(isActivated);
+
             foreach (MovingObstacleManager target in targetObstacles)
             {
                 target.HandleState(isActivated);
             }
-            /*foreach (LaserManager target in targetLasers)
+
+			foreach (LaserController target in targetLasers)
             {
                 target.HandleState(isActivated);
-            }*/
+            }
         }
     }
 }

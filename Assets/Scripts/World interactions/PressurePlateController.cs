@@ -20,8 +20,8 @@ public class PressurePlateController : MonoBehaviour
 	//Target objects
 	[Tooltip("The moving obstacles this pressure plate activates.")]
 	public List<MovingObstacleManager> targetObstacles;
-    //[Tooltip("The laser this pressure plate activates.")]
-    //public List<LaserManager> targetLasers;
+    [Tooltip("The laser this pressure plate activates.")]
+    public List<LaserController> targetLasers;
 
     [Space(10)]
 
@@ -127,9 +127,9 @@ public class PressurePlateController : MonoBehaviour
             target.HandleState(isActivated);
         }
 
-        /*foreach (LaserManager target in targetLasers)
+        foreach (LaserController target in targetLasers)
         {
             target.HandleState(isActivated);
-        }*/
+        }
     }
 }

@@ -6,7 +6,7 @@ public class MovingObstacleManager : MonoBehaviour
 {
 	//Current state
 	[Tooltip("The current state of the object.")]
-	public bool isToggled = false;
+	public bool isActivated = false;
     [Tooltip("Whether or not the object can be toggled off.")]
     public bool isDeactivatable = true;
 
@@ -33,7 +33,7 @@ public class MovingObstacleManager : MonoBehaviour
             return;
         }
 
-        isToggled = state;
+        isActivated = state;
 
         if (actingCoroutine != null)
 		{
