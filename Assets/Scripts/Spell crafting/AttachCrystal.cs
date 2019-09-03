@@ -4,20 +4,27 @@ using UnityEngine;
 
 public class AttachCrystal : MonoBehaviour
 {
+
+    public string attachedModule;
+    public int attachedType;
+
     // Start is called before the first frame update
     private void OnTriggerStay(Collider other)
     {
         if(other.gameObject.GetComponent<CrystalInfo>() != null) //if the object is a crystal
         {
-            other.gameObject.transform.SetParent(transform);
+            other.GetComponent<CrystalInfo>().unused = false;
+            attachedModule = other.GetComponent<CrystalInfo>().name;
+            attachedType = other.GetComponent<CrystalInfo>().moduleType;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.transform.parent = gameObject.transform)
+        if (other.gameObject.GetComponent<CrystalInfo>() != null)
         {
-            other.transform.SetParent(null);
+            attachedModule = null;
+            attachedType = 0;
         }
     }
 }

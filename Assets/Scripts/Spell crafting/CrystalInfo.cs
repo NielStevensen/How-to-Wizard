@@ -6,4 +6,5 @@ public class CrystalInfo : MonoBehaviour
 {
     public string module;
     public int moduleType;
+    public bool unused = true;
 }

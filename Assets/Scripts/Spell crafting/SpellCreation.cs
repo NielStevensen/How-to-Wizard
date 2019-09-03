@@ -29,11 +29,11 @@ public class SpellCreation : MonoBehaviour
         // check all zones and add to list of modules
         for (int i = 0; i < 5; i++)
         {
-            if (moduleZones[i].GetComponentInChildren<CrystalInfo>() != null)
+            if (moduleZones[i].GetComponent<AttachCrystal>().attachedModule != null)
             {
-                spellInstructions.Add(moduleZones[i].GetComponentInChildren<CrystalInfo>().module);
+                spellInstructions.Add(moduleZones[i].GetComponent<AttachCrystal>().attachedModule);
                 print(spellInstructions[spellInstructions.Count -1]);
-                moduletypes.Add(moduleZones[i].GetComponentInChildren<CrystalInfo>().moduleType);
+                moduletypes.Add(moduleZones[i].GetComponent<AttachCrystal>().attachedType);
             }
         }
             // check valididty
