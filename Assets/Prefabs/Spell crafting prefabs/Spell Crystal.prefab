@@ -194,7 +194,7 @@ GameObject:
   - component: {fileID: 7035095506269936948}
   - component: {fileID: 3521861051236379612}
   - component: {fileID: -3567128503765698163}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Spell Crystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -275,6 +275,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   module: Fire
   moduleType: 2
+  unused: 1
 --- !u!54 &-2731247878622041391
 Rigidbody:
   m_ObjectHideFlags: 0

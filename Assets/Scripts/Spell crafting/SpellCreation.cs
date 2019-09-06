@@ -20,7 +20,7 @@ public class SpellCreation : MonoBehaviour
     }
 
     // Update is called once per frame
-    void ConfirmSpell()
+    public void ConfirmSpell()
     {
         // clear lists
         spellInstructions.Clear();
