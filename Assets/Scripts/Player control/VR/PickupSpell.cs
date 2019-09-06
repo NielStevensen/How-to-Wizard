@@ -123,7 +123,7 @@ public class PickupSpell : MonoBehaviour
             {
                 for(int i = 0; i > beltObjects.Length; i ++) // check all slots to see if any are suitable
                 {
-                    if (beltSlots[i])
+                    if (beltSlots[i] == true)
                     {
                         Debug.Log("beltfound"); // not running
                         objectInHand.transform.SetParent(beltObjects[i].transform);
