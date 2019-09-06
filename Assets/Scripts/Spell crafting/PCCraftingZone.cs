@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class PCCraftingZone : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	//Player reference
+	[SerializeField]
+	private GameObject controller;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	//Set reference
+	private void Start()
+	{
+		controller = FindObjectOfType<PlayerController>().transform.GetChild(0).gameObject;
+	}
+
+	//While inside, raycast to highlight stuff
+	private void OnTriggerStay(Collider other)
+	{
+		
+	}
+
+	private void OnTriggerExit(Collider other)
+	{
+		
+	}
 }

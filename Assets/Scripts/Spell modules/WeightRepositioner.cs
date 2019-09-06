@@ -4,9 +4,48 @@ using UnityEngine;
 
 public class WeightRepositioner : MonoBehaviour
 {
+	//Objects already tested for intersection. If intersected again, the space is too small for this weight
+	private List<GameObject> intersectedObjects = new List<GameObject>();
+	
 	//Try to reposition the weight to not intersect with anything
 	private void Start()
 	{
+		//References
+		Vector3 pos = transform.position;
+		Vector3 rePos = Vector3.zero;
+		Collider weightCollider = GetComponent<Collider>();
+
+		//Find everything the weight overlaps
+		RaycastHit[] hits = Physics.BoxCastAll(pos, transform.localScale, Vector3.up, transform.rotation, 0.01f);
+		
+		//Foreach overlapping object, determine how to separate it from the weight
+		if(hits.Length > 0)
+		{
+			Vector3 direction;
+			float distance;
+
+			foreach (RaycastHit hit in hits)
+			{
+				if (hit.collider.gameObject != gameObject)
+				{
+					if (Physics.ComputePenetration(weightCollider, transform.position, transform.rotation,
+					hit.collider, hit.collider.gameObject.transform.position, hit.collider.gameObject.transform.rotation,
+					out direction, out distance))
+					{
+						print(hit.collider.gameObject.name + ": " + direction + ", " + distance);
+
+						transform.position += direction * distance;
+
+						//rePos += direction * distance * 1.1f;
+					}
+				}
+			}
+		}
+
+		//Apply repositioning value
+		//transform.position += rePos;
+
+		/*
 		//Position and reposition references
 		Vector3 pos = transform.position;
 		Vector3 rePos = Vector3.zero;
@@ -14,7 +53,7 @@ public class WeightRepositioner : MonoBehaviour
 		//Determine if there are any intersections
 		RaycastHit[] hits = Physics.BoxCastAll(pos, transform.localScale, Vector3.up, transform.rotation, 0.01f);
 		
-		//If there was an intersection (there should always be one as an impact must occur to spawn a weight)...
+		//If there was an intersection (there should always be one as an impact must occur to spawn a weight)
 		if(hits.Length > 0)
 		{
 			foreach(RaycastHit hit in hits)
@@ -62,5 +101,39 @@ public class WeightRepositioner : MonoBehaviour
 			//Apply repositioning value
 			transform.position += rePos;
 		}
+		*/
 	}
+
+	//weight module issues:
+	//-how to spawn not intersecting with objects
+	//	-need to account for rotation
+	//		-the corners stick out more than the centre of a face.how to account for this?
+	//		-can compare the angle to forward to determine how close where the raycast is to a corner
+	//		-use an equation to increase how much the weight is displaced based on proximity to a corner
+	//	-still need to account for when, even after these calculations, the weight still sits in a place where it intersects stuff
+	//		-e.g.spawned in a low ceiling area or by prox(crushed between the floor and something above that triggered the prox)
+
+	//-approach to weight repositioning
+	//	-draw a triangle to determine values:
+	//	-get distance between pos of object and pos of weight for hypotenuse
+	//	-
+
+	//new approach:
+	//-on start, bool isIntersecting = true;
+	//-while isintersecting:
+	//	-boxcast weight's position
+	//		-if no collision, isintersecting = false, break
+	//		-if there is a collision, check if the object is already listed under intersected objects
+	//			-if not, add the object to list of intersected objects
+	//			-run calculations to determine how to move the object so it is no longer intersecting
+	
+	//repositioning calculations
+	//-raycast from just away from the centre to the impacted object
+	//-without complex, curved colliders, this will provide the face the weight is intersecting
+	//-use the hit.normal to determine the direction to move the weight
+	//-then, raycast from just away from the centre of the weight in the direction opposite the normal retrieved and move the weight based on the distance of the raycast
+	//	-assuming there are no curves or diagonals, this will work perfectly fine
+	//	-to make sure this works, boxcastall and see if the weight still intersects the object
+	//	-if it does, do these calculations again
+	//		-but what if this gives diminishing returns and it loops through an infinite number of times?
 }
