@@ -125,7 +125,9 @@ public class PickupSpell : MonoBehaviour
                 {
                     if (beltSlots[i])
                     {
+                        Debug.Log("beltfound"); // not running
                         objectInHand.transform.SetParent(beltObjects[i].transform);
+                        beltSlots[i] = false;
                     }
                 }
             }
@@ -133,7 +135,7 @@ public class PickupSpell : MonoBehaviour
             {
                 objectInHand.GetComponent<Rigidbody>().isKinematic = true;
             }
-            else
+            else // throw other objects with normal velocity
             {
                 objectInHand.GetComponent<Rigidbody>().velocity = controllerPose.GetVelocity();
                 objectInHand.GetComponent<Rigidbody>().angularVelocity = controllerPose.GetAngularVelocity();
