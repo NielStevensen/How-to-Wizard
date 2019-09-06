@@ -29,8 +29,15 @@ public class BeltControll : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Spell>() != null && !occupied)
+        if (other.gameObject.GetComponent<Spell>() != null && !occupied)
         {
+            Debug.Log("hitbelt");
+            FixedJoint[] toCheck = GameObject.FindObjectsOfType<FixedJoint>();
+            foreach(FixedJoint a in toCheck)
+            {
+                if (a.connectedBody.gameObject == other.gameObject) a.GetComponent<PickupSpell>().beltSlots[myNumber] = true;
+                occupied = true;
+            }
             // get hand refrence and set vallue on hand to specify location is valid
         }
     }
@@ -39,6 +46,12 @@ public class BeltControll : MonoBehaviour
     {
         if (other.GetComponent<Spell>() != null && occupied)
         {
+            FixedJoint[] toCheck = GameObject.FindObjectsOfType<FixedJoint>();
+            foreach (FixedJoint a in toCheck)
+            {
+                if (a.connectedBody.gameObject == other.gameObject) a.GetComponent<PickupSpell>().beltSlots[myNumber] = false;
+                occupied = false;
+            }
             // get hand refrence and set vallue on hand to specify location is no longer valid
         }
     }
