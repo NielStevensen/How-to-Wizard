@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpellCreation : MonoBehaviour
 {
 
-    public GameObject[] moduleZones;
+    public AttachCrystal[] moduleZones;
     public List<string> spellInstructions = new List<string>();
     public List<int> moduletypes = new List<int>();
     bool isValid;
@@ -29,40 +29,32 @@ public class SpellCreation : MonoBehaviour
         // check all zones and add to list of modules
         for (int i = 0; i < 5; i++)
         {
-            if (moduleZones[i].GetComponent<AttachCrystal>().attachedModule != null)
+            if (moduleZones[i].attachedType > -1)
             {
-                spellInstructions.Add(moduleZones[i].GetComponent<AttachCrystal>().attachedModule);
+                spellInstructions.Add(moduleZones[i].attachedModule);
                 print(spellInstructions[spellInstructions.Count -1]);
-                moduletypes.Add(moduleZones[i].GetComponent<AttachCrystal>().attachedType);
+                moduletypes.Add(moduleZones[i].attachedType);
             }
         }
-            // check valididty
-        if (moduletypes.Count > 1)
+        // check valididty
+        if (moduletypes.Count > 0)
         {
-            if (moduletypes[0] != 0) isValid = false; // if the first is not a primary
-            if (moduletypes[1] == 0) isValid = false; // if the second is a primary
+            if (moduletypes[0] != 0) isValid = false; // if the first is  a primary
+            if (moduletypes.Count > 1) if (moduletypes[1] == 0) isValid = false; // if there is a second and second is a not primary
             for (int j = 2; j < moduletypes.Count; j++)
             {
-                if (moduletypes[j] != 2) isValid = false; // if anthing from 3 - 5 is not an effect
+                if (moduletypes[j] != 2) isValid = false; // if anthing from 3 - 5 is not an effect set false
             }
-        }
-        else
-        {
-            isValid = false;
-        }
 
-        if(isValid == true) // if the spell passes al checks
-        {
-        GameObject currentSpell = Instantiate(spellPrefab, spawnpoint.position, Quaternion.identity);// create a spell object
-            for (int k = 0; k < moduletypes.Count; k++)
+            if (isValid == true) // if the spell passes all checks
             {
-                    currentSpell.GetComponent<Spell>().Modules.Add(spellInstructions[k]); // add relevant modules to list
+                GameObject currentSpell = Instantiate(spellPrefab, spawnpoint.position, Quaternion.identity);// create a spell object
+                currentSpell.GetComponent<Spell>().Modules = spellInstructions; // add relevant modules to list
+            }
+            else
+            {
+                Instantiate(IncorrectSpell, spawnpoint.position, Quaternion.identity);
             }
         }
-        else
-        {
-            Instantiate(IncorrectSpell, spawnpoint.position, Quaternion.identity);
-        }
-
-       }
+    }
 }

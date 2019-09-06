@@ -17,7 +17,20 @@ public class TorchTrigger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (isActivated)
+        {
+            flame.SetActive(isActivated);
+
+            foreach (MovingObstacleManager target in targetObstacles)
+            {
+                target.HandleState(isActivated);
+            }
+
+            foreach (LaserController target in targetLasers)
+            {
+                target.HandleState(isActivated);
+            }
+        }
     }
 
     // Update is called once per frame

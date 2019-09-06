@@ -71,6 +71,10 @@ public class VRMovement : MonoBehaviour
 				movement = Vector3.Normalize(new Vector3(moveAction.GetAxis(hand).x, 0, moveAction.GetAxis(hand).y)) * movementSpeed;
 				movement = cameraTransform.TransformDirection(movement);
 			}
+            else
+            {
+                movement = Vector3.zero;
+            }
 			
 			CharacterController characterController = GetComponent<CharacterController>();
 

@@ -6,7 +6,7 @@ public class ModuleSpawner : MonoBehaviour
 {
 
     public GameObject crystal;
-    GameObject crystalref;
+    CrystalInfo crystalref;
     public string Module;
     public int Moduletype;
     // Start is called before the first frame update
@@ -17,24 +17,19 @@ public class ModuleSpawner : MonoBehaviour
 
     void AttemptSpawn()
     {
-        if(GetComponentInChildren<CrystalInfo>() == null)
-        {
-           crystalref = Instantiate(crystal, gameObject.transform);
-           crystalref.GetComponent<CrystalInfo>().moduleType = Moduletype;
-           crystalref.GetComponent<CrystalInfo>().module = Module;
-           crystalref.transform.position = transform.position;
-        }
+        crystalref = Instantiate(crystal,transform.position,Quaternion.identity).GetComponent<CrystalInfo>();
+           crystalref.moduleType = Moduletype;
+           crystalref.module = Module;
     }
-
-    //private void OnTransformChildrenChanged()
-    //{
-    //    AttemptSpawn();
-    //}
-
+    
     // Update is called once per frame
     void Update()
     {
-        if (crystalref.GetComponent<CrystalInfo>().unused == false)
+        if (crystalref == null)
+        {
+            AttemptSpawn();
+        }
+        else if (crystalref.unused == false)
         {
             AttemptSpawn();
         }

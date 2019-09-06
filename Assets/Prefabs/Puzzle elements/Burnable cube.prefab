@@ -122,7 +122,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isNulled: 0
-  nullShader: {fileID: 0}
+  willNullDestroy: 0
+  nullShader: {fileID: 4800000, guid: 358e88ce5fba08e48ae42706c075c8ea, type: 3}
   isProjection: 0
 --- !u!54 &-1082656189990080177
 Rigidbody:

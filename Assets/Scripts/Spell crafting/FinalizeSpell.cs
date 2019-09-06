@@ -7,6 +7,9 @@ public class FinalizeSpell : MonoBehaviour
     // Start is called before the first frame update
     private void OnTriggerEnter(Collider other)
     {
-        GetComponentInParent<SpellCreation>().Invoke("ConfirmSpell", 0);
+        if (other.GetComponent<PickupSpell>())
+        {
+            GetComponentInParent<SpellCreation>().Invoke("ConfirmSpell", 0);
+        }
     }
 }

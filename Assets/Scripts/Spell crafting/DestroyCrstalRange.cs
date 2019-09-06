@@ -8,6 +8,7 @@ public class DestroyCrstalRange : MonoBehaviour
     {
         if(other.gameObject.GetComponentInChildren<CrystalInfo>() != null)
         {
+            other.gameObject.GetComponentInChildren<CrystalInfo>().unused = false;
             Destroy(other.gameObject);
         }
     }

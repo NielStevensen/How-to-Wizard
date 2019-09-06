@@ -6,7 +6,7 @@ public class AttachCrystal : MonoBehaviour
 {
 
     public string attachedModule;
-    public int attachedType;
+    public int attachedType = -1;
 
     // Start is called before the first frame update
     private void OnTriggerStay(Collider other)
@@ -14,7 +14,7 @@ public class AttachCrystal : MonoBehaviour
         if(other.gameObject.GetComponent<CrystalInfo>() != null) //if the object is a crystal
         {
             other.GetComponent<CrystalInfo>().unused = false;
-            attachedModule = other.GetComponent<CrystalInfo>().name;
+            attachedModule = other.GetComponent<CrystalInfo>().module;
             attachedType = other.GetComponent<CrystalInfo>().moduleType;
         }
     }
@@ -23,8 +23,9 @@ public class AttachCrystal : MonoBehaviour
     {
         if (other.gameObject.GetComponent<CrystalInfo>() != null)
         {
-            attachedModule = null;
-            attachedType = 0;
+            attachedModule = "";
+            other.GetComponent<CrystalInfo>().unused = true;
+            attachedType = -1;
         }
     }
 }

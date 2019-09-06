@@ -104,7 +104,7 @@ public class SpellModuleList : MonoBehaviour
 
         if (IsCurrentlyVR())
         {
-            rotationReference = FindObjectOfType<VRMovement>().gameObject;
+            rotationReference = FindObjectOfType<InheritYRotation>().gameObject;
         }
         else
         {
