@@ -79,6 +79,8 @@ public class SpellModuleList : MonoBehaviour
     //Prefabs
     [Tooltip("Projectile object spawned by projectile and split modules.")]
 	public GameObject projectilePrefab;
+    [Tooltip("segment for charge and pc throw simulations")]
+    public GameObject segment;
 	[Tooltip("AOE object spawned by AOE module.")]
 	public GameObject aoePrefab;
 	[Tooltip("Proximity object spawned by proximity module.")]
@@ -201,6 +203,7 @@ public class SpellModuleList : MonoBehaviour
 	IEnumerator Projectile(SpellInfo info)
 	{
         #region localVariables
+        RaycastHit hit = new RaycastHit();
         Vector3 direction = Vector3.zero; // the direction the projectile will be rleased in
         float holdTime = 0.0f; // how long has the player held throw
 
@@ -213,6 +216,8 @@ public class SpellModuleList : MonoBehaviour
         bool simulationComplete = false; // has the throw simulation hit something (or to many segments)
         int simulatedSegments = 0;
         float speed = 0.0f; // the speed opf the projectile simulation
+
+        List<GameObject> lineSegments = new List<GameObject>();
         #endregion
 
         Vector3 previousPoint = transform.position;
@@ -222,6 +227,11 @@ public class SpellModuleList : MonoBehaviour
 
         if (!isVR)
         {
+            while(lineSegments.Count < maxSimulationSegments)
+            {
+                lineSegments.Add(Instantiate(segment));
+                lineSegments[lineSegments.Count-1].name = lineSegments.Count.ToString();
+            }
             while (Input.GetButton("Fire1"))
             {
                 time = 0;
@@ -232,20 +242,22 @@ public class SpellModuleList : MonoBehaviour
                 direction = transform.forward;
                 speed = (direction * power).magnitude; //velocity if simulated throw
 
-
+                previousPoint = transform.position; // rest positions to prevent end to start relooping
+                nextPoint = transform.position;
                 //simulate arc for up to maximum number of segments
                 while (simulatedSegments < maxSimulationSegments && !simulationComplete)
                 {
-                    lineRenderer.positionCount = maxSimulationSegments;
-                    lineRenderer.enabled = true;
                     previousPoint = nextPoint;
                     time += (projectilePredictionDistance / 100) / speed; // simulated time for prediction based on length of rendered line
                     nextPoint.x = transform.position.x + ((direction * power).x * time);
                     nextPoint.y = transform.position.y + ((direction * power).y * time) + (0.5f * Physics.gravity.y * (time * time));
                     nextPoint.z = transform.position.z + ((direction * power).z * time);
-                    lineRenderer.SetPosition(simulatedSegments, nextPoint);
+
+                    lineSegments[simulatedSegments].transform.position = previousPoint; // place segments
+                    lineSegments[simulatedSegments].transform.LookAt(nextPoint);
+                    lineSegments[simulatedSegments].transform.localScale = new Vector3(1,1, (nextPoint - previousPoint).magnitude /2);
                     simulatedSegments += 1;
-                    if (Physics.Raycast(previousPoint, nextPoint - previousPoint, out RaycastHit hit, (nextPoint - previousPoint).magnitude))
+                    if (Physics.Raycast(previousPoint, nextPoint - previousPoint, out hit, (nextPoint - previousPoint).magnitude))
                     {
                         nextPoint = hit.point;
                         simulationComplete = true;
@@ -254,7 +266,9 @@ public class SpellModuleList : MonoBehaviour
                 }
                 while (simulatedSegments < maxSimulationSegments && simulationComplete)
                 {
-                    lineRenderer.SetPosition(simulatedSegments, nextPoint);
+                    lineSegments[simulatedSegments].transform.position = previousPoint;
+                    lineSegments[simulatedSegments].transform.LookAt(nextPoint);
+                    lineSegments[simulatedSegments].transform.localScale = new Vector3(1,1, 0);
                     simulatedSegments += 1;
                 }
 
@@ -263,8 +277,10 @@ public class SpellModuleList : MonoBehaviour
         }
 
         GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-        if (lineRenderer.enabled) lineRenderer.enabled = false; // turn of line renderer when done
-
+        foreach(GameObject a in lineSegments)
+        {
+            Destroy(a);
+        }
         if (isVR)
         {
             projectile.GetComponent<Rigidbody>().velocity = projectileVelocity * projectileSpeedMultiplier;
@@ -410,6 +426,7 @@ public class SpellModuleList : MonoBehaviour
 	//Produce spell efects at the player's hand
 	IEnumerator Touch(SpellInfo info)
 	{
+        RaycastHit hit = new RaycastHit();
         GameObject aoeObject = null;
         Vector3 touchPoint = Vector3.zero;
 
@@ -417,7 +434,7 @@ public class SpellModuleList : MonoBehaviour
         {
             touchPoint = transform.position + transform.forward * touchDistance;
 
-            if (Physics.Raycast(transform.position, transform.forward , out RaycastHit hit, touchDistance))
+            if (Physics.Raycast(transform.position, transform.forward , out hit, touchDistance))
             {
                 touchPoint = hit.point;
             }
