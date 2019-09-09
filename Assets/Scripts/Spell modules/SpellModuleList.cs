@@ -192,10 +192,8 @@ public class SpellModuleList : MonoBehaviour
 		}
 
 		yield return new WaitForEndOfFrame();
-        if (IsCurrentlyVR())
-        {
-            Destroy(gameObject);
-        }
+
+        Destroy(gameObject);
 	}
 
 	#region Primary casting modules
@@ -232,7 +230,7 @@ public class SpellModuleList : MonoBehaviour
                 lineSegments.Add(Instantiate(segment));
                 lineSegments[lineSegments.Count-1].name = lineSegments.Count.ToString();
             }
-            while (Input.GetButton("Fire1"))
+            while (Input.GetButton("Fire2"))
             {
                 time = 0;
                 simulatedSegments = 0;
@@ -318,10 +316,10 @@ public class SpellModuleList : MonoBehaviour
 
 		playerRotation = rotationReference.transform.rotation;
 
-        yield return info; 
+        yield return info;
 
-        spell.isSpellCasted = true;
-    }
+		NotifySpellCasted();
+	}
 
 	//Comment
 	IEnumerator Split(SpellInfo info)
@@ -330,7 +328,7 @@ public class SpellModuleList : MonoBehaviour
 		
 		yield return info;
 
-		spell.isSpellCasted = true;
+		NotifySpellCasted();
 
 		//could try calling handlespell 3 times with projectile in place of split
 		//develop a system that only renders the projectile once
@@ -407,7 +405,7 @@ public class SpellModuleList : MonoBehaviour
 		
 		yield return info;
 
-		spell.isSpellCasted = true;
+		NotifySpellCasted();
 	}
 
 	//Get if the charge button is held
@@ -419,7 +417,7 @@ public class SpellModuleList : MonoBehaviour
 		}
 		else
 		{
-			return Input.GetButton("Fire1");
+			return Input.GetButton("Fire2");
 		}
 	}
 
@@ -462,7 +460,20 @@ public class SpellModuleList : MonoBehaviour
 
         yield return info;
 
-		spell.isSpellCasted = true;
+		NotifySpellCasted();
+	}
+
+	//Notify player control scripts that the spell has been cast and that the cooldown should start depleting
+	void NotifySpellCasted()
+	{
+		if (IsCurrentlyVR())
+		{
+
+		}
+		else
+		{
+			FindObjectOfType<PlayerController>().isSpellCasted = true;
+		}
 	}
 	#endregion
 

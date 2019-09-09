@@ -9,9 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4224465232382975017}
-  - component: {fileID: 6813502977297102182}
-  - component: {fileID: 1062544496934716036}
-  - component: {fileID: 7641115976200492260}
   m_Layer: 8
   m_Name: Spell Source
   m_TagString: Untagged
@@ -33,168 +30,6 @@ Transform:
   m_Father: {fileID: 4020511622275460568}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6813502977297102182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1076509265724892908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bd868a1606ce54449b79341a942e611, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spellDelay: 0.5
-  isSpellCasted: 0
-  Modules:
-  - Projectile
-  - Fire
-  list: {fileID: 1062544496934716036}
---- !u!114 &1062544496934716036
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1076509265724892908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11974b55573e0de458170e8dcae47866, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ignoreRays:
-    serializedVersion: 2
-    m_Bits: 0
-  hand: 0
-  handTransform: {fileID: 0}
-  obj: {fileID: 0}
-  spellID: -1
-  rotationReference: {fileID: 0}
-  projectileSpeedMultiplier: 2.5
-  projectilePredictionDistance: 70
-  maxSimulationSegments: 30
-  maxThrow: 2
-  projectileVelocity: {x: 0, y: 0, z: 0}
-  projectileAngularV: {x: 0, y: 0, z: 0}
-  activeprojectile: 1
-  maxChargeTime: 2.5
-  holdAction:
-    actionPath: /actions/default/in/Hold
-    needsReinit: 0
-  touchDistance: 0.1
-  touchSize: 2
-  aoeSizeAmplifier: 2.5
-  maxForceDistance: 7.5
-  maxForce: 1250
-  projectilePrefab: {fileID: 7679059604262710080, guid: dba57a152f7942d41adfb60ea2b67c51,
-    type: 3}
-  aoePrefab: {fileID: 96611120828246474, guid: 9193f010abb585848a41b6f37a4bdb91, type: 3}
-  proxPrefab: {fileID: 7267610879259903273, guid: 43a166dc2f11c1a4c9021a8d1bb6e291,
-    type: 3}
-  timerPrefab: {fileID: 7267610879259903273, guid: cdd3be71918512d4bb65eeef6cada51b,
-    type: 3}
-  firePrefab: {fileID: 6496678034007525816, guid: 154f9437a95a7fe4184ca185e3819846,
-    type: 3}
-  weightPrefab: {fileID: 1801681100854976075, guid: 05ddb5477e402984e84f1bae25f64c9f,
-    type: 3}
-  barrierPrefab: {fileID: 1801681100854976075, guid: 511f04f297c2c9045bbe6771e30a9822,
-    type: 3}
---- !u!120 &7641115976200492260
-LineRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1076509265724892908}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 0
-  m_LightProbeUsage: 0
-  m_ReflectionProbeUsage: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: f304433650b26864083e81ceb64d48de, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
-  m_Parameters:
-    serializedVersion: 3
-    widthMultiplier: 0.1
-    widthCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    colorGradient:
-      serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
-      key3: {r: 0, g: 0, b: 0, a: 0}
-      key4: {r: 0, g: 0, b: 0, a: 0}
-      key5: {r: 0, g: 0, b: 0, a: 0}
-      key6: {r: 0, g: 0, b: 0, a: 0}
-      key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
-      ctime3: 0
-      ctime4: 0
-      ctime5: 0
-      ctime6: 0
-      ctime7: 0
-      atime0: 0
-      atime1: 65535
-      atime2: 0
-      atime3: 0
-      atime4: 0
-      atime5: 0
-      atime6: 0
-      atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
-    numCornerVertices: 0
-    numCapVertices: 0
-    alignment: 0
-    textureMode: 0
-    shadowBias: 0.5
-    generateLightingData: 0
-  m_UseWorldSpace: 1
-  m_Loop: 0
 --- !u!1 &1642922291392788727
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,6 +143,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 7.5
+  interactionRange: 3.75
+  craftCooldown: 2.5
+  castingDelay: 1
+  isSpellCasted: 0
+  spellOrigin: {fileID: 1076509265724892908}
 --- !u!114 &5407726963611988251
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -32,7 +32,7 @@ public class SpellCreation : MonoBehaviour
             if (moduleZones[i].attachedType > -1)
             {
                 spellInstructions.Add(moduleZones[i].attachedModule);
-                print(spellInstructions[spellInstructions.Count -1]);
+                //print(spellInstructions[spellInstructions.Count -1]);
                 moduletypes.Add(moduleZones[i].attachedType);
             }
         }

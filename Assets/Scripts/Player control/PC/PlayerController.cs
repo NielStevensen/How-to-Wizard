@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
@@ -15,8 +16,8 @@ public class PlayerController : MonoBehaviour {
 	[Space(10)]
 
 	//Crafting values
-	[Tooltip("Crafting interaction range.")]
-	public float craftingRange = 2.5f;
+	[Tooltip("Crafting and scroll interaction range.")]
+	public float interactionRange = 3.75f;
 	private Transform cameraTransform;
 	private bool isCraftCooldown = false;
 	[Tooltip("The cooldown on crafting after clicking the craft confirm.")]
@@ -24,10 +25,30 @@ public class PlayerController : MonoBehaviour {
 	private GameObject selectedCrystal = null;
 	private GameObject[] slottedCrystals = new GameObject[5] { null, null, null, null, null };
 	private AttachCrystal[] crystalSlots = new AttachCrystal[5];
-	[SerializeField]
 	private SpellCreation table = null;
 
-	//Is the player resetting?
+	//Spell storage values
+	[SerializeField]
+	private GameObject[] storedSpells = new GameObject[3] { null, null, null };
+	private int selectedSpell = -1;
+
+	[Space(10)]
+
+	//Spell casting values
+	[Tooltip("Delay between using spells in seconds.")]
+	public float castingDelay = 1.0f;
+	private bool isCastingCooldown = false;
+	[HideInInspector]
+	public bool isSpellCasted = false;
+	[Tooltip("Spell casting source.")]
+	public GameObject spellOrigin;
+
+	[Space(10)]
+
+	//Reset values
+	[Tooltip("The amount of time in seconds the reset button must he held to reset.")]
+	public float resetTime = 2.5f;
+	private bool canReset = false;
 	private bool isResetting = false;
 
 	//Set cursor state and set references
@@ -43,6 +64,8 @@ public class PlayerController : MonoBehaviour {
 		{
 			crystalSlots[i] = table.transform.GetChild(i).gameObject.GetComponent<AttachCrystal>();
 		}
+
+		StartCoroutine(WaitUntilRelease());
     }
 
     //Handle input
@@ -53,9 +76,19 @@ public class PlayerController : MonoBehaviour {
 			HandleMovement();
 
 			HandleCrafting();
+
+			HandleSpellStorage();
+
+			HandleSpellCastng();
+
+			if (canReset)
+			{
+				HandleResetInput();
+			}
 		}
 	}
 
+	#region Movement
 	//Handle player movement
 	void HandleMovement()
 	{
@@ -68,7 +101,9 @@ public class PlayerController : MonoBehaviour {
 			characterController.Move(movement * Time.deltaTime);
 		}
 	}
+	#endregion
 
+	#region Spell Crafting
 	//Handle crafting
 	void HandleCrafting()
 	{
@@ -79,11 +114,9 @@ public class PlayerController : MonoBehaviour {
 
 		if (Input.GetButtonDown("Fire1"))
 		{
-			Debug.DrawRay(cameraTransform.position, Vector3.Normalize(cameraTransform.forward) * craftingRange, Color.green, 5);
-
 			RaycastHit hit;
 
-			if(Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, craftingRange, 1 << LayerMask.NameToLayer("Crafting")))
+			if(Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, interactionRange, 1 << LayerMask.NameToLayer("Crafting")))
 			{
 				if (hit.collider.gameObject.GetComponent<CrystalInfo>())
 				{
@@ -183,4 +216,165 @@ public class PlayerController : MonoBehaviour {
 
 		isCraftCooldown = false;
 	}
+	#endregion
+
+	#region Spell storage
+	//Handle spell storage input
+	void HandleSpellStorage()
+	{
+		if (Input.GetButtonDown("Fire1"))
+		{
+			RaycastHit hit;
+
+			if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, interactionRange, 1 << LayerMask.NameToLayer("SpellScroll")))
+			{
+				int emptySlot = -1;
+
+				for(int i = 0; i < 3; i++)
+				{
+					if(storedSpells[i] == null)
+					{
+						emptySlot = i;
+
+						break;
+					}
+				}
+
+				if(emptySlot > -1)
+				{
+					storedSpells[emptySlot] = hit.collider.gameObject;
+
+					storedSpells[emptySlot].GetComponent<Renderer>().enabled = false;
+					storedSpells[emptySlot].GetComponent<Collider>().enabled = false;
+
+					storedSpells[emptySlot].gameObject.name = "Stored Spell " + emptySlot;
+				}
+			}
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha1))
+		{
+			SelectSpell(0);
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha2))
+		{
+			SelectSpell(1);
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha3))
+		{
+			SelectSpell(2);
+		}
+	}
+	
+	//Handle spell selection
+	void SelectSpell(int slot)
+	{
+		if (selectedSpell == slot || storedSpells[slot] == null)
+		{
+			selectedSpell = -1;
+		}
+		else
+		{
+			selectedSpell = slot;
+		}
+	}
+	#endregion
+
+	#region Spell casting
+	//Handle spell casting
+	void HandleSpellCastng()
+	{
+		if(selectedSpell > -1 && !isCastingCooldown)
+		{
+			if (Input.GetButtonDown("Fire2"))
+			{
+				StartCoroutine(HandleCastingCooldown(storedSpells[selectedSpell]));
+				
+				/*//storedSpells[selectedSpell].transform.position = spellOrigin.transform.position;
+				storedSpells[selectedSpell].transform.SetParent(spellOrigin.transform);
+				storedSpells[selectedSpell].transform.localPosition = Vector3.zero;
+				//storedSpells[selectedSpell].transform.position = spellOrigin.transform.position;*/
+
+				storedSpells[selectedSpell].GetComponent<Spell>().CallSpell();
+				
+				storedSpells[selectedSpell] = null;
+				selectedSpell = -1;
+			}
+		}
+	}
+
+	//Handle casting cooldown
+	IEnumerator HandleCastingCooldown(GameObject scroll)
+	{
+		isCastingCooldown = true;
+
+		while (!isSpellCasted)
+		{
+			scroll.transform.position = spellOrigin.transform.position;
+
+			yield return new WaitForEndOfFrame();
+		}
+
+		isSpellCasted = false;
+
+		yield return new WaitForSeconds(castingDelay);
+
+		isCastingCooldown = false;
+	}
+	#endregion
+
+	#region Reset
+	//Handle reset input
+	void HandleResetInput()
+	{
+		if (Input.GetButtonDown("Reset"))
+		{
+			StartCoroutine(HandleResetHold());
+		}
+	}
+
+	//Handle reset hold input
+	IEnumerator HandleResetHold()
+	{
+		isResetting = true;
+
+		bool wasHeld = true;
+
+		float elapsedTime = 0.0f;
+
+		while(elapsedTime < resetTime)
+		{
+			if (!Input.GetButton("Reset"))
+			{
+				wasHeld = false;
+
+				break;
+			}
+
+			elapsedTime += Time.deltaTime;
+			
+			yield return new WaitForEndOfFrame();
+		}
+
+		isResetting = false;
+
+		if (wasHeld)
+		{
+			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+		}
+	}
+
+	//Prevent holding q from a reset after a successful reset starting a reset
+	IEnumerator WaitUntilRelease()
+	{
+		yield return new WaitForSeconds(1);
+
+		while (Input.GetButtonDown("Reset") || Input.GetButton("Reset"))
+		{
+			yield return new WaitForEndOfFrame();
+		}
+		
+		canReset = true;
+	}
+	#endregion
 }
