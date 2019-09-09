@@ -340,6 +340,10 @@ public class SpellModuleList : MonoBehaviour
 	IEnumerator Charge(SpellInfo info)
     {
         float holdTime = 0.0f;
+        GameObject line = Instantiate(segment);
+
+        float length; // length of segment
+        float width; // width of segment
 
 		lineRenderer.enabled = true;
 
@@ -365,28 +369,25 @@ public class SpellModuleList : MonoBehaviour
             }
 
 			hitTest = Physics.Raycast(origin, direction, out hit, 1000.0f, ~ignoreRays);
-			lineRenderer.SetPosition(0, origin);
 			
 			if (hitTest)
             {
-                lineRenderer.SetPosition(1, hit.point);
+                length = (origin - hit.point).magnitude;
             }
 			else
 			{
-				lineRenderer.SetPosition(1, origin + Vector3.Normalize(direction) * 1000.0f);
+                length = 1000f;
 			}
 
 			float tempWidth = 0.0125f + Mathf.Min(holdTime / maxChargeTime, 1.0f) / 10.0f;
 
-			lineRenderer.startWidth = tempWidth;
-			lineRenderer.endWidth = tempWidth;
+            width = tempWidth;
+            line.transform.localScale = new Vector3(width, length, width);
 
 			yield return info;
 
             holdTime += Time.deltaTime;
         }
-
-        lineRenderer.enabled = false;
 
         holdTime = Mathf.Min(holdTime, maxChargeTime);
 
