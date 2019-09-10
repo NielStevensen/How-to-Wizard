@@ -51,6 +51,31 @@ public class PlayerController : MonoBehaviour {
 	private bool canReset = false;
 	private bool isResetting = false;
 
+	
+
+	//Shaders
+	[Tooltip("Default shader.")]
+	public Material defaultMaterial;
+	[Tooltip("Outline shader.")]
+	public Material outlineMaterial;
+
+	[Space(10)]
+
+	//Outline colours
+	[Tooltip("Hover outline colour.")]
+	public Color hoverColour;
+	[Tooltip("Selected outline colour.")]
+	public Color selectedColour;
+
+	//Object reference
+	private RaycastHit hit;
+	private GameObject target = null;
+	private Renderer targetRenderer = null;
+	private CrystalInfo targetInfo = null;
+	private bool targetSelectState = false;
+
+
+
 	//Set cursor state and set references
 	private void Start()
     {
@@ -85,6 +110,8 @@ public class PlayerController : MonoBehaviour {
 			{
 				HandleResetInput();
 			}
+
+			//HandleCraftingOutline();
 		}
 	}
 
@@ -123,6 +150,8 @@ public class PlayerController : MonoBehaviour {
 					if(selectedCrystal == null)
 					{
 						selectedCrystal = hit.collider.gameObject;
+
+						selectedCrystal.GetComponent<CrystalInfo>().isSelected = true;
 					}
 					else
 					{
@@ -133,6 +162,8 @@ public class PlayerController : MonoBehaviour {
 						if (localReference != hit.collider.gameObject)
 						{
 							selectedCrystal = hit.collider.gameObject;
+
+							selectedCrystal.GetComponent<CrystalInfo>().isSelected = true;
 						}
 					}
 				}
@@ -171,6 +202,11 @@ public class PlayerController : MonoBehaviour {
 	//Deselect crystals
 	public void DeselectCrystals()
 	{
+		if(selectedCrystal != null)
+		{
+			selectedCrystal.GetComponent<CrystalInfo>().isSelected = false;
+		}
+
 		selectedCrystal = null;
 	}
 
@@ -289,11 +325,12 @@ public class PlayerController : MonoBehaviour {
 			if (Input.GetButtonDown("Fire2"))
 			{
 				StartCoroutine(HandleCastingCooldown(storedSpells[selectedSpell]));
+
+				Destroy(storedSpells[selectedSpell].GetComponent<Rigidbody>());
 				
-				/*//storedSpells[selectedSpell].transform.position = spellOrigin.transform.position;
 				storedSpells[selectedSpell].transform.SetParent(spellOrigin.transform);
 				storedSpells[selectedSpell].transform.localPosition = Vector3.zero;
-				//storedSpells[selectedSpell].transform.position = spellOrigin.transform.position;*/
+				storedSpells[selectedSpell].transform.localRotation = Quaternion.identity;
 
 				storedSpells[selectedSpell].GetComponent<Spell>().CallSpell();
 				
@@ -310,8 +347,6 @@ public class PlayerController : MonoBehaviour {
 
 		while (!isSpellCasted)
 		{
-			scroll.transform.position = spellOrigin.transform.position;
-
 			yield return new WaitForEndOfFrame();
 		}
 
@@ -375,6 +410,74 @@ public class PlayerController : MonoBehaviour {
 		}
 		
 		canReset = true;
+	}
+	#endregion
+
+	#region Crafting outline
+	//Handle crafting outline
+	void HandleCraftingOutline()
+	{
+		GameObject newTarget = null;
+
+		if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, interactionRange, 1 << LayerMask.NameToLayer("Crafting")))
+		{
+			newTarget = hit.collider.gameObject;
+		}
+
+		if (target != null && newTarget == target)
+		{
+			if(targetInfo != null)
+			{
+				if (targetSelectState != targetInfo.isSelected)
+				{
+					targetSelectState = targetInfo.isSelected;
+
+					ApplyOutline();
+				}
+			}
+		}
+		else
+		{
+			if (target != null)
+			{
+				RemoveOutline();
+			}
+
+			target = newTarget;
+
+			if (target != null)
+			{
+				targetRenderer = target.GetComponent<Renderer>();
+				targetInfo = target.GetComponent<CrystalInfo>();
+				targetSelectState = targetInfo == null ? false : targetInfo.isSelected;
+
+				ApplyOutline();
+			}
+		}
+	}
+
+	//Apply outline
+	void ApplyOutline()
+	{
+		foreach (Material mat in targetRenderer.materials)
+		{
+			//mat.shader = outlineShader;
+			mat.SetInt("_DrawOutline", 1);
+			mat.SetColor("_OutlineColour", targetSelectState ? selectedColour : hoverColour);
+		}
+	}
+
+	//Remove outline
+	void RemoveOutline()
+	{
+		if (targetRenderer != null)
+		{
+			foreach (Material mat in targetRenderer.materials)
+			{
+				//mat.shader = defaultShader;
+				mat.SetInt("_DrawOutline", 0);
+			}
+		}
 	}
 	#endregion
 }

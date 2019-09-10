@@ -133,6 +133,9 @@ MonoBehaviour:
   spellID: -1
   rotationReference: {fileID: 0}
   projectileSpeedMultiplier: 2.5
+  projectilePredictionDistance: 30
+  maxSimulationSegments: 30
+  maxThrow: 2
   projectileVelocity: {x: 0, y: 0, z: 0}
   projectileAngularV: {x: 0, y: 0, z: 0}
   activeprojectile: 1
@@ -140,11 +143,14 @@ MonoBehaviour:
   holdAction:
     actionPath: /actions/default/in/Hold
     needsReinit: 0
+  touchDistance: 0.1
+  touchSize: 0.1
   aoeSizeAmplifier: 2.5
   maxForceDistance: 7.5
   maxForce: 1000
   projectilePrefab: {fileID: 7679059604262710080, guid: dba57a152f7942d41adfb60ea2b67c51,
     type: 3}
+  segment: {fileID: 7658771609124669935, guid: 27d2b689845dde640aa4d5de692e1948, type: 3}
   aoePrefab: {fileID: 96611120828246474, guid: 9193f010abb585848a41b6f37a4bdb91, type: 3}
   proxPrefab: {fileID: 7267610879259903273, guid: 43a166dc2f11c1a4c9021a8d1bb6e291,
     type: 3}
@@ -168,8 +174,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bd868a1606ce54449b79341a942e611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spellDelay: 0.1
-  isSpellCasted: 0
   Modules: []
   list: {fileID: 7585976291535763641}
 --- !u!120 &7585976291535763640
