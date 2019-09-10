@@ -18,14 +18,5 @@ public class ClearButton : MonoBehaviour
         
     }
 
-    void Clear()
-    {
-        if (slottedCrystals[slotNumber] != null)
-        {
-            Destroy(slottedCrystals[slotNumber]);
 
-            crystalSlots[slotNumber].attachedModule = "";
-            crystalSlots[slotNumber].attachedType = -1;
-        }
-    }
 }

@@ -207,7 +207,12 @@ public class PlayerController : MonoBehaviour {
 
 					table.ConfirmSpell();
 				}
-			}
+                else if (hit.collider.gameObject.GetComponent<Button>())
+                {
+                    Clear();
+                }
+
+            }
 
 
 		}
@@ -224,8 +229,20 @@ public class PlayerController : MonoBehaviour {
 		selectedCrystal = null;
 	}
 
-	//Move crystals to their slot
-	IEnumerator SlotInCrystal(GameObject crystal, GameObject slot)
+    public void Clear()
+    {
+        for(int  i = 0; i < 5; i ++)
+        if (slottedCrystals[i] != null)
+        {
+            Destroy(slottedCrystals[i]);
+
+            crystalSlots[i].attachedModule = "";
+            crystalSlots[i].attachedType = -1;
+        }
+    }
+
+    //Move crystals to their slot
+    IEnumerator SlotInCrystal(GameObject crystal, GameObject slot)
 	{
 		isCraftCooldown = true;
 

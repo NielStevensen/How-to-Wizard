@@ -7,11 +7,15 @@ public class ModuleLabel : MonoBehaviour
 {
     Transform player;
     public Text myText;
+    public Image myImage;
+    public Sprite[] images;
+
     // Start is called before the first frame update
     void Start()
     {
         myText.text = GetComponent<CrystalInfo>().module;
-        player = FindObjectOfType<Camera>().transform;
+        //myImage.image = images[GetComponent<CrystalInfo>().ModuleIndex]
+        //player = FindObjectOfType<Camera>().transform;
     }
     // Update is called once per frame
     void Update()
