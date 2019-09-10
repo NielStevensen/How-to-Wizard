@@ -5,12 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class CompleteLevel : MonoBehaviour
 {
+    GameObject Player;
+    public string toLoad;
 
-    public Scene toLoad;
+    private void Start()
+    {
+        Player = GameObject.Find("Player Character");
+    }
 
     // Update is called once per frame
-    void OnTriggerEnter(Collider other)
+    void Update()
     {
-        SceneManager.LoadScene(toLoad.name);
+        if ((transform.position - Player.transform.position).magnitude <= 1)
+        {
+            SceneManager.LoadScene(toLoad);
+        }
     }
 }
