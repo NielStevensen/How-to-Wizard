@@ -8,7 +8,6 @@ public class ModuleSpawner : MonoBehaviour
     public GameObject crystal;
     CrystalInfo crystalref;
     public string Module;
-    public int ModuleIndex;
     public int Moduletype;
     // Start is called before the first frame update
     void Start()
@@ -20,11 +19,10 @@ public class ModuleSpawner : MonoBehaviour
     {
         crystalref = Instantiate(crystal,transform.position,Quaternion.identity).GetComponent<CrystalInfo>();
            crystalref.moduleType = Moduletype;
-           crystalref.moduleIndex = ModuleIndex;
            crystalref.module = Module;
     }
     
-    // Update is called once per frame  
+    // Update is called once per frame
     void Update()
     {
         if (crystalref == null)
