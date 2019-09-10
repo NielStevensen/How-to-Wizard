@@ -38,6 +38,10 @@ public class PlayerController : MonoBehaviour {
 	public Sprite[] moduleSymbols;
 	private GameObject[] storedSpells = new GameObject[3] { null, null, null };
 	private int selectedSpell = -1;
+	[Tooltip("Selection border image.")]
+	public RectTransform selectionBorder;
+	[HideInInspector]
+	public bool isSpellCollected = true;
 
 	[Space(10)]
 
@@ -58,10 +62,15 @@ public class PlayerController : MonoBehaviour {
 	private bool canReset = false;
 	private bool isResetting = false;
 
+
+	//temp recolour values
+	public Color crystalDefault;
+	public Color crystalSelected;
+
+
 	//currently doesn't work
-	/*
 	//Shaders
-	[Tooltip("Default shader.")]
+	/*[Tooltip("Default shader.")]
 	public Material defaultMaterial;
 	[Tooltip("Outline shader.")]
 	public Material outlineMaterial;
@@ -166,6 +175,8 @@ public class PlayerController : MonoBehaviour {
 						selectedCrystal = hit.collider.gameObject;
 
 						selectedCrystal.GetComponent<CrystalInfo>().isSelected = true;
+
+						selectedCrystal.GetComponent<Renderer>().material.color = crystalSelected;
 					}
 					else
 					{
@@ -178,6 +189,8 @@ public class PlayerController : MonoBehaviour {
 							selectedCrystal = hit.collider.gameObject;
 
 							selectedCrystal.GetComponent<CrystalInfo>().isSelected = true;
+
+							selectedCrystal.GetComponent<Renderer>().material.color = crystalSelected;
 						}
 					}
 				}
@@ -192,24 +205,31 @@ public class PlayerController : MonoBehaviour {
 				}
 				else if (hit.collider.gameObject.GetComponent<FinalizeSpell>())
 				{
-					DeselectCrystals();
-
-					StartCoroutine(HandleCraftingCooldown());
-
-					for(int i = 0; i < 5; i++)
+					if (isSpellCollected)
 					{
-						if(slottedCrystals[i] != null)
-						{
-							crystalSlots[i].attachedModule = slottedCrystals[i].GetComponent<CrystalInfo>().module;
-							crystalSlots[i].attachedType = slottedCrystals[i].GetComponent<CrystalInfo>().moduleType;
-						}
-					}
+						isSpellCollected = false;
 
-					table.ConfirmSpell();
+						DeselectCrystals();
+
+						StartCoroutine(HandleCraftingCooldown());
+
+						for (int i = 0; i < 5; i++)
+						{
+							if (slottedCrystals[i] != null)
+							{
+								crystalSlots[i].attachedModule = slottedCrystals[i].GetComponent<CrystalInfo>().module;
+								crystalSlots[i].attachedType = slottedCrystals[i].GetComponent<CrystalInfo>().moduleType;
+							}
+						}
+
+						table.ConfirmSpell();
+					}
+				}
+				else if (hit.collider.gameObject.GetComponent<Button>())
+				{	
+					Clear();
 				}
 			}
-
-
 		}
 	}
 
@@ -219,9 +239,24 @@ public class PlayerController : MonoBehaviour {
 		if(selectedCrystal != null)
 		{
 			selectedCrystal.GetComponent<CrystalInfo>().isSelected = false;
+
+			selectedCrystal.GetComponent<Renderer>().material.color = crystalDefault;
 		}
 
 		selectedCrystal = null;
+	}
+
+	//Destroy all slotted crystals
+	public void Clear()
+	{
+		for (int i = 0; i < 5; i++)
+			if (slottedCrystals[i] != null)
+			{
+				Destroy(slottedCrystals[i]);
+
+				crystalSlots[i].attachedModule = "";
+				crystalSlots[i].attachedType = -1;
+			}
 	}
 
 	//Move crystals to their slot
@@ -292,10 +327,16 @@ public class PlayerController : MonoBehaviour {
 
 				if(emptySlot > -1)
 				{
-					storedSpells[emptySlot] = hit.collider.gameObject;
+					isSpellCollected = true;
 
-					storedSpells[emptySlot].GetComponent<Renderer>().enabled = false;
+					storedSpells[emptySlot] = hit.collider.gameObject;
+					
 					storedSpells[emptySlot].GetComponent<Collider>().enabled = false;
+
+					for(int i = 0; i < 3; i++)
+					{
+						storedSpells[emptySlot].transform.GetChild(0).GetChild(i).gameObject.GetComponent<Renderer>().enabled = false;
+					}
 
 					storedSpells[emptySlot].gameObject.name = "Stored Spell " + emptySlot;
 
@@ -389,10 +430,14 @@ public class PlayerController : MonoBehaviour {
 		if (selectedSpell == slot || storedSpells[slot] == null)
 		{
 			selectedSpell = -1;
+
+			selectionBorder.localPosition = new Vector3(-1000.0f, -500, 0);
 		}
 		else
 		{
 			selectedSpell = slot;
+
+			selectionBorder.localPosition = new Vector3(-1000.0f + (slot + 1) * 100.0f, -500, 0);
 		}
 	}
 	#endregion
@@ -417,6 +462,8 @@ public class PlayerController : MonoBehaviour {
 				
 				storedSpells[selectedSpell] = null;
 				selectedSpell = -1;
+
+				selectionBorder.localPosition = new Vector3(-1000.0f, -500, 0);
 			}
 		}
 	}

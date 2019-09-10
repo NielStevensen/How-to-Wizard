@@ -261,40 +261,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8808826709257156448, guid: 368f38fd970d3b843807a88e733bd87e,
+    - target: {fileID: 8344960578658752137, guid: 368f38fd970d3b843807a88e733bd87e,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 71ba9dbf462fab842af6267314f8bd96, type: 2}
-    - target: {fileID: 8808826709639729305, guid: 368f38fd970d3b843807a88e733bd87e,
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 9100585169701424173, guid: 368f38fd970d3b843807a88e733bd87e,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 71ba9dbf462fab842af6267314f8bd96, type: 2}
-    - target: {fileID: 8808826709937701375, guid: 368f38fd970d3b843807a88e733bd87e,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 73258d455d8d3d449bc1926c3f1c5b40, type: 2}
-    - target: {fileID: 8808826710365873666, guid: 368f38fd970d3b843807a88e733bd87e,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 71ba9dbf462fab842af6267314f8bd96, type: 2}
-    - target: {fileID: 8808826710868189195, guid: 368f38fd970d3b843807a88e733bd87e,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 71ba9dbf462fab842af6267314f8bd96, type: 2}
-    - target: {fileID: 8808826710992253101, guid: 368f38fd970d3b843807a88e733bd87e,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 71ba9dbf462fab842af6267314f8bd96, type: 2}
-    - target: {fileID: 4541036422658049882, guid: 368f38fd970d3b843807a88e733bd87e,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 0
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 368f38fd970d3b843807a88e733bd87e, type: 3}
@@ -1914,6 +1889,51 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013349184607151308, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: crystalDefault.r
+      value: 0.14117648
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013349184607151308, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: crystalDefault.g
+      value: 0.90588236
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013349184607151308, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: crystalDefault.b
+      value: 0.12156863
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013349184607151308, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: crystalDefault.a
+      value: 0.5764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013349184607151308, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: crystalSelected.r
+      value: 0.14117646
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013349184607151308, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: crystalSelected.g
+      value: 0.24255373
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013349184607151308, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: crystalSelected.b
+      value: 0.90588236
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013349184607151308, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: crystalSelected.a
+      value: 0.5764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013349184607151308, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: isSpellCollected
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8ef9db6933a38e499a23b2504bf2dfd, type: 3}

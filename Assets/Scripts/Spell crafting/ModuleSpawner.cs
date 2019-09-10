@@ -9,8 +9,9 @@ public class ModuleSpawner : MonoBehaviour
     CrystalInfo crystalref;
     public string Module;
     public int Moduletype;
-    // Start is called before the first frame update
-    void Start()
+	public int ModuleIndex;
+	// Start is called before the first frame update
+	void Start()
     {
         AttemptSpawn();
     }
@@ -19,6 +20,7 @@ public class ModuleSpawner : MonoBehaviour
     {
         crystalref = Instantiate(crystal,transform.position,Quaternion.identity).GetComponent<CrystalInfo>();
            crystalref.moduleType = Moduletype;
+		crystalref.moduleIndex = ModuleIndex;
            crystalref.module = Module;
     }
     

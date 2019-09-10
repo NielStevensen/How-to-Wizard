@@ -6,6 +6,7 @@ public class CrystalInfo : MonoBehaviour
 {
     public string module;
     public int moduleType;
+	public int moduleIndex;
     public bool unused = true;
 
 	//Used for pc crafting outlines
