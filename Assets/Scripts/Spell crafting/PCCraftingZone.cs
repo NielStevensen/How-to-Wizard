@@ -43,7 +43,7 @@ public class PCCraftingZone : MonoBehaviour
 	
 	private void OnTriggerEnter(Collider other)
 	{
-		print(other.gameObject.name + ", " + other.gameObject.layer);
+		//print(other.gameObject.name + ", " + other.gameObject.layer);
 	}
 
 	//While inside, raycast to highlight stuff
@@ -51,7 +51,7 @@ public class PCCraftingZone : MonoBehaviour
 	{
 		if (other.gameObject == player)
 		{
-			print("player in");
+			//print("player in");
 
 			GameObject newTarget = null;
 

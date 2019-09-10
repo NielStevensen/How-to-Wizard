@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
@@ -27,8 +28,14 @@ public class PlayerController : MonoBehaviour {
 	private AttachCrystal[] crystalSlots = new AttachCrystal[5];
 	private SpellCreation table = null;
 
+	[Space(10)]
+
 	//Spell storage values
-	[SerializeField]
+	[Tooltip("Spell storage UI objects.")]
+	public Image[] storageUI;
+	private Image[,] storageIcons = new Image[3, 5];
+	[Tooltip("The symbols for each module.")]
+	public Sprite[] moduleSymbols;
 	private GameObject[] storedSpells = new GameObject[3] { null, null, null };
 	private int selectedSpell = -1;
 
@@ -51,8 +58,8 @@ public class PlayerController : MonoBehaviour {
 	private bool canReset = false;
 	private bool isResetting = false;
 
-	
-
+	//currently doesn't work
+	/*
 	//Shaders
 	[Tooltip("Default shader.")]
 	public Material defaultMaterial;
@@ -73,9 +80,8 @@ public class PlayerController : MonoBehaviour {
 	private Renderer targetRenderer = null;
 	private CrystalInfo targetInfo = null;
 	private bool targetSelectState = false;
-
-
-
+	*/
+	
 	//Set cursor state and set references
 	private void Start()
     {
@@ -88,6 +94,14 @@ public class PlayerController : MonoBehaviour {
 		for(int i = 0; i < 5; i++)
 		{
 			crystalSlots[i] = table.transform.GetChild(i).gameObject.GetComponent<AttachCrystal>();
+		}
+
+		for(int i = 0; i < 3; i++)
+		{
+			for(int j = 0; j< 5; j++)
+			{
+				storageIcons[i, j] = storageUI[i].transform.GetChild(j).gameObject.GetComponent<Image>();
+			}
 		}
 
 		StartCoroutine(WaitUntilRelease());
@@ -284,6 +298,73 @@ public class PlayerController : MonoBehaviour {
 					storedSpells[emptySlot].GetComponent<Collider>().enabled = false;
 
 					storedSpells[emptySlot].gameObject.name = "Stored Spell " + emptySlot;
+
+					storageUI[emptySlot].color = Color.yellow;
+
+					List<string> moduleList = storedSpells[emptySlot].GetComponent<Spell>().Modules;
+
+					for(int i = 0; i < moduleList.Count; i++)
+					{
+						int moduleIndex = 0;
+
+						switch (moduleList[i])
+						{
+							case "Projectile":
+								moduleIndex = 0;
+
+								break;
+							case "Split":
+								moduleIndex = 1;
+
+								break;
+							case "Charge":
+								moduleIndex = 2;
+
+								break;
+							case "Touch":
+								moduleIndex = 3;
+
+								break;
+							case "AOE":
+								moduleIndex = 4;
+
+								break;
+							case "Proximity":
+								moduleIndex = 5;
+
+								break;
+							case "Timer":
+								moduleIndex = 6;
+
+								break;
+							case "Fire":
+								moduleIndex = 7;
+
+								break;
+							case "Push":
+								moduleIndex = 8;
+
+								break;
+							case "Pull":
+								moduleIndex = 9;
+
+								break;
+							case "Weight":
+								moduleIndex = 10;
+
+								break;
+							case "Barrier":
+								moduleIndex = 11;
+
+								break;
+							case "Null":
+								moduleIndex = 12;
+
+								break;
+						}
+
+						storageIcons[emptySlot, i].sprite = moduleSymbols[moduleIndex];
+					}
 				}
 			}
 		}
@@ -324,7 +405,7 @@ public class PlayerController : MonoBehaviour {
 		{
 			if (Input.GetButtonDown("Fire2"))
 			{
-				StartCoroutine(HandleCastingCooldown(storedSpells[selectedSpell]));
+				StartCoroutine(HandleCastingCooldown(storedSpells[selectedSpell], selectedSpell));
 
 				Destroy(storedSpells[selectedSpell].GetComponent<Rigidbody>());
 				
@@ -341,7 +422,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	//Handle casting cooldown
-	IEnumerator HandleCastingCooldown(GameObject scroll)
+	IEnumerator HandleCastingCooldown(GameObject scroll, int index)
 	{
 		isCastingCooldown = true;
 
@@ -351,6 +432,13 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		isSpellCasted = false;
+
+		storageUI[index].color = Color.clear;
+		
+		for (int i = 0; i < 5; i++)
+		{
+			storageIcons[index, i].sprite = moduleSymbols[13];
+		}
 
 		yield return new WaitForSeconds(castingDelay);
 
@@ -413,6 +501,7 @@ public class PlayerController : MonoBehaviour {
 	}
 	#endregion
 
+	/*
 	#region Crafting outline
 	//Handle crafting outline
 	void HandleCraftingOutline()
@@ -480,4 +569,5 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 	#endregion
+	*/
 }
