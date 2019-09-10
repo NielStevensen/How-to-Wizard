@@ -253,7 +253,7 @@ public class SpellModuleList : MonoBehaviour
 
                     lineSegments[simulatedSegments].transform.position = previousPoint; // place segments
                     lineSegments[simulatedSegments].transform.LookAt(nextPoint);
-                    lineSegments[simulatedSegments].transform.localScale = new Vector3(1,1, (nextPoint - previousPoint).magnitude /2);
+                    lineSegments[simulatedSegments].transform.localScale = new Vector3(0.1f, 0.1f, (nextPoint - previousPoint).magnitude /2);
                     simulatedSegments += 1;
                     if (Physics.Raycast(previousPoint, nextPoint - previousPoint, out hit, (nextPoint - previousPoint).magnitude))
                     {
@@ -266,7 +266,7 @@ public class SpellModuleList : MonoBehaviour
                 {
                     lineSegments[simulatedSegments].transform.position = previousPoint;
                     lineSegments[simulatedSegments].transform.LookAt(nextPoint);
-                    lineSegments[simulatedSegments].transform.localScale = new Vector3(1,1, 0);
+                    lineSegments[simulatedSegments].transform.localScale = new Vector3(0.1f,0.1f, 0);
                     simulatedSegments += 1;
                 }
 
@@ -345,8 +345,6 @@ public class SpellModuleList : MonoBehaviour
         float length; // length of segment
         float width; // width of segment
 
-		lineRenderer.enabled = true;
-
 		RaycastHit hit = new RaycastHit();
         bool hitTest = false;
 
@@ -382,7 +380,9 @@ public class SpellModuleList : MonoBehaviour
 			float tempWidth = 0.0125f + Mathf.Min(holdTime / maxChargeTime, 1.0f) / 10.0f;
 
             width = tempWidth;
-            line.transform.localScale = new Vector3(width, length, width);
+            line.transform.localScale = new Vector3(width, width, length);
+            line.transform.position = transform.position;
+            line.transform.LookAt(hit.point);
 
 			yield return info;
 
@@ -405,7 +405,7 @@ public class SpellModuleList : MonoBehaviour
 		}
 		
 		yield return info;
-
+        Destroy(line);
 		NotifySpellCasted();
 	}
 
