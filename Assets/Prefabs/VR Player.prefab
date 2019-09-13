@@ -345,7 +345,7 @@ GameObject:
   - component: {fileID: 453097498408713135}
   - component: {fileID: 566533956092073944}
   - component: {fileID: 566533956092073943}
-  - component: {fileID: 566533956092073945}
+  - component: {fileID: 4038605667137200075}
   m_Layer: 12
   m_Name: Controller (right)
   m_TagString: Untagged
@@ -440,7 +440,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.14, y: 0.07, z: 0.05}
   m_Center: {x: 0, y: -0.04, z: 0.02}
---- !u!114 &566533956092073945
+--- !u!114 &4038605667137200075
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -449,19 +449,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 566533955625502683}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70fcfd83fe9aca944a9c485392d4698f, type: 3}
+  m_Script: {fileID: 11500000, guid: 7aec914f6c6585447a57f94e7d22df0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hand: 2
-  controllerPose: {fileID: 453097498408713135}
+  controllerPose: {fileID: 0}
   grabAction:
     actionPath: /actions/default/in/Grab
     needsReinit: 0
   holdAction:
     actionPath: /actions/default/in/Hold
     needsReinit: 0
-  beltSlots: 
-  beltObjects: []
+  beltSlots: 000000
+  beltObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &566533955625539791
 GameObject:
   m_ObjectHideFlags: 0
@@ -523,7 +526,7 @@ GameObject:
   - component: {fileID: 453097499242259495}
   - component: {fileID: 566533955655276907}
   - component: {fileID: 566533955655276906}
-  - component: {fileID: 566533955655276908}
+  - component: {fileID: 8535901819642959177}
   m_Layer: 12
   m_Name: Controller (left)
   m_TagString: Untagged
@@ -618,7 +621,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.14, y: 0.07, z: 0.05}
   m_Center: {x: 0, y: -0.04, z: 0.02}
---- !u!114 &566533955655276908
+--- !u!114 &8535901819642959177
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -627,19 +630,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 566533955625602557}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70fcfd83fe9aca944a9c485392d4698f, type: 3}
+  m_Script: {fileID: 11500000, guid: 7aec914f6c6585447a57f94e7d22df0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hand: 1
-  controllerPose: {fileID: 453097499242259495}
+  controllerPose: {fileID: 0}
   grabAction:
     actionPath: /actions/default/in/Grab
     needsReinit: 0
   holdAction:
     actionPath: /actions/default/in/Hold
     needsReinit: 0
-  beltSlots: 
-  beltObjects: []
+  beltSlots: 000000
+  beltObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &567231591221321047
 GameObject:
   m_ObjectHideFlags: 0

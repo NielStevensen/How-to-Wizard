@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5132976000728220494}
   - component: {fileID: 6073380489591304444}
   - component: {fileID: 2551445875031960927}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -213,7 +213,13 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 3172087284084602966, guid: 8532497de949ce64986e72fa49762ff2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8656756992304476484, guid: 8532497de949ce64986e72fa49762ff2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8532497de949ce64986e72fa49762ff2, type: 3}
 --- !u!4 &7104395965114590831 stripped
 Transform:

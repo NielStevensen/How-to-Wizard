@@ -73,9 +73,18 @@ public class PickupSpell : MonoBehaviour
         var joint = AddFixedJoint();
         joint.connectedBody = objectInHand.GetComponent<Rigidbody>();
 
-        if (objectInHand.GetComponent<CrystalInfo>())
+        if (objectInHand.GetComponent<CrystalInfo>() || objectInHand.GetComponent<Spell>())
         {
             objectInHand.GetComponent<Rigidbody>().isKinematic = false;
+        }
+
+        for (int i = 0; i < beltObjects.Length; i++) // check all slots to see if any are suitable
+        {
+            if (objectInHand.transform.parent == beltObjects[i].transform)
+            {
+                objectInHand.transform.SetParent(null);
+                beltSlots[i] = false;
+            }
         }
     }
 
@@ -97,7 +106,7 @@ public class PickupSpell : MonoBehaviour
             Destroy(GetComponent<FixedJoint>());
 
             bool belt = false;
-            foreach( bool a in beltSlots) // check all slots to see if any are suitable
+            foreach(bool a in beltSlots) // check all slots to see if any are suitable
             {
                 if (a)
                 {
@@ -121,17 +130,17 @@ public class PickupSpell : MonoBehaviour
             }
             else if (objectInHand.GetComponent<Spell>() != null) // if the spell is on the belt
             {
-                for(int i = 0; i > beltObjects.Length; i ++) // check all slots to see if any are suitable
+                for (int i = 0; i < beltObjects.Length; i ++) // check all slots to see if any are suitable
                 {
+                    
                     if (beltSlots[i] == true)
                     {
-                        Debug.Log("beltfound"); // not running
                         objectInHand.transform.SetParent(beltObjects[i].transform);
                         beltSlots[i] = false;
                     }
                 }
             }
-            else if (objectInHand.GetComponent<CrystalInfo>()) // dont apply force to crystals relased
+            else if (objectInHand.GetComponent<CrystalInfo>() || objectInHand.GetComponent<Spell>()) // dont apply force to crystals relased
             {
                 objectInHand.GetComponent<Rigidbody>().isKinematic = true;
             }
