@@ -15,7 +15,7 @@ public class ProjectileReturn : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (SpellModuleList.IsCurrentlyVR())
+        if (Info.IsCurrentlyVR())
         {
             if(collision.gameObject.layer == 8)
             {
