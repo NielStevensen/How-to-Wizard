@@ -17,7 +17,7 @@ public class BeltControl : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         canOccupy = true;
-        if (other.gameObject.GetComponent<Spell>() != null && !occupied)
+        if (other.gameObject.GetComponent<SpellModuleList>() != null && !occupied)
         {
             foreach (GameObject b in GetComponentInParent<BeltHolder>().slots)
             {
@@ -27,7 +27,7 @@ public class BeltControl : MonoBehaviour
                 }
             }
             FixedJoint[] toCheck = GameObject.FindObjectsOfType<FixedJoint>();
-            foreach(FixedJoint a in toCheck)
+            foreach (FixedJoint a in toCheck)
             {
                 if (canOccupy)
                 {
@@ -50,7 +50,7 @@ public class BeltControl : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other == occupant && occupied)
+        if (other.gameObject == occupant && occupied)
         {
             FixedJoint[] toCheck = GameObject.FindObjectsOfType<FixedJoint>();
             foreach (FixedJoint a in toCheck)

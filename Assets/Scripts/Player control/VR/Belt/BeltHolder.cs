@@ -11,6 +11,7 @@ public class BeltHolder : MonoBehaviour
     [Tooltip("propotion of the head height to place spell")]
     public float waistHeight;
     public GameObject[] slots;
+    public bool[] states;
 
     void Start()
     {

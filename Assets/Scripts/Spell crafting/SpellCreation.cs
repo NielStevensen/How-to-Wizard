@@ -49,7 +49,11 @@ public class SpellCreation : MonoBehaviour
             if (isValid == true) // if the spell passes all checks
             {
                 GameObject currentSpell = Instantiate(spellPrefab, spawnpoint.position, Quaternion.identity);// create a spell object
-                currentSpell.GetComponent<Spell>().Modules = spellInstructions; // add relevant modules to list
+                
+                for ( int i = 0; i < spellInstructions.Count; i++)
+                {
+                    currentSpell.GetComponent<Spell>().Modules.Add(spellInstructions[i]);
+                }
             }
             else
             {

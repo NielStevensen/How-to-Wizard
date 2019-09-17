@@ -68,15 +68,21 @@ public class PickupSpell : MonoBehaviour
     private void GrabObject()
     {
         objectInHand = collidingObject;
+
+        if (objectInHand.GetComponent<HourglassControl>() != null)
+        { 
+            if (!objectInHand.GetComponent<HourglassControl>().interactable) return; 
+        }
         collidingObject = null;
 
         var joint = AddFixedJoint();
         joint.connectedBody = objectInHand.GetComponent<Rigidbody>();
 
-        if (objectInHand.GetComponent<CrystalInfo>() || objectInHand.GetComponent<Spell>())
+        if (objectInHand.GetComponent<CrystalInfo>() || objectInHand.GetComponent<SpellModuleList>() || objectInHand.GetComponent<HourglassControl>())
         {
             objectInHand.GetComponent<Rigidbody>().isKinematic = false;
         }
+
 
         for (int i = 0; i < beltObjects.Length; i++) // check all slots to see if any are suitable
         {
@@ -112,10 +118,9 @@ public class PickupSpell : MonoBehaviour
                 {
                     belt = true;
                 }
-
             }
 
-            if (objectInHand.GetComponent<Spell>() != null && belt == false)
+            if (objectInHand.GetComponent<SpellModuleList>() != null && belt == false)
             {
                 SpellModuleList sml = objectInHand.GetComponent<SpellModuleList>(); // if the object is spell
 
@@ -128,7 +133,7 @@ public class PickupSpell : MonoBehaviour
                 objectInHand.GetComponent<Spell>().CallSpell();
                 objectInHand.transform.position = new Vector3(0, -100, 0);
             }
-            else if (objectInHand.GetComponent<Spell>() != null) // if the spell is on the belt
+            else if (objectInHand.GetComponent<SpellModuleList>() != null) // if the spell is on the belt
             {
                 for (int i = 0; i < beltObjects.Length; i ++) // check all slots to see if any are suitable
                 {
@@ -136,13 +141,20 @@ public class PickupSpell : MonoBehaviour
                     if (beltSlots[i] == true)
                     {
                         objectInHand.transform.SetParent(beltObjects[i].transform);
+                        objectInHand.GetComponent<Rigidbody>().isKinematic = true;
                         beltSlots[i] = false;
                     }
                 }
             }
-            else if (objectInHand.GetComponent<CrystalInfo>() || objectInHand.GetComponent<Spell>()) // dont apply force to crystals relased
+            else if (objectInHand.GetComponent<CrystalInfo>()) // dont apply force to certain released objects
             {
                 objectInHand.GetComponent<Rigidbody>().isKinematic = true;
+            }
+            else if (objectInHand.GetComponent<HourglassControl>()) // call horglass back to belt
+            {
+                objectInHand.GetComponent<HourglassControl>().CallReturnToBelt();
+                objectInHand.GetComponent<Rigidbody>().isKinematic = true;
+                objectInHand.GetComponent<HourglassControl>().interactable = false;
             }
             else // throw other objects with normal velocity
             {
