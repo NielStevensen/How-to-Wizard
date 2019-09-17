@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.VR;
 using Valve.VR;
 
 public class SpellModuleList : MonoBehaviour
@@ -104,7 +103,7 @@ public class SpellModuleList : MonoBehaviour
 
 		lineRenderer = GetComponent<LineRenderer>();
 
-        if (IsCurrentlyVR())
+        if (Info.IsCurrentlyVR())
         {
             rotationReference = FindObjectOfType<InheritYRotation>().gameObject;
         }
@@ -221,7 +220,7 @@ public class SpellModuleList : MonoBehaviour
         Vector3 previousPoint = transform.position;
         Vector3 nextPoint = transform.position;
 
-        bool isVR = IsCurrentlyVR();
+        bool isVR = Info.IsCurrentlyVR();
 
         if (!isVR)
         {
@@ -348,7 +347,7 @@ public class SpellModuleList : MonoBehaviour
 		RaycastHit hit = new RaycastHit();
         bool hitTest = false;
 
-		bool isVR = IsCurrentlyVR();
+		bool isVR = Info.IsCurrentlyVR();
 
 		Vector3 origin;
 		Vector3 direction;
@@ -429,7 +428,7 @@ public class SpellModuleList : MonoBehaviour
         GameObject aoeObject = null;
         Vector3 touchPoint = Vector3.zero;
 
-        if (!IsCurrentlyVR())
+        if (!Info.IsCurrentlyVR())
         {
             touchPoint = transform.position + transform.forward * touchDistance;
 
@@ -467,7 +466,7 @@ public class SpellModuleList : MonoBehaviour
 	//Notify player control scripts that the spell has been cast and that the cooldown should start depleting
 	void NotifySpellCasted()
 	{
-		if (IsCurrentlyVR())
+		if (Info.IsCurrentlyVR())
 		{
 
 		}
@@ -692,15 +691,6 @@ public class SpellModuleList : MonoBehaviour
 		yield return info;
 	}
 	#endregion
-
-	//Determine if VR is being used
-	public static bool IsCurrentlyVR()
-	{
-		var inputDevices = new List<UnityEngine.XR.InputDevice>();
-		UnityEngine.XR.InputDevices.GetDevices(inputDevices);
-
-		return inputDevices.Count > 0;
-	}
 }
 
 //Data used for spell behaviours
