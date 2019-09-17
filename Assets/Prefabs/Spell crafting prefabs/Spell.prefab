@@ -127,7 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ignoreRays:
     serializedVersion: 2
-    m_Bits: 260
+    m_Bits: 14116
   hand: 0
   handTransform: {fileID: 0}
   obj: {fileID: 0}
@@ -279,6 +279,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7585976291535763643}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: 66e0ddd9e01f41f49a48947b0b85db10,
+        type: 3}
+      propertyPath: m_Name
+      value: Closed Spell Scroll
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 66e0ddd9e01f41f49a48947b0b85db10,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 66e0ddd9e01f41f49a48947b0b85db10,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -349,17 +359,7 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 66e0ddd9e01f41f49a48947b0b85db10,
-        type: 3}
-      propertyPath: m_Name
-      value: Closed Spell Scroll
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 66e0ddd9e01f41f49a48947b0b85db10,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -6054058774237248251, guid: 66e0ddd9e01f41f49a48947b0b85db10,
+    - target: {fileID: -113181020801827196, guid: 66e0ddd9e01f41f49a48947b0b85db10,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -369,7 +369,7 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 1219f5efd2afe4342af6cc1516d511f0, type: 2}
-    - target: {fileID: -113181020801827196, guid: 66e0ddd9e01f41f49a48947b0b85db10,
+    - target: {fileID: -6054058774237248251, guid: 66e0ddd9e01f41f49a48947b0b85db10,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

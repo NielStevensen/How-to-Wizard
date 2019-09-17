@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class FinalizeSpell : MonoBehaviour
 {
+    private SpellCreation master;
+
+    private void Start()
+    {
+        master = GetComponentInParent<SpellCreation>();
+    }
+
     // Start is called before the first frame update
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<PickupSpell>())
+        if (!master.isCraftCooldown && master.isSpellCollected && other.GetComponent<PickupSpell>())
         {
-            GetComponentInParent<SpellCreation>().Invoke("ConfirmSpell", 0);
+            master.Invoke("ConfirmSpell", 0);
         }
     }
 }

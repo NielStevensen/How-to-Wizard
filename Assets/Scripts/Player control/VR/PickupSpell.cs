@@ -17,6 +17,15 @@ public class PickupSpell : MonoBehaviour
     public bool[] beltSlots;
     public GameObject[] beltObjects;
 
+    //Refernce to creation area to noptify that a spell has been picked up
+    private SpellCreation creationArea;
+
+    //Set reference
+    private void Start()
+    {
+        creationArea = FindObjectOfType<SpellCreation>();
+    }
+
     private void Update()
     {
         
@@ -69,21 +78,29 @@ public class PickupSpell : MonoBehaviour
     {
         objectInHand = collidingObject;
 
-        if (objectInHand.GetComponent<HourglassControl>() != null)
+        HourglassControl hourglassRef = objectInHand.GetComponent<HourglassControl>();
+        SpellModuleList scrollRef = objectInHand.GetComponent<SpellModuleList>();
+
+        if (hourglassRef != null)
         { 
-            if (!objectInHand.GetComponent<HourglassControl>().interactable) return; 
+            if (!hourglassRef.interactable) return; 
         }
+
         collidingObject = null;
 
         var joint = AddFixedJoint();
         joint.connectedBody = objectInHand.GetComponent<Rigidbody>();
 
-        if (objectInHand.GetComponent<CrystalInfo>() || objectInHand.GetComponent<SpellModuleList>() || objectInHand.GetComponent<HourglassControl>())
+        if (objectInHand.GetComponent<CrystalInfo>() || scrollRef != null || hourglassRef != null)
         {
             objectInHand.GetComponent<Rigidbody>().isKinematic = false;
         }
-
-
+        
+        if (scrollRef != null && scrollRef.transform.parent == null)
+        {
+            creationArea.isSpellCollected = true;
+        }
+        
         for (int i = 0; i < beltObjects.Length; i++) // check all slots to see if any are suitable
         {
             if (objectInHand.transform.parent == beltObjects[i].transform)
@@ -131,7 +148,10 @@ public class PickupSpell : MonoBehaviour
                 sml.projectileAngularV = controllerPose.GetAngularVelocity();
 
                 objectInHand.GetComponent<Spell>().CallSpell();
-                objectInHand.transform.position = new Vector3(0, -100, 0);
+                for (int i = 0; i < 3; i++)
+                {
+                    objectInHand.transform.GetChild(0).GetChild(i).gameObject.GetComponent<Renderer>().enabled = false;
+                }
             }
             else if (objectInHand.GetComponent<SpellModuleList>() != null) // if the spell is on the belt
             {

@@ -182,7 +182,7 @@ public class SpellModuleList : MonoBehaviour
 
 			if (!dc.result.shouldContinue)
 			{
-                yield break;
+                break;
 			}
             
 			info.potency = dc.result.potency;
@@ -356,7 +356,7 @@ public class SpellModuleList : MonoBehaviour
         {
             if (isVR)
             {
-				origin = obj.gameObject.transform.position;
+				origin = handTransform.position;
 				direction = handTransform.forward;
             }
             else
@@ -380,7 +380,7 @@ public class SpellModuleList : MonoBehaviour
 
             width = tempWidth;
             line.transform.localScale = new Vector3(width, width, length);
-            line.transform.position = transform.position;
+            line.transform.position = handTransform.position;
             line.transform.LookAt(hit.point);
 
 			yield return info;

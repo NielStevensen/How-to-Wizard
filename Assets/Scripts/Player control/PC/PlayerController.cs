@@ -207,22 +207,37 @@ public class PlayerController : MonoBehaviour {
 				{
 					if (isSpellCollected)
 					{
-						isSpellCollected = false;
+                        DeselectCrystals();
 
-						DeselectCrystals();
+                        bool areSlottedCrystals = false;
 
-						StartCoroutine(HandleCraftingCooldown());
+                        foreach(GameObject obj in slottedCrystals)
+                        {
+                            if(obj != null)
+                            {
+                                areSlottedCrystals = true;
 
-						for (int i = 0; i < 5; i++)
-						{
-							if (slottedCrystals[i] != null)
-							{
-								crystalSlots[i].attachedModule = slottedCrystals[i].GetComponent<CrystalInfo>().module;
-								crystalSlots[i].attachedType = slottedCrystals[i].GetComponent<CrystalInfo>().moduleType;
-							}
-						}
+                                break;
+                            }
+                        }
 
-						table.ConfirmSpell();
+                        if (areSlottedCrystals)
+                        {
+                            isSpellCollected = false;
+
+                            StartCoroutine(HandleCraftingCooldown());
+
+                            for (int i = 0; i < 5; i++)
+                            {
+                                if (slottedCrystals[i] != null)
+                                {
+                                    crystalSlots[i].attachedModule = slottedCrystals[i].GetComponent<CrystalInfo>().module;
+                                    crystalSlots[i].attachedType = slottedCrystals[i].GetComponent<CrystalInfo>().moduleType;
+                                }
+                            }
+
+                            table.ConfirmSpell();
+                        }
 					}
 				}
 				else if (hit.collider.gameObject.GetComponent<Button>())

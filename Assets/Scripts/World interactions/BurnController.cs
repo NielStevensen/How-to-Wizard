@@ -54,10 +54,18 @@ public class BurnController : MonoBehaviour
 			yield return new WaitForEndOfFrame();
 		}
 
-		//temp?
-		if (burnTime == 2.5f)
-			FindObjectOfType<PlayerController>().isSpellCollected = true;
-
+        if (burnTime == 2.5f)
+        {
+            if (Info.IsCurrentlyVR())
+            {
+                FindObjectOfType<SpellCreation>().isSpellCollected = true;
+            }
+            else
+            {
+                FindObjectOfType<PlayerController>().isSpellCollected = true;
+            }
+        }
+        
         Destroy(gameObject);
 	}
 }

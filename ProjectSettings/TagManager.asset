@@ -6,6 +6,8 @@ TagManager:
   tags:
   - ModuleZone
   - Interactable
+  - RightHand
+  - LeftHand
   layers:
   - Default
   - TransparentFX

@@ -13,11 +13,13 @@ public class SpellCreation : MonoBehaviour
     public GameObject IncorrectSpell;
     public Transform spawnpoint;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    //VR crafting cooldown
+    [Tooltip("The cooldown on crafting after clicking the craft confirm.")]
+    public float craftCooldown = 2.5f;
+    [HideInInspector]
+    public bool isCraftCooldown = false;
+    [HideInInspector]
+    public bool isSpellCollected = true;
 
     // Update is called once per frame
     public void ConfirmSpell()
@@ -39,8 +41,13 @@ public class SpellCreation : MonoBehaviour
         // check valididty
         if (moduletypes.Count > 0)
         {
+            isSpellCollected = false;
+
+            StartCoroutine(HandleCraftingCooldown());
+
             if (moduletypes[0] != 0) isValid = false; // if the first is  a primary
             if (moduletypes.Count > 1) if (moduletypes[1] == 0) isValid = false; // if there is a second and second is a not primary
+
             for (int j = 2; j < moduletypes.Count; j++)
             {
                 if (moduletypes[j] != 2) isValid = false; // if anthing from 3 - 5 is not an effect set false
@@ -60,5 +67,15 @@ public class SpellCreation : MonoBehaviour
                 Instantiate(IncorrectSpell, spawnpoint.position, Quaternion.identity);
             }
         }
+    }
+    
+    //Handle crafting cooldown while a spell is crafting
+    IEnumerator HandleCraftingCooldown()
+    {
+        isCraftCooldown = true;
+
+        yield return new WaitForSeconds(craftCooldown);
+
+        isCraftCooldown = false;
     }
 }
