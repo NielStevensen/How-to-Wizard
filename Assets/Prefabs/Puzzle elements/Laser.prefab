@@ -135,6 +135,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6a94dcc3e6f38041a9c4010cd5d48a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startsActivated: 1
   isActivated: 1
   rotationSpeed: 0
   laserOrigin: {fileID: 3640641171931470119}
+  laserPrefab: {fileID: 7658771609124669935, guid: 27d2b689845dde640aa4d5de692e1948,
+    type: 3}

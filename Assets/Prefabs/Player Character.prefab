@@ -616,19 +616,19 @@ MonoBehaviour:
   - {fileID: 2979620391205457262}
   - {fileID: 2488986370106794897}
   moduleSymbols:
-  - {fileID: 21300000, guid: 9017924cf55e95649be9ddc0ab5dae4c, type: 3}
-  - {fileID: 21300000, guid: 1b301010ae317924d8c4291015127466, type: 3}
-  - {fileID: 21300000, guid: 5445d573cfe07e74dba00c6d1f2494df, type: 3}
-  - {fileID: 21300000, guid: 86d90e0db4f9c33408dadfb6f508cb0a, type: 3}
-  - {fileID: 21300000, guid: afa76d96ce4bd9d48a02ce2a9ee39b04, type: 3}
-  - {fileID: 21300000, guid: 59d333129378b4a41ad587a6b72a399a, type: 3}
-  - {fileID: 21300000, guid: 3623c607e77007b40ae5c201307a4e8d, type: 3}
-  - {fileID: 21300000, guid: b293fdebd0dbcd04593f3a4017e41d3a, type: 3}
-  - {fileID: 21300000, guid: ee805f4e8e6008346bda54177e06c9ab, type: 3}
-  - {fileID: 21300000, guid: c78dc561f589cda41be4e42daab5c0e4, type: 3}
-  - {fileID: 21300000, guid: 33e5f2042e6b66d46a2a8b2bf46acacd, type: 3}
-  - {fileID: 21300000, guid: 994869fd41fe6aa4997ff97ee0e05f45, type: 3}
-  - {fileID: 21300000, guid: 7c570dfabda2ca4479be7fbfea79bb3a, type: 3}
+  - {fileID: 21300000, guid: d310977261fab4545bf85ac3080d9058, type: 3}
+  - {fileID: 21300000, guid: 5d4c7ca9f141bb145a1bb26fc4293703, type: 3}
+  - {fileID: 21300000, guid: dac864ac6199d284d90646c1f01ff13a, type: 3}
+  - {fileID: 21300000, guid: 5142a3f7f5581f3499341495b07df515, type: 3}
+  - {fileID: 21300000, guid: 24e1db7f78d8d5d49999ea7a61518615, type: 3}
+  - {fileID: 21300000, guid: 4983d30c10ff9284cb271cbb82c0b3f7, type: 3}
+  - {fileID: 21300000, guid: 160278c330c50d74e95cf147b4c42639, type: 3}
+  - {fileID: 21300000, guid: 545ec611c61a0a54dabc921c0a8ec2a9, type: 3}
+  - {fileID: 21300000, guid: 7742d13e348d2d642a04b75fdefd9315, type: 3}
+  - {fileID: 21300000, guid: 74d95d4df0a229b408392be19030f55b, type: 3}
+  - {fileID: 21300000, guid: e8d56f145feb84f439cd315ddf819802, type: 3}
+  - {fileID: 21300000, guid: 1ff0a8d6dd24f1444bd410b8cf5f8d64, type: 3}
+  - {fileID: 21300000, guid: 7003e54740cbb094b99a89e38730ec24, type: 3}
   - {fileID: 21300000, guid: 90120df2d9d010244908143e01442932, type: 3}
   selectionBorder: {fileID: 1459761152978484664}
   isSpellCollected: 1

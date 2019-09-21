@@ -304,7 +304,9 @@ public class SpellModuleList : MonoBehaviour
 
             yield return info;
 
-            yield break;
+			NotifySpellCasted();
+
+			yield break;
         }
         
         info.potency = 1;
@@ -380,7 +382,7 @@ public class SpellModuleList : MonoBehaviour
 
             width = tempWidth;
             line.transform.localScale = new Vector3(width, width, length);
-            line.transform.position = handTransform.position;
+            line.transform.position = origin;
             line.transform.LookAt(hit.point);
 
 			yield return info;

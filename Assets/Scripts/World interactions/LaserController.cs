@@ -18,13 +18,22 @@ public class LaserController : MonoBehaviour
 	//Impact object
 	private GameObject impactObject;
 	private NullManager nullManager;
-	
+
+	[Space(10)]
+
+	//Laser visualisation
+	[Tooltip("Laser visualisation object.")]
+	public GameObject laserPrefab;
+	private GameObject laserObject;
+
 	//Log an error if there is no origin
 	void Start()
 	{
 		Debug.Assert(laserOrigin != null, gameObject.name + " does not have a laser origin!");
 		
 		isActivated = startsActivated;
+
+		laserObject = Instantiate(laserPrefab, laserOrigin.position, laserOrigin.rotation, laserOrigin);
 	}
 	
 	//Handle laser and impact
@@ -33,11 +42,15 @@ public class LaserController : MonoBehaviour
 		if (isActivated)
 		{
 			RaycastHit hit;
-			
-			Debug.DrawLine(laserOrigin.position, laserOrigin.position + Vector3.Normalize(laserOrigin.forward) * 1000.0f, Color.red);
-			
+
+			//Debug.DrawLine(laserOrigin.position, laserOrigin.position + Vector3.Normalize(laserOrigin.forward) * 1000.0f, Color.red);
+
+			float laserLength = 1000.0f;
+
 			if (Physics.Raycast(laserOrigin.position, laserOrigin.forward, out hit, 1000.0f))
 			{
+				laserLength = hit.distance / 2;
+
 				if (hit.collider.gameObject != impactObject)
 				{
 					impactObject = hit.collider.gameObject;
@@ -64,7 +77,10 @@ public class LaserController : MonoBehaviour
 					}
 				}
 			}
-			
+
+			laserObject.transform.localScale = new Vector3(0.0625f, 0.0625f, laserLength);
+			laserObject.transform.LookAt(hit.point);
+
 			if (rotationSpeed != 0)
 			{
 				currentRotation.y += rotationSpeed;
