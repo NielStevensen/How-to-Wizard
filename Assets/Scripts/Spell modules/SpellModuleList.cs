@@ -371,7 +371,7 @@ public class SpellModuleList : MonoBehaviour
 			
 			if (hitTest)
             {
-                length = (origin - hit.point).magnitude;
+                length = (origin - hit.point).magnitude / 2;
             }
 			else
 			{

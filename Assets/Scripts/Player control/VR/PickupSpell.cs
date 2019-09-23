@@ -148,7 +148,7 @@ public class PickupSpell : MonoBehaviour
                 sml.projectileAngularV = controllerPose.GetAngularVelocity();
 
                 objectInHand.GetComponent<Spell>().CallSpell();
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     objectInHand.transform.GetChild(0).GetChild(i).gameObject.GetComponent<Renderer>().enabled = false;
                 }

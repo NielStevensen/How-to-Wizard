@@ -12,13 +12,16 @@ public class Conveyor : MonoBehaviour
     // Update is called once per frame
     private void OnTriggerStay(Collider other)
     {
-        if(other.GetComponent<Rigidbody>() != null)
+        if(other.tag == "Interactable")
         {
-            other.GetComponent<Rigidbody>().velocity = other.GetComponent<Rigidbody>().velocity + (transform.forward * Movespeed);
-        }
-        else if (canUseTransfrom)
-        {
-            transform.Translate(transform.forward * Movespeed);
+            if (other.GetComponent<Rigidbody>() != null)
+            {
+                other.GetComponent<Rigidbody>().velocity = other.GetComponent<Rigidbody>().velocity + (transform.forward * Movespeed);
+            }
+            else if (canUseTransfrom)
+            {
+                transform.Translate(transform.forward * Movespeed);
+            }
         }
     }
 }

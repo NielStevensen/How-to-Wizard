@@ -124,6 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetObstacles: []
+  targetLasers: []
   flame: {fileID: 4249528387304176073}
   isActivated: 0
 --- !u!114 &8156899385643631830
@@ -139,6 +140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isNulled: 0
+  willNullDestroy: 0
   nullShader: {fileID: 4800000, guid: 358e88ce5fba08e48ae42706c075c8ea, type: 3}
   isProjection: 0
 --- !u!1001 &1994301388324454211
@@ -148,16 +150,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6903928704743755145}
     m_Modifications:
-    - target: {fileID: 2401673171101124234, guid: 2e5c56e3f6be5d14a80f1f0895d81915,
-        type: 3}
-      propertyPath: m_Name
-      value: Fire
-      objectReference: {fileID: 0}
-    - target: {fileID: 2401673171101124234, guid: 2e5c56e3f6be5d14a80f1f0895d81915,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7893175302870560888, guid: 2e5c56e3f6be5d14a80f1f0895d81915,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -227,6 +219,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2401673171101124234, guid: 2e5c56e3f6be5d14a80f1f0895d81915,
+        type: 3}
+      propertyPath: m_Name
+      value: Fire
+      objectReference: {fileID: 0}
+    - target: {fileID: 2401673171101124234, guid: 2e5c56e3f6be5d14a80f1f0895d81915,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e5c56e3f6be5d14a80f1f0895d81915, type: 3}

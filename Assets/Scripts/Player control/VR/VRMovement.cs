@@ -9,38 +9,80 @@ public class VRMovement : MonoBehaviour
 	[Tooltip("Whether the player is moving via trackpad or teleportation.")]
 	public bool isTeleportation = true;
 
-    public LayerMask ignoreRays;
+    [Space(10)]
+
+    //Controller variables
+    [Tooltip("The hand that controls movement.")]
     public SteamVR_Input_Sources hand;
+    [Tooltip("The object representing the controlling hand.")]
 	public GameObject handObject;
-    public Transform cameraTransform;
+    private Transform cameraTransform;
+    private Transform rotationReference;
+    [Tooltip("Teleportation input.")]
+    public SteamVR_Action_Boolean teleportAction;
+    [Tooltip("Movement input.")]
     public SteamVR_Action_Vector2 moveAction;
-	public SteamVR_Action_Boolean teleportAction;
+
+    [Space(10)]
+
+    //hitbox variables
+    [Tooltip("Minimum playfield size.")]
+    public Vector2 minPlayfieldSize = new Vector2(0.25f, 0.25f);
+    [Tooltip("Maximum playfield size.")]
+    public Vector2 maxPlayfieldSize = new Vector2(2.5f, 2.5f);
+    private Vector3 currentPlayfieldSize = new Vector3(0.25f, 2.0f, 0.25f);
+    private BoxCollider hitbox;
+
+    [Space(10)]
+
+    //Teleportation variables
+    //Raycast info
+    [Tooltip("The maximum distance players can teleport.")]
+    public float teleportMaxDistance = 7.5f;
+    [Tooltip("Layers the teleport raycast ignores.")]
+    public LayerMask teleportLayerMask;
+    [Tooltip("Teleport ray visualisation object.")]
+    public GameObject visualisationPrefab;
+    private GameObject visualisationObject;
+	private Vector3 teleportLocation;
 	
-	//Raycast info
-	public float teleportMaxDistance = 7.5f;
-	RaycastHit teleportHit;
-	Vector3 teleportLocation;
-	public LineRenderer lineRenderer;
-	
-	//Movement speed of the player
+    //Trackpad movement variables
+	//Movement values
 	[Tooltip("Movement speed of the player.")]
     public float movementSpeed = 5.0f;
+    [Tooltip("Layers the moveemnt raycast ignores.")]
+    public LayerMask movementLayerMask;
 
     //Movement expressed as a vector3
     private Vector3 movement = Vector3.zero;
 
-	//Trackpad deadzone
-	[Tooltip("Trackpad deadzone.")]
-	public float deadzone = 0.1f;
-	
-	//Handle movement and phone
-	void Update()
+    //Raycast hit
+    private RaycastHit hit;
+    
+
+    //Set player hitbox values
+    private void Start()
+    {
+        cameraTransform = GetComponentInChildren<Camera>().transform;
+        rotationReference = GetComponentInChildren<InheritYRotation>().transform;
+
+        hitbox = GetComponent<BoxCollider>();
+
+        Vector2 size = DeterminePlayAreaSize();
+
+        currentPlayfieldSize = new Vector3(size.x, 2.0f, size.y);
+
+        hitbox.size = currentPlayfieldSize;
+    }
+
+    //Handle movement and phone
+    void Update()
     {
 		if (isTeleportation)
 		{
 			if (teleportAction.GetLastState(hand))
 			{
-				if (Physics.Raycast(handObject.transform.position, handObject.transform.forward, out teleportHit, teleportMaxDistance, ~ignoreRays))
+				if (Physics.Raycast(handObject.transform.position, handObject.transform.forward, out hit, teleportMaxDistance, ~teleportLayerMask))
 				{
 					//test location of hit
 					//test based on an ideal size
@@ -66,22 +108,42 @@ public class VRMovement : MonoBehaviour
 		}
 		else
 		{
-			if(Vector2.Distance(Vector2.zero, new Vector2(moveAction.GetAxis(hand).x, moveAction.GetAxis(hand).y)) > deadzone)
-			{
-				movement = Vector3.Normalize(new Vector3(moveAction.GetAxis(hand).x, 0, moveAction.GetAxis(hand).y)) * movementSpeed;
-				movement = cameraTransform.TransformDirection(movement);
-			}
-            else
-            {
-                movement = Vector3.zero;
-            }
-			
-			CharacterController characterController = GetComponent<CharacterController>();
+            Vector3 origin = transform.position;
 
-			if (characterController.enabled)
-			{
-				characterController.Move(movement * Time.deltaTime);
-			}
+            if (Physics.Raycast(cameraTransform.position, transform.up * -1, out hit, 1000.0f, movementLayerMask))
+            {
+                origin.y = (cameraTransform.position.y + hit.point.y) / 2;
+                currentPlayfieldSize.y = hit.distance;
+                hitbox.size = currentPlayfieldSize;
+                hitbox.center = new Vector3(0, hit.distance / 2, 0);
+            }
+            
+            movement = Vector3.Normalize(new Vector3(moveAction.GetAxis(hand).x, 0, moveAction.GetAxis(hand).y)) * movementSpeed;
+			movement = rotationReference.TransformDirection(movement);
+
+            //boxcast in the direction of the movement
+            //if no collision, translate based on movement
+            //if collision, move based on hit distance
+            
+            if (Physics.BoxCast(origin, currentPlayfieldSize / 2.0f, movement, out hit, Quaternion.identity, movement.magnitude, movementLayerMask))
+            {
+                movement *= (hit.distance / movement.magnitude);
+
+                //print(hit.collider.gameObject.name);
+            }
+
+            transform.Translate(movement * Time.deltaTime);
 		}
+    }
+
+    Vector2 DeterminePlayAreaSize()
+    {
+        HmdQuad_t hmdRef = new HmdQuad_t();
+        OpenVR.Chaperone.GetPlayAreaRect(ref hmdRef);
+        
+        float maxX = Mathf.Max(Mathf.Abs(hmdRef.vCorners0.v0 - hmdRef.vCorners2.v0), Mathf.Abs(hmdRef.vCorners1.v0 - hmdRef.vCorners3.v0));
+        float maxZ = Mathf.Max(Mathf.Abs(hmdRef.vCorners0.v2 - hmdRef.vCorners2.v2), Mathf.Abs(hmdRef.vCorners1.v2 - hmdRef.vCorners3.v2));
+
+        return new Vector2(Mathf.Max(Mathf.Min(maxX, maxPlayfieldSize.x), minPlayfieldSize.x), Mathf.Max(Mathf.Min(maxZ, maxPlayfieldSize.y), minPlayfieldSize.y));
     }
 }
