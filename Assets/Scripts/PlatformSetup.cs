@@ -33,10 +33,15 @@ public class PlatformSetup : MonoBehaviour
 
 		if (Info.IsCurrentlyVR())
 		{
-			foreach (PCCraftingZone obj in GameObject.FindObjectsOfType<PCCraftingZone>())
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            foreach (PCCraftingZone obj in GameObject.FindObjectsOfType<PCCraftingZone>())
 			{
 				destroyOnVR.Add(obj.gameObject);
 			}
+
+            destroyOnVR.Add(FindObjectOfType<PlayerController>().gameObject);
 
 			foreach(GameObject obj in destroyOnVR)
 			{
@@ -45,12 +50,17 @@ public class PlatformSetup : MonoBehaviour
 		}
 		else
 		{
-			foreach (DestroyCrstalRange obj in GameObject.FindObjectsOfType<DestroyCrstalRange>())
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
+            foreach (DestroyCrstalRange obj in GameObject.FindObjectsOfType<DestroyCrstalRange>())
 			{
 				destroyOnPC.Add(obj.gameObject);
 			}
-
-			foreach (GameObject obj in destroyOnPC)
+            
+            destroyOnPC.Add(FindObjectOfType<VRMovement>().gameObject);
+            
+            foreach (GameObject obj in destroyOnPC)
 			{
 				Destroy(obj);
 			}

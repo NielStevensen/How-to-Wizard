@@ -53,6 +53,8 @@ public class VRMovement : MonoBehaviour
     [Tooltip("Layers the moveemnt raycast ignores.")]
     public LayerMask movementLayerMask;
 
+    private Rigidbody rigidbody;
+
     //Movement expressed as a vector3
     private Vector3 movement = Vector3.zero;
 
@@ -60,25 +62,45 @@ public class VRMovement : MonoBehaviour
     private RaycastHit hit;
     
 
-    //Set player hitbox values
+    //Get references, set player y position and set hitbox values
     private void Start()
     {
         cameraTransform = GetComponentInChildren<Camera>().transform;
         rotationReference = GetComponentInChildren<InheritYRotation>().transform;
 
+        if (Physics.Raycast(cameraTransform.position, transform.up * -1, out hit, 1000.0f, movementLayerMask))
+        {
+            Vector3 temp = transform.position;
+            temp.y = hit.point.y + 0.0125f;
+
+            transform.position = temp;
+        }
+        else
+        {
+            this.enabled = false;
+        }
+        
         hitbox = GetComponent<BoxCollider>();
-
         Vector2 size = DeterminePlayAreaSize();
-
         currentPlayfieldSize = new Vector3(size.x, 2.0f, size.y);
-
         hitbox.size = currentPlayfieldSize;
+
+        rigidbody = GetComponent<Rigidbody>();
     }
 
-    //Handle movement and phone
+    //Handle hitbox, movement and teleportation
     void Update()
     {
-		if (isTeleportation)
+        //Handle hitbox
+        if (Physics.Raycast(cameraTransform.position, transform.up * -1, out hit, 1000.0f, movementLayerMask))
+        {
+            currentPlayfieldSize.y = Mathf.Min(cameraTransform.localPosition.y, 2.0f);
+            hitbox.size = currentPlayfieldSize;
+            hitbox.center = new Vector3(0, cameraTransform.localPosition.y / 2 + 0.0125f, 0);
+        }
+
+        //Handle locomotion
+        if (isTeleportation)
 		{
 			if (teleportAction.GetLastState(hand))
 			{
@@ -108,31 +130,10 @@ public class VRMovement : MonoBehaviour
 		}
 		else
 		{
-            Vector3 origin = transform.position;
-
-            if (Physics.Raycast(cameraTransform.position, transform.up * -1, out hit, 1000.0f, movementLayerMask))
-            {
-                origin.y = (cameraTransform.position.y + hit.point.y) / 2;
-                currentPlayfieldSize.y = hit.distance;
-                hitbox.size = currentPlayfieldSize;
-                hitbox.center = new Vector3(0, hit.distance / 2, 0);
-            }
-            
             movement = Vector3.Normalize(new Vector3(moveAction.GetAxis(hand).x, 0, moveAction.GetAxis(hand).y)) * movementSpeed;
 			movement = rotationReference.TransformDirection(movement);
 
-            //boxcast in the direction of the movement
-            //if no collision, translate based on movement
-            //if collision, move based on hit distance
-            
-            if (Physics.BoxCast(origin, currentPlayfieldSize / 2.0f, movement, out hit, Quaternion.identity, movement.magnitude, movementLayerMask))
-            {
-                movement *= (hit.distance / movement.magnitude);
-
-                //print(hit.collider.gameObject.name);
-            }
-
-            transform.Translate(movement * Time.deltaTime);
+            rigidbody.velocity = movement * Time.deltaTime;
 		}
     }
 

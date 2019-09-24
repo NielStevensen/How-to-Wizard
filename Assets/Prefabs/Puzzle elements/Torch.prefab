@@ -150,6 +150,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6903928704743755145}
     m_Modifications:
+    - target: {fileID: 2401673171101124234, guid: 2e5c56e3f6be5d14a80f1f0895d81915,
+        type: 3}
+      propertyPath: m_Name
+      value: Fire
+      objectReference: {fileID: 0}
+    - target: {fileID: 2401673171101124234, guid: 2e5c56e3f6be5d14a80f1f0895d81915,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7893175302870560888, guid: 2e5c56e3f6be5d14a80f1f0895d81915,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -219,16 +229,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2401673171101124234, guid: 2e5c56e3f6be5d14a80f1f0895d81915,
-        type: 3}
-      propertyPath: m_Name
-      value: Fire
-      objectReference: {fileID: 0}
-    - target: {fileID: 2401673171101124234, guid: 2e5c56e3f6be5d14a80f1f0895d81915,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e5c56e3f6be5d14a80f1f0895d81915, type: 3}

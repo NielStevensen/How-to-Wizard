@@ -43,8 +43,10 @@ public class SpellModuleList : MonoBehaviour
     public Vector3 projectileAngularV;
 	[HideInInspector]
 	public bool activeprojectile = true;
+    [HideInInspector]
+    public bool[] activeSplits = new bool[3] { true, true, true };
 
-	[Space(10)]
+    [Space(10)]
 
 	//Charge values
 	[Tooltip("The amount of time in seconds charge must be held to achieve maximum charge.")]
@@ -114,7 +116,7 @@ public class SpellModuleList : MonoBehaviour
     }
 
 	//Calls components based on a parsed list
-	public IEnumerator HandleSpell(List<string> modules)
+	public IEnumerator HandleSpell(List<string> modules , int modifier)
 	{
 		SpellInfo info = new SpellInfo(0, new List<Vector3>(), new List<GameObject>());
 
@@ -125,11 +127,11 @@ public class SpellModuleList : MonoBehaviour
 			switch (module)
 			{
 				case "Projectile":
-					dc = new DataCoroutine<SpellInfo>(this, Projectile(info));
+					dc = new DataCoroutine<SpellInfo>(this, Projectile(info, modifier));
 
 					break;
 				case "Split":
-					dc = new DataCoroutine<SpellInfo>(this, Split(info));
+					dc = new DataCoroutine<SpellInfo>(this, Split(info, modules));
 
 					break;
 				case "Charge":
@@ -182,6 +184,11 @@ public class SpellModuleList : MonoBehaviour
 
 			if (!dc.result.shouldContinue)
 			{
+                if(module == "Split")
+                {
+                    yield break;
+                }
+
                 break;
 			}
             
@@ -197,7 +204,7 @@ public class SpellModuleList : MonoBehaviour
 
 	#region Primary casting modules
 	//Throw a projectile
-	IEnumerator Projectile(SpellInfo info)
+	IEnumerator Projectile(SpellInfo info, int modifier)
 	{
         #region localVariables
         RaycastHit hit = new RaycastHit();
@@ -224,60 +231,67 @@ public class SpellModuleList : MonoBehaviour
 
         if (!isVR)
         {
-            while(lineSegments.Count < maxSimulationSegments)
-            {
-                lineSegments.Add(Instantiate(segment));
-                lineSegments[lineSegments.Count-1].name = lineSegments.Count.ToString();
-            }
-            while (Input.GetButton("Fire2"))
-            {
-                time = 0;
-                simulatedSegments = 0;
-                simulationComplete = false;
-                holdTime += Time.deltaTime;
-                power = Mathf.Min(holdTime, maxThrow) * 10;
-                direction = transform.forward;
-                speed = (direction * power).magnitude; //velocity if simulated throw
-
-                previousPoint = transform.position; // rest positions to prevent end to start relooping
-                nextPoint = transform.position;
-                //simulate arc for up to maximum number of segments
-                while (simulatedSegments < maxSimulationSegments && !simulationComplete)
+            if(modifier % 10 == 0)
+            { 
+                while(lineSegments.Count < maxSimulationSegments)
                 {
-                    previousPoint = nextPoint;
-                    time += (projectilePredictionDistance / 100) / speed; // simulated time for prediction based on length of rendered line
-                    nextPoint.x = transform.position.x + ((direction * power).x * time);
-                    nextPoint.y = transform.position.y + ((direction * power).y * time) + (0.5f * Physics.gravity.y * (time * time));
-                    nextPoint.z = transform.position.z + ((direction * power).z * time);
+                    lineSegments.Add(Instantiate(segment));
+                    lineSegments[lineSegments.Count-1].name = lineSegments.Count.ToString();
+                }
 
-                    lineSegments[simulatedSegments].transform.position = previousPoint; // place segments
-                    lineSegments[simulatedSegments].transform.LookAt(nextPoint);
-                    lineSegments[simulatedSegments].transform.localScale = new Vector3(0.1f, 0.1f, (nextPoint - previousPoint).magnitude /2);
-                    simulatedSegments += 1;
-                    if (Physics.Raycast(previousPoint, nextPoint - previousPoint, out hit, (nextPoint - previousPoint).magnitude))
+                while (Input.GetButton("Fire2"))
+                {
+                    time = 0;
+                    simulatedSegments = 0;
+                    simulationComplete = false;
+                    holdTime += Time.deltaTime;
+                    power = Mathf.Min(holdTime, maxThrow) * 10;
+                    direction = transform.forward;
+                    speed = (direction * power).magnitude; //velocity if simulated throw
+
+                    previousPoint = transform.position; // rest positions to prevent end to start relooping
+                    nextPoint = transform.position;
+                    //simulate arc for up to maximum number of segments
+                    while (simulatedSegments < maxSimulationSegments && !simulationComplete)
                     {
-                        nextPoint = hit.point;
-                        simulationComplete = true;
+                        previousPoint = nextPoint;
+                        time += (projectilePredictionDistance / 100) / speed; // simulated time for prediction based on length of rendered line
+                        nextPoint.x = transform.position.x + ((direction * power).x * time);
+                        nextPoint.y = transform.position.y + ((direction * power).y * time) + (0.5f * Physics.gravity.y * (time * time));
+                        nextPoint.z = transform.position.z + ((direction * power).z * time);
+
+                        lineSegments[simulatedSegments].transform.position = previousPoint; // place segments
+                        lineSegments[simulatedSegments].transform.LookAt(nextPoint);
+                        lineSegments[simulatedSegments].transform.localScale = new Vector3(0.1f, 0.1f, (nextPoint - previousPoint).magnitude / 2);
+                        simulatedSegments += 1;
+                        if (Physics.Raycast(previousPoint, nextPoint - previousPoint, out hit, (nextPoint - previousPoint).magnitude))
+                        {
+                            nextPoint = hit.point;
+                            simulationComplete = true;
+                        }
+
                     }
-
+                    while (simulatedSegments < maxSimulationSegments && simulationComplete)
+                    {
+                        lineSegments[simulatedSegments].transform.position = previousPoint;
+                        lineSegments[simulatedSegments].transform.LookAt(nextPoint);
+                        lineSegments[simulatedSegments].transform.localScale = new Vector3(0.1f, 0.1f, 0);
+                        simulatedSegments += 1;
+                    }
                 }
-                while (simulatedSegments < maxSimulationSegments && simulationComplete)
-                {
-                    lineSegments[simulatedSegments].transform.position = previousPoint;
-                    lineSegments[simulatedSegments].transform.LookAt(nextPoint);
-                    lineSegments[simulatedSegments].transform.localScale = new Vector3(0.1f,0.1f, 0);
-                    simulatedSegments += 1;
-                }
-
                 yield return info;
             }
         }
 
-        GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-        foreach(GameObject a in lineSegments)
+        foreach (GameObject a in lineSegments)
         {
             Destroy(a);
         }
+
+        GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+        projectile.GetComponent<ProjectileReturn>().modifier = modifier;
+        projectile.GetComponent<ProjectileReturn>().caller = this;
+
         if (isVR)
         {
             projectile.GetComponent<Rigidbody>().velocity = projectileVelocity * projectileSpeedMultiplier;
@@ -291,7 +305,7 @@ public class SpellModuleList : MonoBehaviour
             projectile.GetComponent<Rigidbody>().velocity = direction * power;
         }
         
-        projectile.GetComponent<ProjectileReturn>().caller = this;
+        if (modifier % 10 != 0) projectile.GetComponent<Rigidbody>().velocity += modifier * transform.right;
 
         while (activeprojectile)
         {
@@ -323,10 +337,15 @@ public class SpellModuleList : MonoBehaviour
 	}
 
 	//Comment
-	IEnumerator Split(SpellInfo info)
+	IEnumerator Split(SpellInfo info, List<string> modules)
 	{
 		playerRotation = rotationReference.transform.rotation;
-		
+        modules[0] = "Projectile";
+        for(int i = -1; i < 2; i ++)
+        {
+            StartCoroutine(HandleSpell(modules, i));
+        }
+
 		yield return info;
 
 		NotifySpellCasted();

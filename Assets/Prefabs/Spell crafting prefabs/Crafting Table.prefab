@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4116267500452961788}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1250325638669183118
 MonoBehaviour:
@@ -123,7 +123,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4116267500452961788}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8141869168508885766
 MonoBehaviour:
@@ -217,7 +217,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4116267500452961788}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2186152146510436170
 MonoBehaviour:
@@ -560,18 +560,18 @@ Transform:
   m_LocalScale: {x: -2, y: 1, z: 0.5}
   m_Children:
   - {fileID: 2290377076148353279}
+  - {fileID: 197283965469869870}
   - {fileID: 6013508531149723053}
   - {fileID: 3730913179155350630}
-  - {fileID: 197283965469869870}
   - {fileID: 3440443687637113625}
   - {fileID: 3358308779326781372}
   - {fileID: 2974109153821996710}
   - {fileID: 6317094347853516608}
   - {fileID: 4943030124169284336}
   - {fileID: 6023635952146476850}
-  - {fileID: 7752055733945395820}
   - {fileID: 5578939973386280087}
   - {fileID: 3528383424302632002}
+  - {fileID: 7752055733945395820}
   m_Father: {fileID: 8808826709072067645}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -604,7 +604,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4116267500452961788}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &247184769635663104
 MonoBehaviour:
@@ -802,7 +802,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4116267500452961788}
-  m_RootOrder: 10
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &987222583042423087
 MonoBehaviour:
@@ -1098,6 +1098,9 @@ MonoBehaviour:
   IncorrectSpell: {fileID: 7585976291535763584, guid: 0f2da0fdbd8d46c40af2f3c3e032aac3,
     type: 3}
   spawnpoint: {fileID: 5299744405202522479}
+  craftCooldown: 2.5
+  isCraftCooldown: 0
+  isSpellCollected: 1
 --- !u!1 &8808826709257156454
 GameObject:
   m_ObjectHideFlags: 0
@@ -1761,7 +1764,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4116267500452961788}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5302946627671929492
 MonoBehaviour:

@@ -94,9 +94,6 @@ public class PlayerController : MonoBehaviour {
 	//Set cursor state and set references
 	private void Start()
     {
-		Cursor.lockState = CursorLockMode.Locked;
-		Cursor.visible = false;
-
 		cameraTransform = transform.GetChild(0);
 		table = FindObjectOfType<SpellCreation>();
 

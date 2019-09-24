@@ -15,7 +15,7 @@ public class BeltHolder : MonoBehaviour
 
     void Start()
     {
-        relativeTo = GameObject.FindObjectOfType<Camera>().gameObject;
+        relativeTo = GameObject.FindObjectOfType<VRMovement>().gameObject.GetComponentInChildren<CameraController>().gameObject;
         Physics.Raycast(relativeTo.transform.position, transform.up* -1, out hit, 1000.0f, ~ignoreRays);
         floorY = hit.point.y;
     }

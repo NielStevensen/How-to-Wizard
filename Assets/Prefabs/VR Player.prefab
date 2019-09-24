@@ -529,11 +529,11 @@ GameObject:
   - component: {fileID: 566533955627580941}
   - component: {fileID: 566533955628613513}
   - component: {fileID: 566533955636717289}
-  - component: {fileID: 566533956968458581}
   - component: {fileID: 566533956849425427}
+  - component: {fileID: 5102720806463772587}
   - component: {fileID: 566533956968458582}
   - component: {fileID: 566533956968458576}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: VR Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -630,24 +630,6 @@ MonoBehaviour:
   - {x: -1.65, y: 0.01, z: -1.275}
   - {x: -1.65, y: 0.01, z: 1.275}
   - {x: 1.65, y: 0.01, z: 1.275}
---- !u!143 &566533956968458581
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 566533955625489579}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 0
-  m_StepOffset: 0
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!65 &566533956849425427
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -661,6 +643,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3, y: 2, z: 2}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!54 &5102720806463772587
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 566533955625489579}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 116
+  m_CollisionDetection: 0
 --- !u!114 &566533956968458582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -676,7 +674,6 @@ MonoBehaviour:
   isTeleportation: 0
   hand: 2
   handObject: {fileID: 566533955625502683}
-  cameraTransform: {fileID: 4202190373459026859}
   teleportAction:
     actionPath: /actions/default/in/Teleport
     needsReinit: 0
@@ -690,7 +687,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   visualisationPrefab: {fileID: 0}
-  movementSpeed: 2.5
+  movementSpeed: 200
   movementLayerMask:
     serializedVersion: 2
     m_Bits: 2048

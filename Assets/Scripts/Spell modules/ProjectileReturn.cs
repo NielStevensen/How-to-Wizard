@@ -12,6 +12,7 @@ public class ProjectileReturn : MonoBehaviour
     public Vector3 whereHit;
     [HideInInspector]
     public SpellModuleList caller;
+    public int modifier;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -26,7 +27,14 @@ public class ProjectileReturn : MonoBehaviour
             {
                 //transform.SetParent(null);
                 GetComponent<Rigidbody>().useGravity = true;
-                caller.activeprojectile = false;
+                if(modifier == 10)
+                {
+                    caller.activeprojectile = false;
+                }
+                else
+                {
+                    caller.activeSplits[modifier + 1] = false;
+                }
                 whatHit = collision.gameObject;
                 whereHit = collision.contacts[0].point;
                 Debug.Log(collision.gameObject.name);
@@ -38,8 +46,15 @@ public class ProjectileReturn : MonoBehaviour
 			{
 				//transform.SetParent(null);
 				GetComponent<Rigidbody>().useGravity = true;
-				caller.activeprojectile = false;
-				whatHit = collision.gameObject;
+                if (modifier == 10)
+                {
+                    caller.activeprojectile = false;
+                }
+                else
+                {
+                    caller.activeSplits[modifier + 1] = false;
+                }
+                whatHit = collision.gameObject;
 				whereHit = collision.contacts[0].point;
 				Debug.Log(collision.gameObject.name);
 			}
@@ -54,7 +69,14 @@ public class ProjectileReturn : MonoBehaviour
     IEnumerator destroyLifetime()
     {
         yield return new WaitForSeconds(lifeTime);
-        caller.activeprojectile = false;
+        if (modifier == 10)
+        {
+            caller.activeprojectile = false;
+        }
+        else
+        {
+            caller.activeSplits[modifier + 1] = false;
+        }
         Destroy(gameObject);
     }
 }

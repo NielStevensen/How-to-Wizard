@@ -17,6 +17,6 @@ public class Spell : MonoBehaviour
 		list.spellID = sie.currentSpellID;
 		sie.currentSpellID++;
 
-		list.StartCoroutine(list.HandleSpell(Modules));
+		list.StartCoroutine(list.HandleSpell(Modules, 10));
     }
 }
