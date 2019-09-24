@@ -231,56 +231,57 @@ public class SpellModuleList : MonoBehaviour
 
         if (!isVR)
         {
-            if(modifier % 10 == 0)
-            { 
-                while(lineSegments.Count < maxSimulationSegments)
-                {
-                    lineSegments.Add(Instantiate(segment));
-                    lineSegments[lineSegments.Count-1].name = lineSegments.Count.ToString();
-                }
+			if (modifier % 10 == 0)
+			{
+				while (lineSegments.Count < maxSimulationSegments)
+				{
+					lineSegments.Add(Instantiate(segment));
+					lineSegments[lineSegments.Count - 1].name = lineSegments.Count.ToString();
+				}
 
-                while (Input.GetButton("Fire2"))
-                {
-                    time = 0;
-                    simulatedSegments = 0;
-                    simulationComplete = false;
-                    holdTime += Time.deltaTime;
-                    power = Mathf.Min(holdTime, maxThrow) * 10;
-                    direction = transform.forward;
-                    speed = (direction * power).magnitude; //velocity if simulated throw
+				while (Input.GetButton("Fire2"))
+				{
+					time = 0;
+					simulatedSegments = 0;
+					simulationComplete = false;
+					holdTime += Time.deltaTime;
+					power = Mathf.Min(holdTime, maxThrow) * 10;
+					direction = transform.forward;
+					speed = (direction * power).magnitude; //velocity if simulated throw
 
-                    previousPoint = transform.position; // rest positions to prevent end to start relooping
-                    nextPoint = transform.position;
-                    //simulate arc for up to maximum number of segments
-                    while (simulatedSegments < maxSimulationSegments && !simulationComplete)
-                    {
-                        previousPoint = nextPoint;
-                        time += (projectilePredictionDistance / 100) / speed; // simulated time for prediction based on length of rendered line
-                        nextPoint.x = transform.position.x + ((direction * power).x * time);
-                        nextPoint.y = transform.position.y + ((direction * power).y * time) + (0.5f * Physics.gravity.y * (time * time));
-                        nextPoint.z = transform.position.z + ((direction * power).z * time);
+					previousPoint = transform.position; // rest positions to prevent end to start relooping
+					nextPoint = transform.position;
+					//simulate arc for up to maximum number of segments
+					while (simulatedSegments < maxSimulationSegments && !simulationComplete)
+					{
+						previousPoint = nextPoint;
+						time += (projectilePredictionDistance / 100) / speed; // simulated time for prediction based on length of rendered line
+						nextPoint.x = transform.position.x + ((direction * power).x * time);
+						nextPoint.y = transform.position.y + ((direction * power).y * time) + (0.5f * Physics.gravity.y * (time * time));
+						nextPoint.z = transform.position.z + ((direction * power).z * time);
 
-                        lineSegments[simulatedSegments].transform.position = previousPoint; // place segments
-                        lineSegments[simulatedSegments].transform.LookAt(nextPoint);
-                        lineSegments[simulatedSegments].transform.localScale = new Vector3(0.1f, 0.1f, (nextPoint - previousPoint).magnitude / 2);
-                        simulatedSegments += 1;
-                        if (Physics.Raycast(previousPoint, nextPoint - previousPoint, out hit, (nextPoint - previousPoint).magnitude))
-                        {
-                            nextPoint = hit.point;
-                            simulationComplete = true;
-                        }
+						lineSegments[simulatedSegments].transform.position = previousPoint; // place segments
+						lineSegments[simulatedSegments].transform.LookAt(nextPoint);
+						lineSegments[simulatedSegments].transform.localScale = new Vector3(0.1f, 0.1f, (nextPoint - previousPoint).magnitude / 2);
+						simulatedSegments += 1;
+						if (Physics.Raycast(previousPoint, nextPoint - previousPoint, out hit, (nextPoint - previousPoint).magnitude))
+						{
+							nextPoint = hit.point;
+							simulationComplete = true;
+						}
 
-                    }
-                    while (simulatedSegments < maxSimulationSegments && simulationComplete)
-                    {
-                        lineSegments[simulatedSegments].transform.position = previousPoint;
-                        lineSegments[simulatedSegments].transform.LookAt(nextPoint);
-                        lineSegments[simulatedSegments].transform.localScale = new Vector3(0.1f, 0.1f, 0);
-                        simulatedSegments += 1;
-                    }
-                }
-                yield return info;
-            }
+					}
+					while (simulatedSegments < maxSimulationSegments && simulationComplete)
+					{
+						lineSegments[simulatedSegments].transform.position = previousPoint;
+						lineSegments[simulatedSegments].transform.LookAt(nextPoint);
+						lineSegments[simulatedSegments].transform.localScale = new Vector3(0.1f, 0.1f, 0);
+						simulatedSegments += 1;
+					}
+				}
+			}
+
+            yield return info;
         }
 
         foreach (GameObject a in lineSegments)
