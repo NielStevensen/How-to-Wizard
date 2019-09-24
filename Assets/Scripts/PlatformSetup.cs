@@ -18,10 +18,10 @@ public class PlatformSetup : MonoBehaviour
 	[Tooltip("Objects to destroy if the target platform is VR.")]
 	public List<GameObject> destroyOnVR = new List<GameObject>();
 
-	//Setup target platform if it is not already setup. Destroy objects based on platform
+	//Setup target platform if it is not already setup. Set up cursor and destroy objects based on platform
 	void Start()
     {
-        if(Info.platform == Platform.Unset)
+		if (Info.platform == Platform.Unset)
 		{
 			if(targetPlatform == Platform.Unset)
 			{
@@ -41,8 +41,13 @@ public class PlatformSetup : MonoBehaviour
 				destroyOnVR.Add(obj.gameObject);
 			}
 
-            destroyOnVR.Add(FindObjectOfType<PlayerController>().gameObject);
+			PlayerController player = FindObjectOfType<PlayerController>();
 
+			if(player != null)
+			{
+				destroyOnVR.Add(player.gameObject);
+			}
+			
 			foreach(GameObject obj in destroyOnVR)
 			{
 				Destroy(obj);
@@ -57,10 +62,15 @@ public class PlatformSetup : MonoBehaviour
 			{
 				destroyOnPC.Add(obj.gameObject);
 			}
-            
-            destroyOnPC.Add(FindObjectOfType<VRMovement>().gameObject);
-            
-            foreach (GameObject obj in destroyOnPC)
+
+			VRMovement player = FindObjectOfType<VRMovement>();
+
+			if (player != null)
+			{
+				destroyOnPC.Add(player.gameObject);
+			}
+
+			foreach (GameObject obj in destroyOnPC)
 			{
 				Destroy(obj);
 			}

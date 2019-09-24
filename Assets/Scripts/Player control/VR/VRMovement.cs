@@ -65,7 +65,12 @@ public class VRMovement : MonoBehaviour
     //Get references, set player y position and set hitbox values
     private void Start()
     {
-        cameraTransform = GetComponentInChildren<Camera>().transform;
+		if (!Info.IsCurrentlyVR())
+		{
+			return;
+		}
+
+		cameraTransform = GetComponentInChildren<Camera>().transform;
         rotationReference = GetComponentInChildren<InheritYRotation>().transform;
 
         if (Physics.Raycast(cameraTransform.position, transform.up * -1, out hit, 1000.0f, movementLayerMask))

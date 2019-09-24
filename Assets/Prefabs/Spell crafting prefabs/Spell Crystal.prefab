@@ -209,18 +209,18 @@ MonoBehaviour:
   Myimage: {fileID: 1783528199650983266}
   sprites:
   - {fileID: 21300000, guid: d310977261fab4545bf85ac3080d9058, type: 3}
+  - {fileID: 21300000, guid: 5d4c7ca9f141bb145a1bb26fc4293703, type: 3}
   - {fileID: 21300000, guid: dac864ac6199d284d90646c1f01ff13a, type: 3}
   - {fileID: 21300000, guid: 5142a3f7f5581f3499341495b07df515, type: 3}
-  - {fileID: 21300000, guid: 5d4c7ca9f141bb145a1bb26fc4293703, type: 3}
   - {fileID: 21300000, guid: 24e1db7f78d8d5d49999ea7a61518615, type: 3}
   - {fileID: 21300000, guid: 4983d30c10ff9284cb271cbb82c0b3f7, type: 3}
   - {fileID: 21300000, guid: 160278c330c50d74e95cf147b4c42639, type: 3}
   - {fileID: 21300000, guid: 545ec611c61a0a54dabc921c0a8ec2a9, type: 3}
   - {fileID: 21300000, guid: 7742d13e348d2d642a04b75fdefd9315, type: 3}
   - {fileID: 21300000, guid: 74d95d4df0a229b408392be19030f55b, type: 3}
-  - {fileID: 21300000, guid: 7003e54740cbb094b99a89e38730ec24, type: 3}
   - {fileID: 21300000, guid: e8d56f145feb84f439cd315ddf819802, type: 3}
   - {fileID: 21300000, guid: 1ff0a8d6dd24f1444bd410b8cf5f8d64, type: 3}
+  - {fileID: 21300000, guid: 7003e54740cbb094b99a89e38730ec24, type: 3}
 --- !u!135 &-3567128503765698163
 SphereCollider:
   m_ObjectHideFlags: 0

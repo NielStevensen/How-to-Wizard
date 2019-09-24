@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &197283965469869870
 Transform:
   m_ObjectHideFlags: 0
@@ -46,7 +46,7 @@ MonoBehaviour:
   crystal: {fileID: 7972313569856331656, guid: bb36092998897414ca23cfcba939963a, type: 3}
   Module: Split
   Moduletype: 0
-  ModuleIndex: 3
+  ModuleIndex: 1
 --- !u!1 &2028630384935688546
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,7 +140,7 @@ MonoBehaviour:
   crystal: {fileID: 7972313569856331656, guid: bb36092998897414ca23cfcba939963a, type: 3}
   Module: Charge
   Moduletype: 0
-  ModuleIndex: 1
+  ModuleIndex: 2
 --- !u!1 &2761513637231348231
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,7 +234,7 @@ MonoBehaviour:
   crystal: {fileID: 7972313569856331656, guid: bb36092998897414ca23cfcba939963a, type: 3}
   Module: Touch
   Moduletype: 0
-  ModuleIndex: 2
+  ModuleIndex: 3
 --- !u!1 &3492904549813078857
 GameObject:
   m_ObjectHideFlags: 0
@@ -621,7 +621,7 @@ MonoBehaviour:
   crystal: {fileID: 7972313569856331656, guid: bb36092998897414ca23cfcba939963a, type: 3}
   Module: Weight
   Moduletype: 2
-  ModuleIndex: 11
+  ModuleIndex: 10
 --- !u!1 &5288160463864725028
 GameObject:
   m_ObjectHideFlags: 0
@@ -819,7 +819,7 @@ MonoBehaviour:
   crystal: {fileID: 7972313569856331656, guid: bb36092998897414ca23cfcba939963a, type: 3}
   Module: Null
   Moduletype: 2
-  ModuleIndex: 10
+  ModuleIndex: 12
 --- !u!1 &8344960578658752137
 GameObject:
   m_ObjectHideFlags: 0
@@ -1781,7 +1781,7 @@ MonoBehaviour:
   crystal: {fileID: 7972313569856331656, guid: bb36092998897414ca23cfcba939963a, type: 3}
   Module: Barrier
   Moduletype: 2
-  ModuleIndex: 12
+  ModuleIndex: 11
 --- !u!1 &8900466582168249083
 GameObject:
   m_ObjectHideFlags: 0

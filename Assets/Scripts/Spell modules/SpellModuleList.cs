@@ -6,8 +6,6 @@ using Valve.VR;
 public class SpellModuleList : MonoBehaviour
 {
     #region Variables
-
-    public LayerMask ignoreRays; // layers to ignore
     //VR hand reference
     [HideInInspector]
     public SteamVR_Input_Sources hand;
@@ -45,13 +43,17 @@ public class SpellModuleList : MonoBehaviour
 	public bool activeprojectile = true;
     [HideInInspector]
     public bool[] activeSplits = new bool[3] { true, true, true };
+	private List<GameObject> currentSplits = new List<GameObject>();
+	[Tooltip("How much split projectiles vary.")]
+	public float splitVariance = 1.25f;
 
     [Space(10)]
 
 	//Charge values
 	[Tooltip("The amount of time in seconds charge must be held to achieve maximum charge.")]
 	public float maxChargeTime = 2.5f;
-    private LineRenderer lineRenderer;
+	public LayerMask chargeIgnoreRays;
+	private LineRenderer lineRenderer;
     public SteamVR_Action_Boolean holdAction;
 
     [Space(10)]
@@ -199,7 +201,25 @@ public class SpellModuleList : MonoBehaviour
 
 		yield return new WaitForEndOfFrame();
 
-        Destroy(gameObject);
+		bool shouldDestroy = true;
+
+		if(currentSplits.Count > 0)
+		{
+			foreach(GameObject obj in currentSplits)
+			{
+				if(obj != null)
+				{
+					shouldDestroy = false;
+
+					break;
+				}
+			}
+		}
+
+		if (shouldDestroy)
+		{
+			Destroy(gameObject);
+		}
 	}
 
 	#region Primary casting modules
@@ -231,22 +251,23 @@ public class SpellModuleList : MonoBehaviour
 
         if (!isVR)
         {
-			if (modifier % 10 == 0)
+			while (lineSegments.Count < maxSimulationSegments)
 			{
-				while (lineSegments.Count < maxSimulationSegments)
-				{
-					lineSegments.Add(Instantiate(segment));
-					lineSegments[lineSegments.Count - 1].name = lineSegments.Count.ToString();
-				}
+				lineSegments.Add(Instantiate(segment));
+				lineSegments[lineSegments.Count - 1].name = lineSegments.Count.ToString();
+			}
 
-				while (Input.GetButton("Fire2"))
+			while (Input.GetButton("Fire2"))
+			{
+				holdTime += Time.deltaTime;
+				power = Mathf.Min(holdTime, maxThrow) * 10;
+				direction = transform.forward;
+
+				if (modifier % 10 == 0)
 				{
 					time = 0;
 					simulatedSegments = 0;
 					simulationComplete = false;
-					holdTime += Time.deltaTime;
-					power = Mathf.Min(holdTime, maxThrow) * 10;
-					direction = transform.forward;
 					speed = (direction * power).magnitude; //velocity if simulated throw
 
 					previousPoint = transform.position; // rest positions to prevent end to start relooping
@@ -271,6 +292,7 @@ public class SpellModuleList : MonoBehaviour
 						}
 
 					}
+
 					while (simulatedSegments < maxSimulationSegments && simulationComplete)
 					{
 						lineSegments[simulatedSegments].transform.position = previousPoint;
@@ -279,9 +301,9 @@ public class SpellModuleList : MonoBehaviour
 						simulatedSegments += 1;
 					}
 				}
+				
+				yield return info;
 			}
-
-            yield return info;
         }
 
         foreach (GameObject a in lineSegments)
@@ -293,26 +315,48 @@ public class SpellModuleList : MonoBehaviour
         projectile.GetComponent<ProjectileReturn>().modifier = modifier;
         projectile.GetComponent<ProjectileReturn>().caller = this;
 
+		Vector3 trajectory = Vector3.zero;
+
+		if(modifier != 10)
+		{
+			currentSplits.Add(projectile);
+		}
+
         if (isVR)
         {
-            projectile.GetComponent<Rigidbody>().velocity = projectileVelocity * projectileSpeedMultiplier;
-            projectile.GetComponent<Rigidbody>().angularVelocity = projectileAngularV ;
+            trajectory = projectileVelocity * projectileSpeedMultiplier;
+			projectile.GetComponent<Rigidbody>().angularVelocity = projectileAngularV ;
 
             projectileVelocity = Vector3.zero;
             projectileAngularV = Vector3.zero;
         }
         else
         {
-            projectile.GetComponent<Rigidbody>().velocity = direction * power;
-        }
+			trajectory = direction * power;
+		}
         
-        if (modifier % 10 != 0) projectile.GetComponent<Rigidbody>().velocity += modifier * transform.right;
+		if(modifier % 10 != 0)
+		{
+			trajectory += transform.right * modifier * splitVariance;
+		}
 
-        while (activeprojectile)
-        {
-            yield return info;
-        }
-        
+        projectile.GetComponent<Rigidbody>().velocity = trajectory;
+
+		if(modifier == 10)
+		{
+			while (activeprojectile)
+			{
+				yield return info;
+			}
+		}
+		else
+		{
+			while(activeSplits[modifier + 1])
+			{
+				yield return info;
+			}
+		}
+		
         if(projectile == null) // iof the projectile destrys itself without a target
         {
             info.shouldContinue = false;
@@ -323,14 +367,17 @@ public class SpellModuleList : MonoBehaviour
 
 			yield break;
         }
-        
-        info.potency = 1;
+
+		info.potency = modifier == 10 ? 1 : 0.3f;
         info.collisionPoints.Add(projectile.GetComponent<ProjectileReturn>().whereHit);
         info.collisionObjects.Add(projectile.GetComponent<ProjectileReturn>().whatHit);
 
         Destroy(projectile);
 
-		playerRotation = rotationReference.transform.rotation;
+		if(modifier == 10)
+		{
+			playerRotation = rotationReference.transform.rotation;
+		}
 
         yield return info;
 
@@ -341,20 +388,31 @@ public class SpellModuleList : MonoBehaviour
 	IEnumerator Split(SpellInfo info, List<string> modules)
 	{
 		playerRotation = rotationReference.transform.rotation;
-        modules[0] = "Projectile";
+
+		List<string> newModules = new List<string>();
+
+		for(int i = 0; i < modules.Count; i++)
+		{
+			if(i == 0)
+			{
+				newModules.Add("Projectile");
+			}
+			else
+			{
+				newModules.Add(modules[i]);
+			}
+		}
+		
         for(int i = -1; i < 2; i ++)
         {
-            StartCoroutine(HandleSpell(modules, i));
+            StartCoroutine(HandleSpell(newModules, i));
         }
+
+		info.shouldContinue = false;
 
 		yield return info;
 
 		NotifySpellCasted();
-
-		//could try calling handlespell 3 times with projectile in place of split
-		//develop a system that only renders the projectile once
-		//then yield break and tell the original coroutine to break
-		//how to tell split projectiles to have randomised trajectories?
 	}
 
 	//Beam maintained while the button is held
@@ -387,7 +445,7 @@ public class SpellModuleList : MonoBehaviour
 				direction = transform.forward;
             }
 
-			hitTest = Physics.Raycast(origin, direction, out hit, 1000.0f, ~ignoreRays);
+			hitTest = Physics.Raycast(origin, direction, out hit, 1000.0f, ~chargeIgnoreRays);
 			
 			if (hitTest)
             {

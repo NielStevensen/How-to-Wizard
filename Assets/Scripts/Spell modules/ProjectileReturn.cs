@@ -13,7 +13,7 @@ public class ProjectileReturn : MonoBehaviour
     [HideInInspector]
     public SpellModuleList caller;
     public int modifier;
-
+	
     private void OnCollisionEnter(Collision collision)
     {
         if (Info.IsCurrentlyVR())
@@ -25,7 +25,6 @@ public class ProjectileReturn : MonoBehaviour
             }
             else
             {
-                //transform.SetParent(null);
                 GetComponent<Rigidbody>().useGravity = true;
                 if(modifier == 10)
                 {
@@ -37,14 +36,12 @@ public class ProjectileReturn : MonoBehaviour
                 }
                 whatHit = collision.gameObject;
                 whereHit = collision.contacts[0].point;
-                Debug.Log(collision.gameObject.name);
             }
         }
 		else
 		{
 			if (collision.gameObject.layer != 8)
 			{
-				//transform.SetParent(null);
 				GetComponent<Rigidbody>().useGravity = true;
                 if (modifier == 10)
                 {
@@ -53,10 +50,9 @@ public class ProjectileReturn : MonoBehaviour
                 else
                 {
                     caller.activeSplits[modifier + 1] = false;
-                }
+				}
                 whatHit = collision.gameObject;
 				whereHit = collision.contacts[0].point;
-				Debug.Log(collision.gameObject.name);
 			}
 		}
 	}
