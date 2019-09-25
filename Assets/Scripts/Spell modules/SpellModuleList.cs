@@ -363,7 +363,10 @@ public class SpellModuleList : MonoBehaviour
 
             yield return info;
 
-			NotifySpellCasted();
+			if(modifier % 10 == 0)
+			{
+				NotifySpellCasted();
+			}
 
 			yield break;
         }
@@ -381,10 +384,13 @@ public class SpellModuleList : MonoBehaviour
 
         yield return info;
 
-		NotifySpellCasted();
+		if (modifier % 10 == 0)
+		{
+			NotifySpellCasted();
+		}
 	}
 
-	//Comment
+	//Call projectile 3 times with variance in trajectory
 	IEnumerator Split(SpellInfo info, List<string> modules)
 	{
 		playerRotation = rotationReference.transform.rotation;
@@ -411,8 +417,6 @@ public class SpellModuleList : MonoBehaviour
 		info.shouldContinue = false;
 
 		yield return info;
-
-		NotifySpellCasted();
 	}
 
 	//Beam maintained while the button is held
