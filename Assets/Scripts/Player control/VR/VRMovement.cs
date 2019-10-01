@@ -30,9 +30,11 @@ public class VRMovement : MonoBehaviour
     public Vector2 minPlayfieldSize = new Vector2(0.25f, 0.25f);
     [Tooltip("Maximum playfield size.")]
     public Vector2 maxPlayfieldSize = new Vector2(2.5f, 2.5f);
-    [SerializeField]
-    private Vector3 currentPlayfieldSize = new Vector3(0.25f, 2.0f, 0.25f);
+    [Tooltip("Calculated designated playfield size.")]
+    public Vector3 currentPlayfieldSize = new Vector3(0.25f, 2.0f, 0.25f);
     private BoxCollider hitbox;
+    [Tooltip("Is the head within our designated play area?")]
+    public bool isHeadInArea = true;
 
     [Space(10)]
 
@@ -44,12 +46,20 @@ public class VRMovement : MonoBehaviour
     public LayerMask teleportLayerMask;
     [Tooltip("Teleport ray visualisation object.")]
     public GameObject visualisationPrefab;
+    [Tooltip("Valid teleportation material.")]
+    public Material validMaterial;
+    [Tooltip("Invalid teleportation material.")]
+    public Material invalidMaterial;
     private GameObject visualisationObject;
+    private Renderer visualisationRenderer;
 	private Vector3 teleportLocation;
-	
+    private bool isValidTeleport = false;
+
+    [Space(10)]
+
     //Trackpad movement variables
-	//Movement values
-	[Tooltip("Movement speed of the player.")]
+    //Movement values
+    [Tooltip("Movement speed of the player.")]
     public float movementSpeed = 5.0f;
     [Tooltip("Layers the moveemnt raycast ignores.")]
     public LayerMask movementLayerMask;
@@ -70,7 +80,11 @@ public class VRMovement : MonoBehaviour
 		{
 			return;
 		}
+
+        isTeleportation = Info.optionsData.useTeleportation;
+
         visualisationObject = Instantiate(visualisationPrefab);
+        visualisationRenderer = visualisationObject.GetComponent<Renderer>();
 
 		cameraTransform = GetComponentInChildren<Camera>().transform;
         rotationReference = GetComponentInChildren<InheritYRotation>().transform;
@@ -105,46 +119,67 @@ public class VRMovement : MonoBehaviour
             hitbox.size = currentPlayfieldSize;
             hitbox.center = new Vector3(0, cameraTransform.localPosition.y / 2 + 0.0125f, 0);
         }
+        
+        //Check if the player in in our designated play area
+        isHeadInArea = Mathf.Abs(cameraTransform.localPosition.x) < currentPlayfieldSize.x / 2.0f && Mathf.Abs(cameraTransform.localPosition.z) < currentPlayfieldSize.z / 2.0f;
+
+        if (!isHeadInArea)
+        {
+            isValidTeleport = false;
+            visualisationObject.SetActive(false);
+
+            rigidbody.velocity = Vector3.zero;
+
+            return;
+        }
 
         //Handle locomotion
         if (isTeleportation)
 		{
-			if (teleportAction.GetLastState(hand))
+            if (teleportAction.GetLastStateDown(hand))
+            {
+                visualisationObject.SetActive(true);
+            }
+            else if (teleportAction.GetLastState(hand))
 			{
-				if (Physics.Raycast(handObject.transform.position, handObject.transform.forward, out hit, teleportMaxDistance, teleportLayerMask))
+                Vector3 destination = transform.position;
+
+                if (Physics.Raycast(handObject.transform.position, handObject.transform.forward, out hit, teleportMaxDistance, teleportLayerMask))
 				{
-                    visualisationObject.transform.position = new Vector3(hit.point.x, cameraTransform.localPosition.y / 2 + 0.0125f, hit.point.z);
-                    visualisationObject.transform.localScale = hitbox.size;
-
-                    if (Physics.BoxCast(new Vector3(hit.point.x, cameraTransform.localPosition.y / 2 + 0.0125f, hit.point.z), hitbox.size / 2, Vector3.zero))
-                    {
-                        Debug.Log("valid");
-                    }
-                    else
-                    {               
-                        Debug.Log("invalid");
-                    }
-					//test location of hit
-					//test based on an ideal size
-					//if within a ertain range, can try to match those
-					//else, use maximum values based on ideal size
-					//when testing, should ignore certain objects: props, table (to an extent so the player can comfortably walk up to it), pressure plates
-
-					//outside of the walls, there should be a foggy particle effect so that players can't see out past the walls
-				}
+                    destination = new Vector3(hit.point.x, transform.position.y + hitbox.center.y, hit.point.z);
+                }
 				else
 				{
-					
+                    destination = new Vector3(handObject.transform.position.x + handObject.transform.forward.x * teleportMaxDistance, transform.position.y + hitbox.center.y, handObject.transform.position.z + handObject.transform.forward.z * teleportMaxDistance);
 				}
-			}
+
+                visualisationObject.transform.position = destination;
+                visualisationObject.transform.localScale = hitbox.size;
+
+                RaycastHit[] hit2 = Physics.BoxCastAll(visualisationObject.transform.position, visualisationObject.transform.localScale / 2, Vector3.up * 0.01f, Quaternion.identity, 0.01f, teleportLayerMask);
+
+                if (hit2.Length > 0)
+                {
+                    visualisationRenderer.material = invalidMaterial;
+                    isValidTeleport = false;
+                }
+                else
+                {
+                    visualisationRenderer.material = validMaterial;
+                    isValidTeleport = true;
+                }
+            }
 			else if (teleportAction.GetLastStateUp(hand))
 			{
-				
-			}
-			else
-			{
-				
-			}
+                visualisationObject.SetActive(false);
+
+                if (isValidTeleport)
+                {
+                    transform.position = new Vector3(visualisationObject.transform.position.x, transform.position.y, visualisationObject.transform.position.z);
+
+                    isValidTeleport = false;
+                }
+            }
 		}
 		else
 		{
@@ -155,6 +190,7 @@ public class VRMovement : MonoBehaviour
 		}
     }
 
+    //Determine the size of the player's play area and use to calculate hitbox size
     Vector2 DeterminePlayAreaSize()
     {
         HmdQuad_t hmdRef = new HmdQuad_t();

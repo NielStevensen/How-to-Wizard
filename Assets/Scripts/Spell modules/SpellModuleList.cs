@@ -331,9 +331,6 @@ public class SpellModuleList : MonoBehaviour
         {
             trajectory = projectileVelocity * projectileSpeedMultiplier;
 			projectile.GetComponent<Rigidbody>().angularVelocity = projectileAngularV ;
-
-            projectileVelocity = Vector3.zero;
-            projectileAngularV = Vector3.zero;
         }
         else
         {
@@ -342,7 +339,14 @@ public class SpellModuleList : MonoBehaviour
         
 		if(modifier % 10 != 0)
 		{
-			trajectory += transform.right * modifier * splitVariance;
+            if (isVR)
+            {
+                trajectory += FindObjectOfType<InheritYRotation>().transform.right * modifier * splitVariance;
+            }
+            else
+            {
+                trajectory += transform.right * modifier * splitVariance;
+            }
 		}
 
         projectile.GetComponent<Rigidbody>().velocity = trajectory;

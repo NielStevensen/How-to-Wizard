@@ -682,15 +682,20 @@ MonoBehaviour:
     needsReinit: 0
   minPlayfieldSize: {x: 0.25, y: 0.25}
   maxPlayfieldSize: {x: 2.5, y: 2.5}
+  currentPlayfieldSize: {x: 0.25, y: 2, z: 0.25}
+  isHeadInArea: 1
   teleportMaxDistance: 7.5
   teleportLayerMask:
     serializedVersion: 2
-    m_Bits: 0
-  visualisationPrefab: {fileID: 0}
+    m_Bits: 67584
+  visualisationPrefab: {fileID: 1166751390010799577, guid: 4593f7d1fe3d134458ab6262d8de01a2,
+    type: 3}
+  validMaterial: {fileID: 2100000, guid: 510c6e0b8b5c948458c2b4bc3de5a637, type: 2}
+  invalidMaterial: {fileID: 2100000, guid: 75bd1350b322bc149ad4b79c719cb687, type: 2}
   movementSpeed: 200
   movementLayerMask:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 67584
 --- !u!114 &566533956968458576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -880,6 +885,10 @@ MonoBehaviour:
   holdAction:
     actionPath: /actions/default/in/Hold
     needsReinit: 0
+  isHandInArea: 0
+  castingLayermask:
+    serializedVersion: 2
+    m_Bits: 0
   beltSlots: 000000
   beltObjects:
   - {fileID: 1785664909}
@@ -1061,6 +1070,10 @@ MonoBehaviour:
   holdAction:
     actionPath: /actions/default/in/Hold
     needsReinit: 0
+  isHandInArea: 0
+  castingLayermask:
+    serializedVersion: 2
+    m_Bits: 6145
   beltSlots: 000000
   beltObjects:
   - {fileID: 1785664909}
