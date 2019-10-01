@@ -177,6 +177,14 @@ MonoBehaviour:
   moduleType: 2
   moduleIndex: 0
   unused: 1
+  materials:
+  - {fileID: 2100000, guid: 7316f65f899efd9439c6db183ca594d8, type: 2}
+  - {fileID: 2100000, guid: dd55340903e0e93498b949ff54b53894, type: 2}
+  - {fileID: 2100000, guid: f849cedf44536724abc6c0c0408439ec, type: 2}
+  meshes:
+  - {fileID: 6885006373195631301, guid: 96a72bd81aeee1b4c84549f6b258d939, type: 3}
+  - {fileID: -5843513601951558493, guid: 96a72bd81aeee1b4c84549f6b258d939, type: 3}
+  - {fileID: 7083609060236891001, guid: 96a72bd81aeee1b4c84549f6b258d939, type: 3}
   isSelected: 0
 --- !u!54 &-2731247878622041391
 Rigidbody:
