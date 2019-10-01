@@ -22,14 +22,17 @@ public class ExitManager : MonoBehaviour
 		{
 			CompleteLevel();
 		}
-		else if(other.gameObject.layer == LayerMask.NameToLayer("VRPlayer"))
+		else if(other.gameObject.layer == LayerMask.NameToLayer("Hands"))
 		{
 			PickupSpell hand = other.GetComponent<PickupSpell>();
-			VRMovement player = other.transform.GetComponentInParent<VRMovement>();
 
-			//check if player and hand are in bounds. then complete level
-			//if(player.)
-			CompleteLevel();
+			if(hand != null)
+			{
+				if (hand.isHandInArea)
+				{
+					CompleteLevel();
+				}
+			}
 		}
 	}
 

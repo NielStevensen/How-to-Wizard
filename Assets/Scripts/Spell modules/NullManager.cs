@@ -18,6 +18,9 @@ public class NullManager : MonoBehaviour
 	[HideInInspector]
 	public bool isProjection = false;
 
+	//Burn controller
+	private BurnController burnController;
+
 	//Torch component
 	private TorchTrigger torchComponent;
 
@@ -38,6 +41,7 @@ public class NullManager : MonoBehaviour
 			return;
 		}
 
+		burnController = GetComponent<BurnController>();
 		torchComponent = GetComponent<TorchTrigger>();
 
 		Rigidbody rb = GetComponent<Rigidbody>();
@@ -94,6 +98,14 @@ public class NullManager : MonoBehaviour
 			Destroy(gameObject);
 
 			return;
+		}
+
+		if(burnController != null)
+		{
+			if(burnController.isActiveAndEnabled && burnController.burnTime > 0)
+			{
+				return;
+			}
 		}
 
 		isNulled = !isNulled;
