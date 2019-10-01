@@ -108,7 +108,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   burnTime: 5
   incinerateShader: {fileID: 4800000, guid: 1741f46f85720fe479f2bb023e3f05af, type: 3}
-  burningParticleEffect: {fileID: 0}
+  burningParticleEffect: {fileID: 833281335614011117, guid: b3c0eb21b0e2e0f459cdb6707739adce,
+    type: 3}
 --- !u!114 &3798053452547577860
 MonoBehaviour:
   m_ObjectHideFlags: 0

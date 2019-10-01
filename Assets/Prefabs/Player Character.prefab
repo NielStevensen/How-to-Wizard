@@ -2075,8 +2075,8 @@ MonoBehaviour:
   isRotatingHorizontally: 0
   mouseSensitivityX: 3.75
   mouseSensitivityY: 3.75
-  minVerticalRotation: -45
-  maxVerticalRotation: 45
+  minVerticalRotation: -60
+  maxVerticalRotation: 60
   isMouseInverted: 0
   rotationHorizontal: 0
   rotationVertical: 0

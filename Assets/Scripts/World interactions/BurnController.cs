@@ -15,6 +15,7 @@ public class BurnController : MonoBehaviour
 	//Burning particle effect
 	[Tooltip("The particle effect spawned on the object when burning.")]
 	public GameObject burningParticleEffect;
+    private GameObject pfx;
 	//could have multiple particle effects, differing by shape of emitter
 	//specify here based on shape og object
 	//on start, set the size of the particle effect to the scale of the object
@@ -25,7 +26,8 @@ public class BurnController : MonoBehaviour
 		//spawn particle effect here
 		if(burningParticleEffect != null)
 		{
-			GameObject pfx = Instantiate(burningParticleEffect, transform.position, Quaternion.identity);
+			pfx = Instantiate(burningParticleEffect, transform.position, transform.rotation);
+            pfx.transform.localScale = transform.localScale;
 		}
 		
 		if(burnTime > 0)
@@ -64,6 +66,11 @@ public class BurnController : MonoBehaviour
             {
                 FindObjectOfType<PlayerController>().isSpellCollected = true;
             }
+        }
+        
+        if(pfx != null)
+        {
+            Destroy(pfx);
         }
         
         Destroy(gameObject);
