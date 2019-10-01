@@ -30,6 +30,7 @@ public class VRMovement : MonoBehaviour
     public Vector2 minPlayfieldSize = new Vector2(0.25f, 0.25f);
     [Tooltip("Maximum playfield size.")]
     public Vector2 maxPlayfieldSize = new Vector2(2.5f, 2.5f);
+    [SerializeField]
     private Vector3 currentPlayfieldSize = new Vector3(0.25f, 2.0f, 0.25f);
     private BoxCollider hitbox;
 
@@ -69,6 +70,7 @@ public class VRMovement : MonoBehaviour
 		{
 			return;
 		}
+        visualisationObject = Instantiate(visualisationPrefab);
 
 		cameraTransform = GetComponentInChildren<Camera>().transform;
         rotationReference = GetComponentInChildren<InheritYRotation>().transform;
@@ -109,8 +111,19 @@ public class VRMovement : MonoBehaviour
 		{
 			if (teleportAction.GetLastState(hand))
 			{
-				if (Physics.Raycast(handObject.transform.position, handObject.transform.forward, out hit, teleportMaxDistance, ~teleportLayerMask))
+				if (Physics.Raycast(handObject.transform.position, handObject.transform.forward, out hit, teleportMaxDistance, teleportLayerMask))
 				{
+                    visualisationObject.transform.position = new Vector3(hit.point.x, cameraTransform.localPosition.y / 2 + 0.0125f, hit.point.z);
+                    visualisationObject.transform.localScale = hitbox.size;
+
+                    if (Physics.BoxCast(new Vector3(hit.point.x, cameraTransform.localPosition.y / 2 + 0.0125f, hit.point.z), hitbox.size / 2, Vector3.zero))
+                    {
+                        Debug.Log("valid");
+                    }
+                    else
+                    {               
+                        Debug.Log("invalid");
+                    }
 					//test location of hit
 					//test based on an ideal size
 					//if within a ertain range, can try to match those

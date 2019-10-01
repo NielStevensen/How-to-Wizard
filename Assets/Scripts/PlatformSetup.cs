@@ -19,16 +19,16 @@ public class PlatformSetup : MonoBehaviour
 	public List<GameObject> destroyOnVR = new List<GameObject>();
 
 	//Setup target platform if it is not already setup. Set up cursor and destroy objects based on platform
-	void Start()
+	private void Awake()
     {
-		if (Info.platform == Platform.Unset)
+		if (Info.targetPlatform == Platform.Unset)
 		{
 			if(targetPlatform == Platform.Unset)
 			{
 				targetPlatform = Platform.PC;
 			}
 
-			Info.platform = targetPlatform;
+			Info.targetPlatform = targetPlatform;
 		}
 
 		if (Info.IsCurrentlyVR())
@@ -74,6 +74,11 @@ public class PlatformSetup : MonoBehaviour
 			{
 				Destroy(obj);
 			}
+		}
+
+		if(Info.optionsData == null)
+		{
+			Info.optionsData = SaveSystem.LoadOptions();
 		}
     }
 }

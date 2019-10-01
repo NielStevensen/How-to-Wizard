@@ -120,6 +120,11 @@ public class SpellModuleList : MonoBehaviour
 	//Calls components based on a parsed list
 	public IEnumerator HandleSpell(List<string> modules , int modifier)
 	{
+		if(modifier == 10)
+		{
+			FindObjectOfType<ExitManager>().spellsCasted++;
+		}
+
 		SpellInfo info = new SpellInfo(0, new List<Vector3>(), new List<GameObject>());
 
 		foreach (string module in modules)

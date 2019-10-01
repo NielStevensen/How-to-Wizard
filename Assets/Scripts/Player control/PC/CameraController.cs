@@ -39,19 +39,13 @@ public class CameraController : MonoBehaviour {
 	[HideInInspector]
     public float rotationVertical;
 	
-	//Set settings values
-	private void Awake()
-	{
-		mouseSensitivityX = PlayerPrefs.GetFloat("MouseSensitivityX", 3.75f);
-		mouseSensitivityY = PlayerPrefs.GetFloat("MouseSensitivityY", 3.75f);
-
-		isMouseInverted = PlayerPrefs.GetInt("MouseInversion", -1) == 1;
-	}
-
 	//Only render debug stuff if in editor and desired, initialise mouse inversion and set initial rotation
 	void Start ()
     {
-		if (isMouseInverted)
+		mouseSensitivityX = Info.optionsData.xSens;
+		mouseSensitivityY = Info.optionsData.ySens;
+
+		if (Info.optionsData.yInversion)
         {
             mouseInversion = -1;
         }
@@ -67,7 +61,6 @@ public class CameraController : MonoBehaviour {
 	//Handle camera
 	void Update ()
     {
-
 			if (isRotatingHorizontally)
 			{
 				float rotationValue = 0;
