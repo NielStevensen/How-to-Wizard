@@ -523,12 +523,14 @@ public class SpellModuleList : MonoBehaviour
 
         if (!Info.IsCurrentlyVR())
         {
-            touchPoint = transform.position + transform.forward * touchDistance;
-
             if (Physics.Raycast(transform.position, transform.forward , out hit, touchDistance))
             {
                 touchPoint = hit.point;
             }
+			else
+			{
+				touchPoint = transform.position + transform.forward * touchDistance;
+			}
         }
         else
         {
@@ -551,7 +553,9 @@ public class SpellModuleList : MonoBehaviour
 
         info.potency = 2;
 
-        yield return info;
+		playerRotation = rotationReference.transform.rotation;
+
+		yield return info;
 
 		NotifySpellCasted();
 	}

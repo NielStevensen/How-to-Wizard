@@ -45,29 +45,36 @@ public class ExitManager : MonoBehaviour
 		{
 			case (GameMode.Story):
 				data.storyClearData[levelNumber] = true;
-				data.storyClearTime[levelNumber] = Time.timeSinceLevelLoad;
-				data.nGameBestSpell[levelNumber] = spellsCasted;
+				data.storyClearTime[levelNumber] = Mathf.Min(data.storyClearTime[levelNumber], Time.timeSinceLevelLoad);
+				data.storyBestSpell[levelNumber] = Mathf.Min(data.storyBestSpell[levelNumber], spellsCasted);
 
 				break;
 			case (GameMode.NewGamePlus):
 				data.nGameClearData[levelNumber] = true;
-				data.nGameClearTime[levelNumber] = Time.timeSinceLevelLoad;
-				data.nGameBestSpell[levelNumber] = spellsCasted;
+				data.nGameClearTime[levelNumber] = Mathf.Min(data.nGameClearTime[levelNumber], Time.timeSinceLevelLoad);
+				data.nGameBestSpell[levelNumber] = Mathf.Min(data.nGameBestSpell[levelNumber], spellsCasted);
 
 				break;
 			case (GameMode.Challenge):
 				data.extraClearData[levelNumber] = true;
-				data.extraClearTime[levelNumber] = Time.timeSinceLevelLoad;
-				data.extraBestSpell[levelNumber] = spellsCasted;
+				data.extraClearTime[levelNumber] = Mathf.Min(data.extraClearTime[levelNumber], Time.timeSinceLevelLoad);
+				data.extraBestSpell[levelNumber] = Mathf.Min(data.extraBestSpell[levelNumber], spellsCasted);
 
 				break;
 		}
 
 		SaveSystem.SaveGame(data);
 
+		GetComponent<ManualTiling>().ClearMaterials();
+
 		if(nextLevel != "")
 		{
 			SceneManager.LoadScene(nextLevel);
 		}
+	}
+
+	private void OnApplicationQuit()
+	{
+		GetComponent<ManualTiling>().ClearMaterials();
 	}
 }

@@ -9,6 +9,8 @@ public class MovingObstacleManager : MonoBehaviour
 	public bool isActivated = false;
     [Tooltip("Whether or not the object can be toggled off.")]
     public bool isDeactivatable = true;
+	[Tooltip("Invisible walls that will be deactivated when this obstacle finishes moving.\nOnly applies to un-deactivatable obstacles.")]
+	public GameObject[] targetInvisibleWalls = new GameObject[0];
 
 	//Movement values
 	[Tooltip("How far the object moves when activated.")]
@@ -56,6 +58,14 @@ public class MovingObstacleManager : MonoBehaviour
 			transform.position = origin + activeDisplacement * Mathf.Sin(Mathf.Deg2Rad * activationProgress * 0.5f);
 
 			yield return new WaitForEndOfFrame();
+		}
+
+		if (!isDeactivatable)
+		{
+			foreach(GameObject obj in targetInvisibleWalls)
+			{
+				obj.SetActive(false);
+			}
 		}
 	}
 }

@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 8394790346527833718}
   - component: {fileID: 4133316729779840809}
   - component: {fileID: 7496469561113527520}
-  m_Layer: 0
+  - component: {fileID: 3325608004857951382}
+  m_Layer: 11
   m_Name: Exit Zone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -67,4 +68,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelNumber: 1
+  nextLevel: 
   spellsCasted: 0
+--- !u!114 &3325608004857951382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6749167797472110191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cac381240e6d6d0439e550e7b9b1a0a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseFloorMaterial: {fileID: 2100000, guid: b242d658dd8450849865401c60f33729, type: 2}
+  baseWallMaterial: {fileID: 2100000, guid: b242d658dd8450849865401c60f33729, type: 2}
+  baseFenceMaterial: {fileID: 2100000, guid: b242d658dd8450849865401c60f33729, type: 2}
+  baseCeilingMaterial: {fileID: 2100000, guid: b242d658dd8450849865401c60f33729, type: 2}

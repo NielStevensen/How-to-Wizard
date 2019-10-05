@@ -145,7 +145,7 @@ MonoBehaviour:
   holdAction:
     actionPath: /actions/default/in/Hold
     needsReinit: 0
-  touchDistance: 0.1
+  touchDistance: 1.5
   touchSize: 0.1
   aoeSizeAmplifier: 2.5
   maxForceDistance: 7.5
@@ -185,41 +185,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7585976291535763643}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: 66e0ddd9e01f41f49a48947b0b85db10,
-        type: 3}
-      propertyPath: m_Name
-      value: Closed Spell Scroll
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 66e0ddd9e01f41f49a48947b0b85db10,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2502203975881118265, guid: 66e0ddd9e01f41f49a48947b0b85db10,
-        type: 3}
-      propertyPath: m_Name
-      value: Back
-      objectReference: {fileID: 0}
-    - target: {fileID: -4425609515867240179, guid: 66e0ddd9e01f41f49a48947b0b85db10,
-        type: 3}
-      propertyPath: m_Name
-      value: Rod1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8470045053010906745, guid: 66e0ddd9e01f41f49a48947b0b85db10,
-        type: 3}
-      propertyPath: m_Name
-      value: Wind1
-      objectReference: {fileID: 0}
-    - target: {fileID: 748748645750174535, guid: 66e0ddd9e01f41f49a48947b0b85db10,
-        type: 3}
-      propertyPath: m_Name
-      value: Rod2
-      objectReference: {fileID: 0}
-    - target: {fileID: -13827646000828294, guid: 66e0ddd9e01f41f49a48947b0b85db10,
-        type: 3}
-      propertyPath: m_Name
-      value: Wind2
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 66e0ddd9e01f41f49a48947b0b85db10,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -290,6 +255,16 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 66e0ddd9e01f41f49a48947b0b85db10,
+        type: 3}
+      propertyPath: m_Name
+      value: Closed Spell Scroll
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 66e0ddd9e01f41f49a48947b0b85db10,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8279220037933735926, guid: 66e0ddd9e01f41f49a48947b0b85db10,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -299,6 +274,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.y
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -13827646000828294, guid: 66e0ddd9e01f41f49a48947b0b85db10,
+        type: 3}
+      propertyPath: m_Name
+      value: Wind2
+      objectReference: {fileID: 0}
+    - target: {fileID: -4425609515867240179, guid: 66e0ddd9e01f41f49a48947b0b85db10,
+        type: 3}
+      propertyPath: m_Name
+      value: Rod1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2502203975881118265, guid: 66e0ddd9e01f41f49a48947b0b85db10,
+        type: 3}
+      propertyPath: m_Name
+      value: Back
+      objectReference: {fileID: 0}
+    - target: {fileID: 748748645750174535, guid: 66e0ddd9e01f41f49a48947b0b85db10,
+        type: 3}
+      propertyPath: m_Name
+      value: Rod2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8470045053010906745, guid: 66e0ddd9e01f41f49a48947b0b85db10,
+        type: 3}
+      propertyPath: m_Name
+      value: Wind1
       objectReference: {fileID: 0}
     - target: {fileID: -113181020801827196, guid: 66e0ddd9e01f41f49a48947b0b85db10,
         type: 3}
