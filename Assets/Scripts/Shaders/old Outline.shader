@@ -1,4 +1,4 @@
-﻿Shader "Special FX/Outline" {
+﻿Shader "Special FX/Old Outline" {
     Properties {
         _Colour ("Colour", Color) = (1, 1, 1, 1)
         _MainTex ("Texture", 2D) = "white" {}
