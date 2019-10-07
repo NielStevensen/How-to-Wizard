@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5869024866079344650}
   - component: {fileID: 7021563061700953024}
   - component: {fileID: 6502236393397558937}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: 'MW #5'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,8 +103,8 @@ GameObject:
   - component: {fileID: 5901610540622178940}
   - component: {fileID: 3103952027857071974}
   - component: {fileID: 6960487983226042132}
-  m_Layer: 0
-  m_Name: 'Bottom #2'
+  m_Layer: 11
+  m_Name: 'Floor Bottom #2'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -194,8 +194,8 @@ GameObject:
   - component: {fileID: 4012697793077461244}
   - component: {fileID: 8749777573096754830}
   - component: {fileID: 7223879989292608327}
-  m_Layer: 0
-  m_Name: 'Bottom #1'
+  m_Layer: 11
+  m_Name: 'Floor  Bottom #1'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -285,7 +285,7 @@ GameObject:
   - component: {fileID: 8444028578015983802}
   - component: {fileID: 3269598009220459870}
   - component: {fileID: 8498662021625221240}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: 'MW #3'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -376,7 +376,7 @@ GameObject:
   - component: {fileID: 7166706115306501977}
   - component: {fileID: 3037877248886075801}
   - component: {fileID: 8803871441987575309}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: 'MW #2'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -505,7 +505,7 @@ GameObject:
   - component: {fileID: 2109051889021272654}
   - component: {fileID: 1590619883119835248}
   - component: {fileID: 694853205389723271}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: 'MW #4'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -596,8 +596,8 @@ GameObject:
   - component: {fileID: 9008265851059902886}
   - component: {fileID: 5834894414090511206}
   - component: {fileID: 8572241820244305877}
-  m_Layer: 0
-  m_Name: 'Bottom #3'
+  m_Layer: 11
+  m_Name: 'Floor Bottom #3'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -687,7 +687,7 @@ GameObject:
   - component: {fileID: 3656656924404448367}
   - component: {fileID: 5586202518244739265}
   - component: {fileID: 3304478796786087461}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: 'MW #1'
   m_TagString: Untagged
   m_Icon: {fileID: 0}

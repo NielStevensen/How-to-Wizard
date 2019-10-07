@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 8294138798889334739}
   - component: {fileID: 8294138798889334732}
   m_Layer: 11
-  m_Name: Cube (2)
+  m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 8294138798944009304}
   - component: {fileID: 8294138798944009305}
   m_Layer: 11
-  m_Name: Cube
+  m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -230,7 +230,7 @@ GameObject:
   - component: {fileID: 8294138799780613905}
   - component: {fileID: 8294138799780613906}
   m_Layer: 11
-  m_Name: Cube (1)
+  m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -320,8 +320,8 @@ GameObject:
   - component: {fileID: 8294138800148919560}
   - component: {fileID: 8294138800148919561}
   - component: {fileID: 8294138800148919562}
-  m_Layer: 11
-  m_Name: Cube (3)
+  m_Layer: 0
+  m_Name: Pit Black
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -406,11 +406,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8762625748907206035}
     m_Modifications:
-    - target: {fileID: 6749167797472110191, guid: d21d6a65e64882e438c9cd369a03917e,
-        type: 3}
-      propertyPath: m_Name
-      value: Exit Zone
-      objectReference: {fileID: 0}
     - target: {fileID: 4334637864095060714, guid: d21d6a65e64882e438c9cd369a03917e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -476,10 +471,55 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 6749167797472110191, guid: d21d6a65e64882e438c9cd369a03917e,
+        type: 3}
+      propertyPath: m_Name
+      value: Exit Zone
+      objectReference: {fileID: 0}
+    - target: {fileID: 6749167797472110191, guid: d21d6a65e64882e438c9cd369a03917e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7496469561113527520, guid: d21d6a65e64882e438c9cd369a03917e,
         type: 3}
       propertyPath: nextLevel
       value: Level 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3325608004857951382, guid: d21d6a65e64882e438c9cd369a03917e,
+        type: 3}
+      propertyPath: baseFloorMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d81b5fe160200b4fa7ba015b8c3a658, type: 2}
+    - target: {fileID: 3325608004857951382, guid: d21d6a65e64882e438c9cd369a03917e,
+        type: 3}
+      propertyPath: baseWallMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 04806eacc1a305a40bba84d0efb0b9de, type: 2}
+    - target: {fileID: 3325608004857951382, guid: d21d6a65e64882e438c9cd369a03917e,
+        type: 3}
+      propertyPath: baseCeilingMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 3ef10f1163381cf46890bbd9a879ae4a, type: 2}
+    - target: {fileID: 3325608004857951382, guid: d21d6a65e64882e438c9cd369a03917e,
+        type: 3}
+      propertyPath: wallTileSize.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3325608004857951382, guid: d21d6a65e64882e438c9cd369a03917e,
+        type: 3}
+      propertyPath: wallTileSize.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3325608004857951382, guid: d21d6a65e64882e438c9cd369a03917e,
+        type: 3}
+      propertyPath: ceilingTileSize.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3325608004857951382, guid: d21d6a65e64882e438c9cd369a03917e,
+        type: 3}
+      propertyPath: ceilingTileSize.y
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d21d6a65e64882e438c9cd369a03917e, type: 3}

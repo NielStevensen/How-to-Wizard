@@ -118,9 +118,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d0e7931cb64cfe44be9c89c018a952e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  activeState: 0
-  inactiveState: 1
-  weightThreshold: 5
+  targetObstacles:
+  - {fileID: 0}
+  targetLasers: []
+  weightThreshold: 1
   currentWeight: 0
   isActivated: 0
