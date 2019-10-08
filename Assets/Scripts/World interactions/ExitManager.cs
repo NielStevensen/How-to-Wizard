@@ -39,28 +39,30 @@ public class ExitManager : MonoBehaviour
 	//Processes during level finish
 	void CompleteLevel()
 	{
-		PlayerData data = SaveSystem.LoadGame();
+        int levelIndex = levelNumber - 1;
+
+        PlayerData data = SaveSystem.LoadGame();
 
 		switch (Info.currentGameMode)
 		{
 			case (GameMode.Story):
-				data.storyClearData[levelNumber] = true;
-				data.storyClearTime[levelNumber] = Mathf.Min(data.storyClearTime[levelNumber], Time.timeSinceLevelLoad);
-				data.storyBestSpell[levelNumber] = Mathf.Min(data.storyBestSpell[levelNumber], spellsCasted);
+				data.storyClearData[levelIndex] = true;
+				data.storyClearTime[levelIndex] = data.storyClearTime[levelIndex] == -1 ? Time.timeSinceLevelLoad : Mathf.Min(data.storyClearTime[levelIndex], Time.timeSinceLevelLoad);
+				data.storyBestSpell[levelIndex] = data.storyBestSpell[levelIndex] == -1 ? spellsCasted : Mathf.Min(data.storyBestSpell[levelIndex], spellsCasted);
 
-				break;
+                break;
 			case (GameMode.NewGamePlus):
-				data.nGameClearData[levelNumber] = true;
-				data.nGameClearTime[levelNumber] = Mathf.Min(data.nGameClearTime[levelNumber], Time.timeSinceLevelLoad);
-				data.nGameBestSpell[levelNumber] = Mathf.Min(data.nGameBestSpell[levelNumber], spellsCasted);
+				data.nGameClearData[levelIndex] = true;
+				data.nGameClearTime[levelIndex] = data.nGameClearTime[levelIndex] == -1 ? Time.timeSinceLevelLoad : Mathf.Min(data.nGameClearTime[levelIndex], Time.timeSinceLevelLoad);
+                data.nGameBestSpell[levelIndex] = data.nGameBestSpell[levelIndex] == -1 ? spellsCasted : Mathf.Min(data.nGameBestSpell[levelIndex], spellsCasted);
 
-				break;
+                break;
 			case (GameMode.Challenge):
-				data.extraClearData[levelNumber] = true;
-				data.extraClearTime[levelNumber] = Mathf.Min(data.extraClearTime[levelNumber], Time.timeSinceLevelLoad);
-				data.extraBestSpell[levelNumber] = Mathf.Min(data.extraBestSpell[levelNumber], spellsCasted);
+				data.extraClearData[levelIndex] = true;
+				data.extraClearTime[levelIndex] = data.extraClearTime[levelIndex] == -1 ? Time.timeSinceLevelLoad : Mathf.Min(data.extraClearTime[levelIndex], Time.timeSinceLevelLoad);
+                data.extraBestSpell[levelIndex] = data.extraBestSpell[levelIndex] == -1 ? spellsCasted : Mathf.Min(data.extraBestSpell[levelIndex], spellsCasted);
 
-				break;
+                break;
 		}
 
 		SaveSystem.SaveGame(data);

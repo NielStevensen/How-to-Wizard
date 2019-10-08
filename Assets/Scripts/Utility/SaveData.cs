@@ -84,8 +84,9 @@ public class OptionsData
 
 		xSens = data.xSens;
 		ySens = data.ySens;
+        yInversion = data.yInversion;
 
-		sfxLevel = data.sfxLevel;
+        sfxLevel = data.sfxLevel;
 		bgmLevel = data.bgmLevel;
 	}
 }

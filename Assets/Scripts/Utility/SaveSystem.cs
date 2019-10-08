@@ -39,7 +39,7 @@ public static class SaveSystem
 	{
 		if (File.Exists(pathPlayerSave))
 		{
-			BinaryFormatter formatter = new BinaryFormatter();
+            BinaryFormatter formatter = new BinaryFormatter();
 			FileStream stream = new FileStream(pathPlayerSave, FileMode.Open);
 
 			PlayerData data = formatter.Deserialize(stream) as PlayerData;
