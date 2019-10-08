@@ -60,12 +60,12 @@ public class ManualTiling : MonoBehaviour
 							break;
 						case ("Wall"):
 							temp = new Material(baseWallMaterial);
-							temp.mainTextureScale = new Vector2(obj.transform.localScale.x * wallTileSize.x, obj.transform.localScale.z * wallTileSize.y);
+							temp.mainTextureScale = new Vector2(obj.transform.localScale.x * wallTileSize.x, obj.transform.localScale.y * wallTileSize.y);
 
 							break;
 						case ("Fence"):
 							temp = new Material(baseFenceMaterial);
-							temp.mainTextureScale = new Vector2(obj.transform.localScale.x * fenceTileSize.x, obj.transform.localScale.z * fenceTileSize.y);
+							temp.mainTextureScale = new Vector2(obj.transform.localScale.x * fenceTileSize.x, obj.transform.localScale.y * fenceTileSize.y);
 
 							break;
 						case ("Ceiling"):
