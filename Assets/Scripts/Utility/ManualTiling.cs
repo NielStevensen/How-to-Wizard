@@ -27,7 +27,6 @@ public class ManualTiling : MonoBehaviour
 	public Vector2 ceilingTileSize = Vector2.one;
 
 	//Tiled materials
-	[SerializeField]
 	private List<Material> floorMaterials = new List<Material>();
 	private List<Material> wallMaterials = new List<Material>();
 	private List<Material> fenceMaterials = new List<Material>();
