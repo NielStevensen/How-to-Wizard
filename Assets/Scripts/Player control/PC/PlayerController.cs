@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour {
 	private GameObject[] slottedCrystals = new GameObject[5] { null, null, null, null, null };
 	private AttachCrystal[] crystalSlots = new AttachCrystal[5];
 	private SpellCreation table = null;
+	private ClearTable clearButton = null;
 
 	[Space(10)]
 
@@ -96,12 +97,10 @@ public class PlayerController : MonoBehaviour {
     {
 		cameraTransform = transform.GetChild(0);
 		table = FindObjectOfType<SpellCreation>();
+		clearButton = table.GetComponentInChildren<ClearTable>();
 
-		for(int i = 0; i < 5; i++)
-		{
-			crystalSlots[i] = table.transform.GetChild(i).gameObject.GetComponent<AttachCrystal>();
-		}
-
+		crystalSlots = table.PCSpellSlots;
+		
 		for(int i = 0; i < 3; i++)
 		{
 			for(int j = 0; j< 5; j++)
@@ -169,11 +168,7 @@ public class PlayerController : MonoBehaviour {
 				{
 					if(selectedCrystal == null)
 					{
-						selectedCrystal = hit.collider.gameObject;
-
-						selectedCrystal.GetComponent<CrystalInfo>().isSelected = true;
-
-						selectedCrystal.GetComponent<Renderer>().material.color = crystalSelected;
+						SelectCrystal(hit.collider.gameObject);
 					}
 					else
 					{
@@ -183,11 +178,7 @@ public class PlayerController : MonoBehaviour {
 
 						if (localReference != hit.collider.gameObject)
 						{
-							selectedCrystal = hit.collider.gameObject;
-
-							selectedCrystal.GetComponent<CrystalInfo>().isSelected = true;
-
-							selectedCrystal.GetComponent<Renderer>().material.color = crystalSelected;
+							SelectCrystal(hit.collider.gameObject);
 						}
 					}
 				}
@@ -226,23 +217,51 @@ public class PlayerController : MonoBehaviour {
 
                             for (int i = 0; i < 5; i++)
                             {
-                                if (slottedCrystals[i] != null)
+								CrystalInfo crysInfo;
+
+								if (slottedCrystals[i] != null)
                                 {
-                                    crystalSlots[i].attachedModule = slottedCrystals[i].GetComponent<CrystalInfo>().module;
-                                    crystalSlots[i].attachedType = slottedCrystals[i].GetComponent<CrystalInfo>().moduleType;
+									crysInfo = slottedCrystals[i].GetComponent<CrystalInfo>();
+
+									crystalSlots[i].attachedModule = crysInfo.module;
+                                    crystalSlots[i].attachedType = crysInfo.moduleType;
                                 }
+								else
+								{
+									crystalSlots[i].attachedModule = "";
+									crystalSlots[i].attachedType = -1;
+								}
                             }
 
                             table.ConfirmSpell();
                         }
 					}
 				}
-				else if (hit.collider.gameObject.GetComponent<Button>())
-				{	
-					Clear();
+				else if (hit.collider.gameObject.GetComponent<ClearTable>())
+				{
+					if(selectedCrystal != null)
+					{
+						Destroy(selectedCrystal);
+
+						selectedCrystal = null;
+					}
+					else
+					{
+						Clear();
+					}
 				}
 			}
 		}
+	}
+
+	//Select a crystal
+	void SelectCrystal(GameObject obj)
+	{
+		selectedCrystal = obj;
+
+		selectedCrystal.GetComponent<CrystalInfo>().isSelected = true;
+
+		selectedCrystal.GetComponent<Renderer>().material.color = crystalSelected;
 	}
 
 	//Deselect crystals
@@ -261,14 +280,14 @@ public class PlayerController : MonoBehaviour {
 	//Destroy all slotted crystals
 	public void Clear()
 	{
-		for (int i = 0; i < 5; i++)
-			if (slottedCrystals[i] != null)
-			{
-				Destroy(slottedCrystals[i]);
+		DeselectCrystals();
 
-				crystalSlots[i].attachedModule = "";
-				crystalSlots[i].attachedType = -1;
-			}
+		for(int i = 0; i < 5; i++)
+		{
+			slottedCrystals[i] = null;
+		}
+
+		clearButton.ClearCrystals();
 	}
 
 	//Move crystals to their slot
@@ -277,6 +296,21 @@ public class PlayerController : MonoBehaviour {
 		isCraftCooldown = true;
 
 		int slotNumber = int.Parse(slot.name[6].ToString()) - 1;
+
+		for(int i = 0; i < 5; i++)
+		{
+			if(slottedCrystals[i] == crystal)
+			{
+				if(i == slotNumber)
+				{
+					yield break;
+				}
+				else
+				{
+					slottedCrystals[i] = null;
+				}
+			}
+		}
 
 		if (slottedCrystals[slotNumber] != null)
 		{
@@ -289,7 +323,7 @@ public class PlayerController : MonoBehaviour {
 		slottedCrystals[slotNumber] = crystal;
 
 		Vector3 origin = crystal.transform.position;
-		Vector3 direction = slot.transform.position - origin;
+		Vector3 direction = (slot.transform.position + new Vector3(0, 0.1875f, 0)) - origin;
 		
 		for (int i = 0; i <= 90; i++)
 		{

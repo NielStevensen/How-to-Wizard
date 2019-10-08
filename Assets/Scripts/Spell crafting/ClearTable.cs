@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClearTableVR : MonoBehaviour
+public class ClearTable : MonoBehaviour
 {
     AttachCrystal[] moduleZones;
     bool clear = false;
@@ -18,12 +18,7 @@ public class ClearTableVR : MonoBehaviour
     {
         if (other.GetComponent<PickupSpell>())
         {
-             foreach(CrystalInfo a in FindObjectsOfType<CrystalInfo>())
-             {
-                Destroy(a.gameObject);
-             }
-
-            clear = true;
+			ClearCrystals();
         }
     }
 
@@ -40,4 +35,15 @@ public class ClearTableVR : MonoBehaviour
             clear = false;
         }
     }
+
+	//Destroy crystals and reset slot stored values
+	public void ClearCrystals()
+	{
+		foreach (CrystalInfo a in FindObjectsOfType<CrystalInfo>())
+		{
+			Destroy(a.gameObject);
+		}
+
+		clear = true;
+	}
 }
