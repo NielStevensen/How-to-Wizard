@@ -64,7 +64,7 @@ public class VRMovement : MonoBehaviour
     [Tooltip("Layers the moveemnt raycast ignores.")]
     public LayerMask movementLayerMask;
 
-    private Rigidbody rigidbody;
+    private Rigidbody playerBody;
 
     //Movement expressed as a vector3
     private Vector3 movement = Vector3.zero;
@@ -106,7 +106,7 @@ public class VRMovement : MonoBehaviour
         currentPlayfieldSize = new Vector3(size.x, 2.0f, size.y);
         hitbox.size = currentPlayfieldSize;
 
-        rigidbody = GetComponent<Rigidbody>();
+        playerBody = GetComponent<Rigidbody>();
     }
 
     //Handle hitbox, movement and teleportation
@@ -128,7 +128,7 @@ public class VRMovement : MonoBehaviour
             isValidTeleport = false;
             visualisationObject.SetActive(false);
 
-            rigidbody.velocity = Vector3.zero;
+            playerBody.velocity = Vector3.zero;
 
             return;
         }
@@ -186,7 +186,7 @@ public class VRMovement : MonoBehaviour
             movement = Vector3.Normalize(new Vector3(moveAction.GetAxis(hand).x, 0, moveAction.GetAxis(hand).y)) * movementSpeed;
 			movement = rotationReference.TransformDirection(movement);
 
-            rigidbody.velocity = movement * Time.deltaTime;
+            playerBody.velocity = movement * Time.deltaTime;
 		}
     }
 

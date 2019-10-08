@@ -63,11 +63,15 @@ public class PlayerController : MonoBehaviour {
 	private bool canReset = false;
 	private bool isResetting = false;
 
+	[Space(10)]
 
 	//temp recolour values
-	public Color crystalDefault;
-	public Color crystalSelected;
-
+	public Color primaryDefault;
+	public Color secondaryDefault;
+	public Color effectDefault;
+	public Color hoverColour;
+	public Color selectedColour;
+	
 
 	//currently doesn't work
 	//Shaders
@@ -261,7 +265,7 @@ public class PlayerController : MonoBehaviour {
 
 		selectedCrystal.GetComponent<CrystalInfo>().isSelected = true;
 
-		selectedCrystal.GetComponent<Renderer>().material.color = crystalSelected;
+		selectedCrystal.GetComponent<Renderer>().material.color = hoverColour;
 	}
 
 	//Deselect crystals
@@ -271,7 +275,21 @@ public class PlayerController : MonoBehaviour {
 		{
 			selectedCrystal.GetComponent<CrystalInfo>().isSelected = false;
 
-			selectedCrystal.GetComponent<Renderer>().material.color = crystalDefault;
+			switch (selectedCrystal.GetComponent<CrystalInfo>().moduleType)
+			{
+				case (0):
+					selectedCrystal.GetComponent<Renderer>().material.color = primaryDefault;
+
+					break;
+				case (1):
+					selectedCrystal.GetComponent<Renderer>().material.color = secondaryDefault;
+
+					break;
+				case (2):
+					selectedCrystal.GetComponent<Renderer>().material.color = effectDefault;
+
+					break;
+			}
 		}
 
 		selectedCrystal = null;
@@ -334,6 +352,8 @@ public class PlayerController : MonoBehaviour {
 
 			yield return new WaitForEndOfFrame();
 		}
+
+		crystal.GetComponent<CrystalInfo>().unused = false;
 
 		isCraftCooldown = false;
 	}

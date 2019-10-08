@@ -35,6 +35,11 @@ public class ManualTiling : MonoBehaviour
 	//Generate tiled materials
 	void Start()
     {
+		if(baseFloorMaterial == null || baseWallMaterial == null || baseFenceMaterial == null || baseCeilingMaterial == null)
+		{
+			return;
+		}
+
 		int boundsLayer = LayerMask.NameToLayer("Bounds");
 
 		List<GameObject> floorObjects = new List<GameObject>();
