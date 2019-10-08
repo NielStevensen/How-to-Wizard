@@ -36,9 +36,17 @@ public class PlatformSetup : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 
-            foreach (PCCraftingZone obj in GameObject.FindObjectsOfType<PCCraftingZone>())
+            foreach (PCCraftingZone obj in FindObjectsOfType<PCCraftingZone>())
 			{
 				destroyOnVR.Add(obj.gameObject);
+			}
+
+			foreach(SpellCreation table in FindObjectsOfType<SpellCreation>())
+			{
+				foreach(AttachCrystal obj in table.PCSpellSlots)
+				{
+					destroyOnVR.Add(obj.gameObject);
+				}
 			}
 
 			PlayerController player = FindObjectOfType<PlayerController>();
@@ -58,9 +66,17 @@ public class PlatformSetup : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
 
-            foreach (DestroyCrstalRange obj in GameObject.FindObjectsOfType<DestroyCrstalRange>())
+            foreach (DestroyCrstalRange obj in FindObjectsOfType<DestroyCrstalRange>())
 			{
 				destroyOnPC.Add(obj.gameObject);
+			}
+
+			foreach (SpellCreation table in FindObjectsOfType<SpellCreation>())
+			{
+				foreach (AttachCrystal obj in table.VRSpellSlots)
+				{
+					destroyOnPC.Add(obj.gameObject);
+				}
 			}
 
 			VRMovement player = FindObjectOfType<VRMovement>();

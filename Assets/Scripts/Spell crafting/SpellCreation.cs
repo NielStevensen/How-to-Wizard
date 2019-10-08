@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class SpellCreation : MonoBehaviour
 {
+	//Spell slot references
+	public AttachCrystal[] VRSpellSlots;
+	public AttachCrystal[] PCSpellSlots;
+	private AttachCrystal[] moduleZones;
 
-    public AttachCrystal[] moduleZones;
+	[Space(10)]
+	
     public List<string> spellInstructions = new List<string>();
     public List<int> moduletypes = new List<int>();
     bool isValid;
@@ -21,8 +26,14 @@ public class SpellCreation : MonoBehaviour
     [HideInInspector]
     public bool isSpellCollected = true;
 
-    // Update is called once per frame
-    public void ConfirmSpell()
+	//Determine spell slots to use
+	private void Start()
+	{
+		moduleZones = Info.IsCurrentlyVR() ? VRSpellSlots : PCSpellSlots;
+	}
+
+	// Update is called once per frame
+	public void ConfirmSpell()
     {
         // clear lists
         spellInstructions.Clear();
