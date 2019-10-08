@@ -82,7 +82,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cac381240e6d6d0439e550e7b9b1a0a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseFloorMaterial: {fileID: 2100000, guid: b242d658dd8450849865401c60f33729, type: 2}
-  baseWallMaterial: {fileID: 2100000, guid: b242d658dd8450849865401c60f33729, type: 2}
-  baseFenceMaterial: {fileID: 2100000, guid: b242d658dd8450849865401c60f33729, type: 2}
-  baseCeilingMaterial: {fileID: 2100000, guid: b242d658dd8450849865401c60f33729, type: 2}
+  baseFloorMaterial: {fileID: 2100000, guid: 5d81b5fe160200b4fa7ba015b8c3a658, type: 2}
+  baseWallMaterial: {fileID: 2100000, guid: 04806eacc1a305a40bba84d0efb0b9de, type: 2}
+  baseFenceMaterial: {fileID: 2100000, guid: 04806eacc1a305a40bba84d0efb0b9de, type: 2}
+  baseCeilingMaterial: {fileID: 2100000, guid: 3ef10f1163381cf46890bbd9a879ae4a, type: 2}
+  floorTileSize: {x: 1, y: 1}
+  wallTileSize: {x: 1, y: 1}
+  fenceTileSize: {x: 1, y: 1}
+  ceilingTileSize: {x: 1, y: 1}
