@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlatformSetup : MonoBehaviour
 {
@@ -63,8 +64,16 @@ public class PlatformSetup : MonoBehaviour
 		}
 		else
 		{
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+			if(SceneManager.GetActiveScene().name != "PC Menu")
+			{
+				Cursor.lockState = CursorLockMode.Locked;
+				Cursor.visible = false;
+			}
+			else
+			{
+				Cursor.lockState = CursorLockMode.None;
+				Cursor.visible = true;
+			}
 
             foreach (DestroyCrstalRange obj in FindObjectsOfType<DestroyCrstalRange>())
 			{
