@@ -23,18 +23,26 @@ public class VRMovement : MonoBehaviour
     [Tooltip("Movement input.")]
     public SteamVR_Action_Vector2 moveAction;
 
-    [Space(10)]
+	[Space(10)]
 
-    //hitbox variables
-    [Tooltip("Minimum playfield size.")]
+	//hitbox variables
+	[Tooltip("Minimum playfield size.")]
     public Vector2 minPlayfieldSize = new Vector2(0.25f, 0.25f);
     [Tooltip("Maximum playfield size.")]
     public Vector2 maxPlayfieldSize = new Vector2(2.5f, 2.5f);
     [Tooltip("Calculated designated playfield size.")]
     public Vector3 currentPlayfieldSize = new Vector3(0.25f, 2.0f, 0.25f);
     private BoxCollider hitbox;
-    [Tooltip("Is the head within our designated play area?")]
+	[Tooltip("Player area visualiser object.")]
+	public Transform playAreaVisualiser;
+	private Renderer pavRenderer;
+	[Tooltip("Player in area visualiser colour.")]
+	public Material inAreaColour;
+	[Tooltip("Player out of area visualiser colour.")]
+	public Material outOfAreaColour;
+	[Tooltip("Is the head within our designated play area?")]
     public bool isHeadInArea = true;
+	private bool wasHeadInArea = true;
 
     [Space(10)]
 
@@ -44,14 +52,13 @@ public class VRMovement : MonoBehaviour
     public float teleportMaxDistance = 7.5f;
     [Tooltip("Layers the teleport raycast ignores.")]
     public LayerMask teleportLayerMask;
-    [Tooltip("Teleport ray visualisation object.")]
-    public GameObject visualisationPrefab;
-    [Tooltip("Valid teleportation material.")]
+    [Tooltip("Teleportation destination visualisation object.")]
+    public GameObject visualisationObject;
+	private Renderer visualisationRenderer;
+	[Tooltip("Valid teleportation material.")]
     public Material validMaterial;
     [Tooltip("Invalid teleportation material.")]
     public Material invalidMaterial;
-    private GameObject visualisationObject;
-    private Renderer visualisationRenderer;
 	private Vector3 teleportLocation;
     private bool isValidTeleport = false;
 
@@ -83,7 +90,8 @@ public class VRMovement : MonoBehaviour
 
         isTeleportation = Info.optionsData.useTeleportation;
 
-        visualisationObject = Instantiate(visualisationPrefab);
+		pavRenderer = playAreaVisualiser.GetComponent<Renderer>();
+		
         visualisationRenderer = visualisationObject.GetComponent<Renderer>();
 
 		cameraTransform = GetComponentInChildren<Camera>().transform;
@@ -105,6 +113,7 @@ public class VRMovement : MonoBehaviour
         Vector2 size = DeterminePlayAreaSize();
         currentPlayfieldSize = new Vector3(size.x, 2.0f, size.y);
         hitbox.size = currentPlayfieldSize;
+		playAreaVisualiser.localScale = new Vector3(size.x, 0.5f, size.y);
 
         playerBody = GetComponent<Rigidbody>();
     }
@@ -120,19 +129,33 @@ public class VRMovement : MonoBehaviour
             hitbox.center = new Vector3(0, cameraTransform.localPosition.y / 2 + 0.0125f, 0);
         }
         
-        //Check if the player in in our designated play area
-        isHeadInArea = Mathf.Abs(cameraTransform.localPosition.x) < currentPlayfieldSize.x / 2.0f && Mathf.Abs(cameraTransform.localPosition.z) < currentPlayfieldSize.z / 2.0f;
+        //Check if the player is in our designated play area
+		if(Mathf.Abs(cameraTransform.localPosition.x) < currentPlayfieldSize.x / 2.0f && Mathf.Abs(cameraTransform.localPosition.z) < currentPlayfieldSize.z / 2.0f)
+		{
+			if (!wasHeadInArea)
+			{
+				wasHeadInArea = true;
 
-        if (!isHeadInArea)
-        {
-            isValidTeleport = false;
-            visualisationObject.SetActive(false);
+				pavRenderer.material = inAreaColour;
+			}
+		}
+		else
+		{
+			if (wasHeadInArea)
+			{
+				wasHeadInArea = false;
 
-            playerBody.velocity = Vector3.zero;
+				pavRenderer.material = outOfAreaColour;
+			}
 
-            return;
-        }
+			isValidTeleport = false;
+			visualisationObject.SetActive(false);
 
+			playerBody.velocity = Vector3.zero;
+
+			return;
+		}
+		
         //Handle locomotion
         if (isTeleportation)
 		{
@@ -160,13 +183,19 @@ public class VRMovement : MonoBehaviour
 
                 if (hit2.Length > 0)
                 {
-                    visualisationRenderer.material = invalidMaterial;
-                    isValidTeleport = false;
+					if (isValidTeleport)
+					{
+						visualisationRenderer.material = invalidMaterial;
+						isValidTeleport = false;
+					}
                 }
                 else
                 {
-                    visualisationRenderer.material = validMaterial;
-                    isValidTeleport = true;
+					if (!isValidTeleport)
+					{
+						visualisationRenderer.material = validMaterial;
+						isValidTeleport = true;
+					}
                 }
             }
 			else if (teleportAction.GetLastStateUp(hand))
