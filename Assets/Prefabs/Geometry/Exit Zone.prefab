@@ -597,6 +597,11 @@ PrefabInstance:
       propertyPath: ceilingTileSize.y
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 3325608004857951382, guid: d21d6a65e64882e438c9cd369a03917e,
+        type: 3}
+      propertyPath: baseFenceMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 99d92ad62f7793f49aa355120f19ab2f, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d21d6a65e64882e438c9cd369a03917e, type: 3}
 --- !u!4 &5709730212774208161 stripped
