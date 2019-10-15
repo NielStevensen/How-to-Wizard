@@ -6,6 +6,7 @@ public class CycleButton : MonoBehaviour
 {
 
     public VRLevelControll controller;
+    public int cycleValue;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +22,7 @@ public class CycleButton : MonoBehaviour
     {
         if(other.GetComponent<PickupSpell>() != null)
         {
-            controller.checkNext();
+            controller.Cycle(cycleValue);
         }
     }
 }

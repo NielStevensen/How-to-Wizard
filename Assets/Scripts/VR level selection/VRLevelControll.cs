@@ -36,15 +36,36 @@ public class VRLevelControll : MonoBehaviour
 
 	#region Level Select
 
-    public void checkNext()
-    {    
-        if (stats.storyClearData[selectedLevel])
+    public void Cycle(int distsance)
+    {
+        if (distsance >= 1)
         {
-            selectedLevel += 1;
+            if (stats.storyClearData[selectedLevel % stats.storyClearData.Length])
+            {
+                selectedLevel += 1;
+            }
+            //else
+            //{
+            //    selectedLevel = 1;
+            //}
         }
-        else
+        else if(distsance <= 1)
         {
-            selectedLevel = 1;
+            if(selectedLevel > 1)
+            {
+                selectedLevel -= 1;
+            }
+            //else
+            //{
+            //    for(int i = stats.storyClearData.Length; i > 0; --i)
+            //    {
+            //        selectedLevel = i;
+            //        if (stats.storyClearData[i])
+            //        {
+            //            break;
+            //        }                    
+            //    }
+            //}
         }
         display.sprite = levelPics[selectedLevel - 1];
         DisplayStats();
@@ -80,7 +101,6 @@ public class VRLevelControll : MonoBehaviour
 		{
 			case (GameMode.Story):
 				DisplayStats(stats.storyClearData[selectedIndex], stats.storyClearTime[selectedIndex], stats.storyBestSpell[selectedIndex]);
-                Debug.Log("loading level" + selectedIndex + "stast");
                 break;
 			case (GameMode.NewGamePlus):
 				DisplayStats(stats.nGameClearData[selectedIndex], stats.nGameClearTime[selectedIndex], stats.nGameBestSpell[selectedIndex]);
