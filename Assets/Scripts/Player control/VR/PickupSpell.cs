@@ -106,7 +106,7 @@ public class PickupSpell : MonoBehaviour
         var joint = AddFixedJoint();
         joint.connectedBody = objectInHand.GetComponent<Rigidbody>();
 
-        if (objectInHand.GetComponent<CrystalInfo>() || scrollRef != null || hourglassRef != null)
+        if (objectInHand.GetComponent<CrystalInfo>() || objectInHand.GetComponent<VRSlider>() || scrollRef != null || hourglassRef != null)
         {
             objectInHand.GetComponent<Rigidbody>().isKinematic = false;
         }
@@ -136,7 +136,7 @@ public class PickupSpell : MonoBehaviour
         return fx;
     }
     
-    private void ReleaseObject()
+    public void ReleaseObject()
     {
         if(GetComponent<FixedJoint>())
         {
@@ -158,7 +158,7 @@ public class PickupSpell : MonoBehaviour
             #region Destroy on invalid hand
             if (!isHandInArea)
             {
-                if(objectInHand.GetComponent<HourglassControl>() != null || (objectInHand.GetComponent<SpellModuleList>() != null && isInBelt == true))
+                if(objectInHand.GetComponent<HourglassControl>() != null || objectInHand.GetComponent<VRSlider>() != null|| (objectInHand.GetComponent<SpellModuleList>() != null && isInBelt == true))
                 {
                     shouldDestroy = false;
                 }
@@ -174,10 +174,8 @@ public class PickupSpell : MonoBehaviour
             {
                 if (objectInHand.GetComponent<SpellModuleList>() != null && isInBelt == false)
                 {
-                    if(Physics.Raycast(camTransform.position, transform.position - camTransform.position, out RaycastHit hit, 1000f, ~castingLayermask))
+                    if(Physics.Raycast(camTransform.position, transform.position - camTransform.position, out RaycastHit hit, 1000f, castingLayermask))
                     {
-                        print(hit.collider.gameObject.name);
-
                         if (hit.collider.gameObject == gameObject)
                         {
                             SpellModuleList sml = objectInHand.GetComponent<SpellModuleList>(); // if the object is spell
@@ -202,8 +200,6 @@ public class PickupSpell : MonoBehaviour
                     }
                     else
                     {
-                        print("no hit");
-
                         DestroyImmediate(objectInHand);
                     }
 
@@ -224,6 +220,11 @@ public class PickupSpell : MonoBehaviour
                 else if (objectInHand.GetComponent<CrystalInfo>()) // dont apply force to certain released objects
                 {
                     objectInHand.GetComponent<Rigidbody>().isKinematic = true;
+                }
+                else if (objectInHand.GetComponent<VRSlider>()) // call to update ststs
+                {
+                    objectInHand.GetComponent<Rigidbody>().isKinematic = true;
+                    objectInHand.GetComponent<VRSlider>().Exit();
                 }
                 else if (objectInHand.GetComponent<HourglassControl>()) // call horglass back to belt
                 {

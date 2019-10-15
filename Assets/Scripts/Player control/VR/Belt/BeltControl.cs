@@ -31,7 +31,7 @@ public class BeltControl : MonoBehaviour
             {
                 if (canOccupy)
                 {
-                    if (a.connectedBody.gameObject == other.gameObject) a.GetComponent<PickupSpell>().beltSlots[myNumber] = true;
+                    if (a.connectedBody.gameObject != null && a.connectedBody.gameObject == other.gameObject) a.GetComponent<PickupSpell>().beltSlots[myNumber] = true;
                     occupant = a.connectedBody.gameObject;
                     occupied = true;
                 }
@@ -55,7 +55,7 @@ public class BeltControl : MonoBehaviour
             FixedJoint[] toCheck = GameObject.FindObjectsOfType<FixedJoint>();
             foreach (FixedJoint a in toCheck)
             {
-                if (a.connectedBody.gameObject == other.gameObject) a.GetComponent<PickupSpell>().beltSlots[myNumber] = false;
+                if (a.connectedBody.gameObject != null && a.connectedBody.gameObject == other.gameObject) a.GetComponent<PickupSpell>().beltSlots[myNumber] = false;
                 occupied = false;
                 occupant = null;
             }

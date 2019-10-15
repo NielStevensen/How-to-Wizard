@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2235994293106749710}
   - component: {fileID: 2235994293106749711}
   - component: {fileID: 2235994293106749707}
-  m_Layer: 16
+  m_Layer: 17
   m_Name: Magic Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}

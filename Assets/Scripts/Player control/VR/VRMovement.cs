@@ -159,12 +159,14 @@ public class VRMovement : MonoBehaviour
         //Handle locomotion
         if (isTeleportation)
 		{
-            if (teleportAction.GetLastStateDown(hand))
-            {
-                visualisationObject.SetActive(true);
-            }
-            else if (teleportAction.GetLastState(hand))
+            if (teleportAction.GetLastState(hand))
 			{
+                if (!visualisationObject.activeInHierarchy)
+                {
+                    visualisationObject.SetActive(true);
+                    visualisationRenderer.material = invalidMaterial;
+                }
+
                 Vector3 destination = transform.position;
 
                 if (Physics.Raycast(handObject.transform.position, handObject.transform.forward, out hit, teleportMaxDistance, teleportLayerMask))
