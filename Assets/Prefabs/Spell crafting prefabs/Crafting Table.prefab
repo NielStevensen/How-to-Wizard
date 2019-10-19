@@ -2211,6 +2211,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7364187530247121673}
   - component: {fileID: 6642127787246584034}
+  - component: {fileID: 924497663167716252}
   m_Layer: 0
   m_Name: Crafting Table
   m_TagString: Untagged
@@ -2284,6 +2285,32 @@ MonoBehaviour:
   craftCooldown: 2.5
   isCraftCooldown: 0
   isSpellCollected: 1
+--- !u!114 &924497663167716252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8635077592556606639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad8a3e084e5e0946bdcb49f39b82208, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crystals:
+  - {fileID: 6052993534978006706}
+  - {fileID: 1654239520921516028}
+  - {fileID: 1265932090549564272}
+  - {fileID: 2344799888342026916}
+  - {fileID: 4012215563049928322}
+  - {fileID: 4253437851063179908}
+  - {fileID: 1159233368398647687}
+  - {fileID: 4190363821004244161}
+  - {fileID: 3054449935808971490}
+  - {fileID: 8625949362340899358}
+  - {fileID: 4919385968307639497}
+  - {fileID: 8520994671149251611}
+  - {fileID: 6331512126097881858}
 --- !u!1 &9222819411031645804
 GameObject:
   m_ObjectHideFlags: 0
