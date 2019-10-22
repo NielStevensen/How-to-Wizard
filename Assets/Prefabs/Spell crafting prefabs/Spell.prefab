@@ -420,7 +420,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1219f5efd2afe4342af6cc1516d511f0, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -492,7 +492,7 @@ MonoBehaviour:
   touchDistance: 1.5
   touchSize: 0.1
   aoeSizeAmplifier: 2.5
-  maxForceDistance: 7.5
+  maxForceDistance: 5
   maxForce: 1000
   projectilePrefab: {fileID: 7679059604262710080, guid: dba57a152f7942d41adfb60ea2b67c51,
     type: 3}

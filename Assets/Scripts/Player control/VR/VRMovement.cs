@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Valve.VR;
 
 public class VRMovement : MonoBehaviour
@@ -82,12 +83,13 @@ public class VRMovement : MonoBehaviour
     private RaycastHit hit;
 
     //Fade out coroutine for out of bounds
+    [Tooltip("The layer that is used to check for VR bounds.")]
     public LayerMask boundsLayermask;
     private int fadeProgress = 0;
     private Coroutine fadeCoroutine = null;
     public Image fadeBackdrop;
     public Text fadeText;
-    bool isInBounds = true;
+    private bool isInBounds = true;
     #endregion
 
     //Get references, set player y position and set hitbox values
@@ -141,7 +143,6 @@ public class VRMovement : MonoBehaviour
 
         //Determine if the player is in bounds
         bool isCurrentlyInBounds = Physics.Raycast(cameraTransform.position + new Vector3(0, 500, 0), transform.up * -1, out hit, 1000.0f, boundsLayermask);
-        //Debug.DrawRay(cameraTransform.position + new Vector3(0, 500, 0), transform.up * -1000, Color.green, 0.1f);
         
         if(isCurrentlyInBounds != isInBounds)
         {
@@ -251,26 +252,32 @@ public class VRMovement : MonoBehaviour
     //Out of bounds fade out coroutine
     IEnumerator Fade(int alt)
     {
-        int lowerThreshold = 0 - alt;
-        int upperThreshold = 300 - alt;
-
         float percent = 0;
         Color imageColour = fadeBackdrop.color;
         Color textColour = fadeText.color;
         
-        while (lowerThreshold < fadeProgress && fadeProgress < upperThreshold)
+        while (0 <= fadeProgress && fadeProgress <= 180)
         {
             fadeProgress += alt;
             
-            percent = fadeProgress / 300.0f;
+            percent = fadeProgress / 150.0f;
 
-            imageColour.a = percent;
+            imageColour.a = Mathf.Min(percent, 1);
             textColour.a = Mathf.Min(percent * 2, 1);
 
             fadeBackdrop.color = imageColour;
             fadeText.color = textColour;
 
             yield return new WaitForEndOfFrame();
+        }
+        
+        if (alt == 1)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        else
+        {
+            fadeProgress = 0;
         }
     }
 
