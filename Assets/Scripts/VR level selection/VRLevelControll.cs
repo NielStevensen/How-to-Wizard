@@ -31,6 +31,7 @@ public class VRLevelControll : MonoBehaviour
     {
 		stats = SaveSystem.LoadGame();
         Info.currentGameMode = GameMode.Story;
+        DisplayStats();
     }
 	
 
@@ -40,8 +41,9 @@ public class VRLevelControll : MonoBehaviour
     {
         if (distsance >= 1)
         {
-            if (stats.storyClearData[selectedLevel % stats.storyClearData.Length])
+            if(stats.storyClearData[(selectedLevel - 1) % stats.storyClearData.Length])
             {
+                Debug.Log("Text");
                 selectedLevel += 1;
             }
             //else
@@ -63,7 +65,7 @@ public class VRLevelControll : MonoBehaviour
             //        if (stats.storyClearData[i])
             //        {
             //            break;
-            //        }                    
+            //        }
             //    }
             //}
         }

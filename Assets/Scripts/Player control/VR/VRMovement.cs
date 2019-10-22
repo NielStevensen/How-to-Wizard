@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Valve.VR;
 
 public class VRMovement : MonoBehaviour
 {
-	//Movement control scheme
-	[Tooltip("Whether the player is moving via trackpad or teleportation.")]
+    #region Variables
+    //Movement control scheme
+    [Tooltip("Whether the player is moving via trackpad or teleportation.")]
 	public bool isTeleportation = true;
 
     [Space(10)]
@@ -78,7 +80,15 @@ public class VRMovement : MonoBehaviour
 
     //Raycast hit
     private RaycastHit hit;
-    
+
+    //Fade out coroutine for out of bounds
+    public LayerMask boundsLayermask;
+    private int fadeProgress = 0;
+    private Coroutine fadeCoroutine = null;
+    public Image fadeBackdrop;
+    public Text fadeText;
+    bool isInBounds = true;
+    #endregion
 
     //Get references, set player y position and set hitbox values
     private void Start()
@@ -128,9 +138,26 @@ public class VRMovement : MonoBehaviour
             hitbox.size = currentPlayfieldSize;
             hitbox.center = new Vector3(0, cameraTransform.localPosition.y / 2 + 0.0125f, 0);
         }
+
+        //Determine if the player is in bounds
+        bool isCurrentlyInBounds = Physics.Raycast(cameraTransform.position + new Vector3(0, 500, 0), transform.up * -1, out hit, 1000.0f, boundsLayermask);
+        //Debug.DrawRay(cameraTransform.position + new Vector3(0, 500, 0), transform.up * -1000, Color.green, 0.1f);
+        
+        if(isCurrentlyInBounds != isInBounds)
+        {
+            isInBounds = isCurrentlyInBounds;
+
+            if(fadeCoroutine != null)
+            {
+                StopCoroutine(fadeCoroutine);
+            }
+
+            //fadeCoroutine = StartCoroutine(FadeToBlack(!isCurrentlyInBounds));
+            fadeCoroutine = StartCoroutine(Fade(isCurrentlyInBounds ? -1 : 1));
+        }
         
         //Check if the player is in our designated play area
-		if(Mathf.Abs(cameraTransform.localPosition.x) < currentPlayfieldSize.x / 2.0f && Mathf.Abs(cameraTransform.localPosition.z) < currentPlayfieldSize.z / 2.0f)
+        if (Mathf.Abs(cameraTransform.localPosition.x) < currentPlayfieldSize.x / 2.0f && Mathf.Abs(cameraTransform.localPosition.z) < currentPlayfieldSize.z / 2.0f)
 		{
 			if (!wasHeadInArea)
 			{
@@ -148,7 +175,7 @@ public class VRMovement : MonoBehaviour
 				pavRenderer.material = outOfAreaColour;
 			}
 
-			isValidTeleport = false;
+            isValidTeleport = false;
 			visualisationObject.SetActive(false);
 
 			playerBody.velocity = Vector3.zero;
@@ -219,6 +246,32 @@ public class VRMovement : MonoBehaviour
 
             playerBody.velocity = movement * Time.deltaTime;
 		}
+    }
+
+    //Out of bounds fade out coroutine
+    IEnumerator Fade(int alt)
+    {
+        int lowerThreshold = 0 - alt;
+        int upperThreshold = 300 - alt;
+
+        float percent = 0;
+        Color imageColour = fadeBackdrop.color;
+        Color textColour = fadeText.color;
+        
+        while (lowerThreshold < fadeProgress && fadeProgress < upperThreshold)
+        {
+            fadeProgress += alt;
+            
+            percent = fadeProgress / 300.0f;
+
+            imageColour.a = percent;
+            textColour.a = Mathf.Min(percent * 2, 1);
+
+            fadeBackdrop.color = imageColour;
+            fadeText.color = textColour;
+
+            yield return new WaitForEndOfFrame();
+        }
     }
 
     //Determine the size of the player's play area and use to calculate hitbox size

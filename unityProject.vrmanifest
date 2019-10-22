@@ -5,7 +5,7 @@
       "app_key": "application.generated.unity.howtowizard.exe",
       "launch_type": "url",
       "url": "steam://launch/",
-      "action_manifest_path": "C:\\Users\\TEMP.SAE\\Documents\\GitHub\\How-to-Wizard\\actions.json",
+      "action_manifest_path": "C:\\Users\\sae\\Documents\\GitHub\\How-to-Wizard\\actions.json",
       "strings": {
         "en_us": {
           "name": "How to wizard [Testing]"

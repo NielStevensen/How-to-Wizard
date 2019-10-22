@@ -139,5 +139,8 @@ MonoBehaviour:
   isActivated: 1
   rotationSpeed: 0
   laserOrigin: {fileID: 3640641171931470119}
+  laserIgnore:
+    serializedVersion: 2
+    m_Bits: 62208
   laserPrefab: {fileID: 7658771609124669935, guid: 27d2b689845dde640aa4d5de692e1948,
     type: 3}

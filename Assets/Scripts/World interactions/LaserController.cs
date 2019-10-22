@@ -9,12 +9,18 @@ public class LaserController : MonoBehaviour
 	public bool startsActivated = true;
 	[Tooltip("Is this laser active?")]
 	public bool isActivated = true;
+
+    [Space(10)]
+
+    //Laser values
 	[Tooltip("Rotation speed of the laser.")]
 	public float rotationSpeed = 0.0f;
 	private Vector3 currentRotation = Vector3.zero;
 	[Tooltip("Origin of the laser.")]
 	public Transform laserOrigin;
-	
+    [Tooltip("The layers that the laser should ignore.")]
+    public LayerMask laserIgnore;
+
 	//Impact object
 	private GameObject impactObject;
 	private NullManager nullManager;
@@ -47,7 +53,7 @@ public class LaserController : MonoBehaviour
 
 			float laserLength = 1000.0f;
 
-			if (Physics.Raycast(laserOrigin.position, laserOrigin.forward, out hit, 1000.0f))
+			if (Physics.Raycast(laserOrigin.position, laserOrigin.forward, out hit, 1000.0f, ~laserIgnore))
 			{
 				laserLength = hit.distance / 2;
 

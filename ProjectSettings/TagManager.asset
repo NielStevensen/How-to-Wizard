@@ -8,6 +8,8 @@ TagManager:
   - Interactable
   - RightHand
   - LeftHand
+  - projectile
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -18,15 +20,15 @@ TagManager:
   - 
   - 
   - Player
-  - SpellScroll
-  - Teleport Point
+  - Spell Scroll
+  - VR In Bounds
   - Bounds
   - Hands
   - Belt
   - Crafting
-  - VRPlayer
+  - VR Player
   - Invisible Wall
-  - BlockingObject
+  - Blocking Object
   - 
   - 
   - 
