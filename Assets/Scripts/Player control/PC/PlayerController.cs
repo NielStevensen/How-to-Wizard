@@ -373,11 +373,12 @@ public class PlayerController : MonoBehaviour {
 	//Handle spell storage input
 	void HandleSpellStorage()
 	{
+		//Storing spells
 		if (Input.GetButtonDown("Fire1"))
 		{
 			RaycastHit hit;
 
-			if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, interactionRange, 1 << LayerMask.NameToLayer("SpellScroll")))
+			if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, interactionRange, 1 << LayerMask.NameToLayer("Spell Scroll")))
 			{
 				int emptySlot = -1;
 
@@ -476,6 +477,13 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
+		//Cannot select a spel while on casting cooldown
+		if (isCastingCooldown)
+		{
+			return;
+		}
+
+		//Numerical spell selection
 		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
 			SelectSpell(0);
@@ -488,8 +496,39 @@ public class PlayerController : MonoBehaviour {
 		{
 			SelectSpell(2);
 		}
+		
+		//Scroll spell selection
+		float scroll = Input.GetAxis("Mouse ScrollWheel");
+
+		if (scroll != 0)
+		{
+			int availableSpell = selectedSpell == -1 ? CycleForAvailable(0, 0, 3, 1) : CycleForAvailable(selectedSpell + 3, 1, 3, scroll > 0 ? 1 : -1);
+			
+			if (availableSpell > -1)
+			{
+				SelectSpell(availableSpell);
+			}
+		}
 	}
 	
+	//Cycle through spells to find an available spell
+	int CycleForAvailable(int initialIndex, int cycleStart, int cycleCount, int alt)
+	{
+		int availableSpell = -1;
+
+		for (int i = cycleStart; i < cycleCount; i++)
+		{
+			if (storedSpells[(initialIndex + i * alt) % 3] != null)
+			{
+				availableSpell = (initialIndex + i * alt) % 3;
+
+				break;
+			}
+		}
+
+		return availableSpell;
+	}
+
 	//Handle spell selection
 	void SelectSpell(int slot)
 	{
