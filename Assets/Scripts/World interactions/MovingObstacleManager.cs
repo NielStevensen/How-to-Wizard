@@ -12,6 +12,8 @@ public class MovingObstacleManager : MonoBehaviour
 	[Tooltip("Invisible walls that will be deactivated when this obstacle finishes moving.\nOnly applies to un-deactivatable obstacles.")]
 	public GameObject[] targetInvisibleWalls = new GameObject[0];
 
+	[Space(10)]
+
 	//Movement values
 	[Tooltip("How far the object moves when activated.")]
 	public Vector3 activeDisplacement = Vector3.zero;

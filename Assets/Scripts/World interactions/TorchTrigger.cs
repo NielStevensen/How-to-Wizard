@@ -9,17 +9,30 @@ public class TorchTrigger : MonoBehaviour
     public List<MovingObstacleManager> targetObstacles;
     [Tooltip("The lasers this torch activates.")]
     public List<LaserController> targetLasers;
+	[Tooltip("Associated mechanism symbols.")]
+	public List<SpriteRenderer> targetSymbols;
+	private List<ParticleSystem> symbolPFX = new List<ParticleSystem>();
 
-    public GameObject flame;
+	public GameObject flame;
 
     public bool isActivated = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (isActivated)
+		foreach (SpriteRenderer obj in targetSymbols)
+		{
+			foreach (ParticleSystem pfx in obj.GetComponentsInChildren<ParticleSystem>())
+			{
+				symbolPFX.Add(pfx);
+			}
+		}
+
+		if (isActivated)
         {
-            flame.SetActive(isActivated);
+			UpdateSymbols(true);
+
+			flame.SetActive(isActivated);
 
             foreach (MovingObstacleManager target in targetObstacles)
             {
@@ -40,6 +53,7 @@ public class TorchTrigger : MonoBehaviour
         {
             isActivated = updatedState;
             flame.SetActive(isActivated);
+			UpdateSymbols(isActivated);
 
             foreach (MovingObstacleManager target in targetObstacles)
             {
@@ -52,4 +66,22 @@ public class TorchTrigger : MonoBehaviour
             }
         }
     }
+
+	//Update mechanism symbols
+	void UpdateSymbols(bool state)
+	{
+		for (int i = 0; i < targetSymbols.Count; i++)
+		{
+			targetSymbols[i].color = state ? Color.red : Color.white;
+
+			if (state)
+			{
+				symbolPFX[i].Play();
+			}
+			else
+			{
+				symbolPFX[i].Stop();
+			}
+		}
+	}
 }

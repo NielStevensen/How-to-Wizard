@@ -106,6 +106,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isActivated: 0
   isDeactivatable: 0
-  targetInvisibleWalls:
-  - {fileID: 0}
+  targetInvisibleWalls: []
   activeDisplacement: {x: 0, y: 10, z: 0}

@@ -399,10 +399,15 @@ public class PlayerController : MonoBehaviour {
 					storedSpells[emptySlot] = hit.collider.gameObject;
 					
 					storedSpells[emptySlot].GetComponent<Collider>().enabled = false;
-
-					for(int i = 0; i < 5; i++)
+					
+					foreach (Renderer renderer in storedSpells[emptySlot].transform.GetChild(0).GetComponentsInChildren<Renderer>())
 					{
-						storedSpells[emptySlot].transform.GetChild(0).GetChild(i).gameObject.GetComponent<Renderer>().enabled = false;
+						renderer.enabled = false;
+					}
+
+					foreach (SpriteRenderer render in storedSpells[emptySlot].GetComponent<Spell>().symbolSlots)
+					{
+						render.enabled = false;
 					}
 
 					storedSpells[emptySlot].gameObject.name = "Stored Spell " + emptySlot;

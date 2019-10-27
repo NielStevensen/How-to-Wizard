@@ -66,7 +66,7 @@ public class SpellCreation : MonoBehaviour
 
             if (isValid == true) // if the spell passes all checks
             {
-                GameObject currentSpell = Instantiate(spellPrefab, spawnpoint.position, Quaternion.identity);// create a spell object
+                GameObject currentSpell = Instantiate(spellPrefab, spawnpoint.position, spawnpoint.rotation);// create a spell object
                 
                 for ( int i = 0; i < spellInstructions.Count; i++)
                 {
@@ -75,7 +75,7 @@ public class SpellCreation : MonoBehaviour
             }
             else
             {
-                Instantiate(IncorrectSpell, spawnpoint.position, Quaternion.identity);
+                Instantiate(IncorrectSpell, spawnpoint.position, spawnpoint.rotation);
             }
         }
     }

@@ -186,7 +186,19 @@ public class PickupSpell : MonoBehaviour
                             sml.projectileVelocity = controllerPose.GetVelocity();
                             sml.projectileAngularV = controllerPose.GetAngularVelocity();
 
-                            objectInHand.GetComponent<Spell>().CallSpell();
+							Spell spellref = objectInHand.GetComponent<Spell>();
+
+							spellref.CallSpell();
+							
+							foreach(Renderer renderer in objectInHand.transform.GetChild(0).GetComponentsInChildren<Renderer>())
+							{
+								renderer.enabled = false;
+							}
+
+							foreach(SpriteRenderer render in spellref.symbolSlots)
+							{
+								render.enabled = false;
+							}
 
                             for (int i = 0; i < 5; i++)
                             {

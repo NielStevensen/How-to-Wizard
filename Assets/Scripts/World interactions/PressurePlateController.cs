@@ -22,6 +22,9 @@ public class PressurePlateController : MonoBehaviour
 	public List<MovingObstacleManager> targetObstacles;
     [Tooltip("The laser this pressure plate activates.")]
     public List<LaserController> targetLasers;
+	[Tooltip("Associated mechanism symbols.")]
+	public List<SpriteRenderer> targetSymbols;
+	private List<ParticleSystem> symbolPFX = new List<ParticleSystem>();
 
     [Space(10)]
 
@@ -34,9 +37,21 @@ public class PressurePlateController : MonoBehaviour
 	public bool isActivated = false;
     private List<WeightedObject> objectsAbove = new List<WeightedObject>();
     private List<WeightedObject> objectsRemoved = new List<WeightedObject>();
-    
-    //Check that the objects above it still exist. If not, remove its weight and check activation state
-    private void Update()
+
+	//Set references
+	private void Start()
+	{
+		foreach(SpriteRenderer obj in targetSymbols)
+		{
+			foreach(ParticleSystem pfx in obj.GetComponentsInChildren<ParticleSystem>())
+			{
+				symbolPFX.Add(pfx);
+			}
+		}
+	}
+
+	//Check that the objects above it still exist. If not, remove its weight and check activation state
+	private void Update()
     {
         foreach (WeightedObject obj in objectsAbove)
         {
@@ -115,11 +130,13 @@ public class PressurePlateController : MonoBehaviour
 		{
 			isActivated = true;
 
-            
+			UpdateSymbols(true);
 		}
 		else if(currentWeight < weightThreshold && isActivated)
 		{
 			isActivated = false;
+
+			UpdateSymbols(false);
 		}
 
         foreach (MovingObstacleManager target in targetObstacles)
@@ -132,4 +149,22 @@ public class PressurePlateController : MonoBehaviour
             target.HandleState(isActivated);
         }
     }
+
+	//Update mechanism symbols
+	void UpdateSymbols(bool state)
+	{
+		for(int i = 0; i < targetSymbols.Count; i++)
+		{
+			targetSymbols[i].color = state ? Color.red : Color.white;
+
+			if (state)
+			{
+				symbolPFX[i].Play();
+			}
+			else
+			{
+				symbolPFX[i].Stop();
+			}
+		}
+	}
 }
