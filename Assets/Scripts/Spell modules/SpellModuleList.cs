@@ -247,6 +247,7 @@ public class SpellModuleList : MonoBehaviour
         float speed = 0.0f; // the speed opf the projectile simulation
 
         List<GameObject> lineSegments = new List<GameObject>();
+        GameObject targetOrb = null;
         #endregion
 
         Vector3 previousPoint = transform.position;
@@ -265,7 +266,7 @@ public class SpellModuleList : MonoBehaviour
 			while (Input.GetButton("Fire2"))
 			{
 				holdTime += Time.deltaTime;
-				power = Mathf.Min(holdTime, maxThrow) * 10;
+				power = Mathf.Min(holdTime * 2, maxThrow) * 10;
 				direction = transform.forward;
 
 				if (modifier % 10 == 0)
@@ -280,7 +281,8 @@ public class SpellModuleList : MonoBehaviour
 					//simulate arc for up to maximum number of segments
 					while (simulatedSegments < maxSimulationSegments && !simulationComplete)
 					{
-						previousPoint = nextPoint;
+                        if (targetOrb != null) Destroy(targetOrb);
+                        previousPoint = nextPoint;
 						time += (projectilePredictionDistance / 100) / speed; // simulated time for prediction based on length of rendered line
 						nextPoint.x = transform.position.x + ((direction * power).x * time);
 						nextPoint.y = transform.position.y + ((direction * power).y * time) + (0.5f * Physics.gravity.y * (time * time));
@@ -294,7 +296,12 @@ public class SpellModuleList : MonoBehaviour
 						{
 							nextPoint = hit.point;
 							simulationComplete = true;
-						}
+                            targetOrb = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                            Destroy(targetOrb.GetComponent<SphereCollider>());
+                            targetOrb.transform.position = hit.point;
+                            targetOrb.transform.localScale *= 0.6f;
+                            targetOrb.GetComponent<Renderer>().material = segment.GetComponentInChildren<Renderer>().sharedMaterial;
+                        }
 
 					}
 
@@ -315,8 +322,9 @@ public class SpellModuleList : MonoBehaviour
         {
             Destroy(a);
         }
-		
-		if (modifier % 10 == 0)
+        if (targetOrb != null) Destroy(targetOrb);
+
+        if (modifier % 10 == 0)
 		{
 			NotifySpellCasted();
 		}

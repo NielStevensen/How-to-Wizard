@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3474423623683491143}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Closed Spell Scroll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 2302830788927930390}
   - component: {fileID: 2064284892993862926}
   - component: {fileID: 8874379574145139657}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wind2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -317,7 +317,7 @@ GameObject:
   - component: {fileID: 3992389745039699267}
   - component: {fileID: 308233336544780657}
   - component: {fileID: 3263924418260784104}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Back2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -473,7 +473,7 @@ GameObject:
   - component: {fileID: 3444108700232683524}
   - component: {fileID: 56045301731727144}
   - component: {fileID: 5559888997183873856}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Rod1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -550,7 +550,7 @@ GameObject:
   - component: {fileID: 2071906478446492969}
   - component: {fileID: 446214523452974439}
   - component: {fileID: 801908293805183193}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -826,8 +826,8 @@ MonoBehaviour:
   spellID: -1
   rotationReference: {fileID: 0}
   projectileSpeedMultiplier: 2.5
-  projectilePredictionDistance: 30
-  maxSimulationSegments: 30
+  projectilePredictionDistance: 40
+  maxSimulationSegments: 60
   maxThrow: 2
   projectileVelocity: {x: 0, y: 0, z: 0}
   projectileAngularV: {x: 0, y: 0, z: 0}
@@ -984,7 +984,7 @@ GameObject:
   - component: {fileID: 551875587534156203}
   - component: {fileID: 8507511697259778885}
   - component: {fileID: 5725836277892959312}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Rod2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1061,7 +1061,7 @@ GameObject:
   - component: {fileID: 1834996754261760755}
   - component: {fileID: 3591098361195533659}
   - component: {fileID: 7129966777998328205}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wind1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
