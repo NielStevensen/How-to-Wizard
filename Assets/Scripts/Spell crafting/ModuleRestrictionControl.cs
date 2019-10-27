@@ -15,6 +15,47 @@ public class ModuleRestrictionControl : MonoBehaviour
                 a.SetActive(true);
             }
         }
+        if (Info.currentGameMode == GameMode.Sandbox)
+        {
+            PlayerData data = SaveSystem.LoadGame();
+            if (data.storyClearData[0])
+            {
+                crystals[0].SetActive(true);
+                crystals[7].SetActive(true);
+            }
+            if (data.storyClearData[1])
+            {
+                crystals[1].SetActive(true);
+            }
+            if (data.storyClearData[2])
+            {
+                crystals[8].SetActive(true);
+                crystals[9].SetActive(true);
+            }
+            if (data.storyClearData[3])
+            {
+                crystals[4].SetActive(true);
+            }
+            if (data.storyClearData[5])
+            {
+                crystals[2].SetActive(true);
+                crystals[5].SetActive(true);
+                crystals[10].SetActive(true);
+            }
+            if (data.storyClearData[6])
+            {
+                crystals[11].SetActive(true);
+            }
+            if (data.storyClearData[7])
+            {
+                crystals[3].SetActive(true);
+                crystals[12].SetActive(true);
+            }
+            if (data.storyClearData[5])
+            {
+                crystals[6].SetActive(true);
+            }
+        }
     }
 
     // Update is called once per frame
