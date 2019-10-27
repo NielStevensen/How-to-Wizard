@@ -315,8 +315,13 @@ public class SpellModuleList : MonoBehaviour
         {
             Destroy(a);
         }
+		
+		if (modifier % 10 == 0)
+		{
+			NotifySpellCasted();
+		}
 
-        GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+		GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
         projectile.GetComponent<ProjectileReturn>().modifier = modifier;
         projectile.GetComponent<ProjectileReturn>().caller = this;
 
@@ -371,12 +376,7 @@ public class SpellModuleList : MonoBehaviour
             info.shouldContinue = false;
 
             yield return info;
-
-			if(modifier % 10 == 0)
-			{
-				NotifySpellCasted();
-			}
-
+			
 			yield break;
         }
 
@@ -392,11 +392,6 @@ public class SpellModuleList : MonoBehaviour
 		}
 
         yield return info;
-
-		if (modifier % 10 == 0)
-		{
-			NotifySpellCasted();
-		}
 	}
 
 	//Call projectile 3 times with variance in trajectory
@@ -468,10 +463,8 @@ public class SpellModuleList : MonoBehaviour
 			{
                 length = 1000f;
 			}
-
-			float tempWidth = 0.0125f + Mathf.Min(holdTime / maxChargeTime, 1.0f) / 10.0f;
-
-            width = tempWidth;
+			
+            width = 0.0125f + Mathf.Min(holdTime / maxChargeTime, 1.0f) / 10.0f;
             line.transform.localScale = new Vector3(width, width, length);
             line.transform.position = origin;
             line.transform.LookAt(hit.point);
@@ -497,7 +490,9 @@ public class SpellModuleList : MonoBehaviour
 		}
 		
 		yield return info;
+
         Destroy(line);
+
 		NotifySpellCasted();
 	}
 
