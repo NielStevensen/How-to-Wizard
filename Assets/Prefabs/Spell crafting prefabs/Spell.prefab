@@ -474,8 +474,8 @@ MonoBehaviour:
   spellID: -1
   rotationReference: {fileID: 0}
   projectileSpeedMultiplier: 2.5
-  projectilePredictionDistance: 30
-  maxSimulationSegments: 30
+  projectilePredictionDistance: 40
+  maxSimulationSegments: 60
   maxThrow: 2
   projectileVelocity: {x: 0, y: 0, z: 0}
   projectileAngularV: {x: 0, y: 0, z: 0}
