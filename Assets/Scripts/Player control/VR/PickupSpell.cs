@@ -52,7 +52,7 @@ public class PickupSpell : MonoBehaviour
 
         if (grabAction.GetLastStateUp(hand))
         {
-            if (collidingObject)
+            if (GetComponent<FixedJoint>() != null)
             {
                 ReleaseObject();
             }
@@ -130,8 +130,8 @@ public class PickupSpell : MonoBehaviour
     {
         FixedJoint fx = gameObject.AddComponent<FixedJoint>();
 
-        fx.breakForce = 200000;
-        fx.breakTorque = 200000;
+        fx.breakForce = 20000;
+        fx.breakTorque = 20000;
 
         return fx;
     }
@@ -253,5 +253,10 @@ public class PickupSpell : MonoBehaviour
         }
         
         objectInHand = null;
+    }
+
+    public void ClearCrystal()
+    {
+        Destroy(GetComponent<FixedJoint>());
     }
 }

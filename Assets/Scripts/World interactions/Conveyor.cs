@@ -7,7 +7,12 @@ public class Conveyor : MonoBehaviour
     [Tooltip("can the conveyor use transfrom to move non rigid body objects")]
     public bool canUseTransfrom;
     public float Movespeed;
+    public Vector2 panningSpeed;
+    public Vector3 rotatingSpeed;
 
+    public GameObject[] gears;
+
+    public GameObject belt;
 
     // Update is called once per frame
     private void OnTriggerStay(Collider other)
@@ -22,6 +27,15 @@ public class Conveyor : MonoBehaviour
             {
                 transform.Translate(transform.forward * Movespeed);
             }
+        }
+    }
+
+    private void Update()
+    {
+        belt.GetComponent<MeshRenderer>().material.mainTextureOffset = (belt.GetComponent<MeshRenderer>().material.mainTextureOffset + panningSpeed / 1000f);
+        foreach(GameObject a in gears)
+        {
+            a.transform.Rotate(rotatingSpeed);
         }
     }
 }

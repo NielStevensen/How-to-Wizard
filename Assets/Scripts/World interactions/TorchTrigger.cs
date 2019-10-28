@@ -65,6 +65,8 @@ public class TorchTrigger : MonoBehaviour
                 target.HandleState(isActivated);
             }
         }
+        if(!isActivated) GetComponent<BurnController>().enabled = false;
+
     }
 
 	//Update mechanism symbols

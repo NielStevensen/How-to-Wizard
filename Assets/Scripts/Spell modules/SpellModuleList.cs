@@ -326,7 +326,7 @@ public class SpellModuleList : MonoBehaviour
 
         if (modifier % 10 == 0)
 		{
-			NotifySpellCasted();
+            NotifySpellCasted();
 		}
 
 		GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
