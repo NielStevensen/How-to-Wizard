@@ -24,7 +24,6 @@ public class ObjectSpawner : MonoBehaviour
         {
             for( int i = 0; i < spawnedObjects.Length; i ++)
             {
-                Debug.Log(i);
                 if (spawnedObjects[i] == null)
                 {
                     
