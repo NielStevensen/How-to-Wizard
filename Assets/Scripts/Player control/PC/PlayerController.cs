@@ -6,10 +6,11 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
-
-    //Movement speed of the player
-    [Tooltip("Movement speed of the player.")]
+	#region Variables
+	//Movement speed of the player
+	[Tooltip("Movement speed of the player.")]
     public float movementSpeed = 5.0f;
+	private float initialY;
 
     //Movement expressed as a vector3
     private Vector3 movement = Vector3.zero;
@@ -65,6 +66,17 @@ public class PlayerController : MonoBehaviour {
 
 	[Space(10)]
 
+	//Pause valuse
+	[Tooltip("Pause UI.")]
+	public RawImage pauseMenu;
+	private bool shouldUnpause = false;
+	private Camera blurCam;
+	[Tooltip("Pause blur shader.")]
+	public Shader blurShader;
+	#endregion
+
+	[Space(10)]
+	
 	//temp recolour values
 	public Color primaryDefault;
 	public Color secondaryDefault;
@@ -72,7 +84,6 @@ public class PlayerController : MonoBehaviour {
 	public Color hoverColour;
 	public Color selectedColour;
 	
-
 	//currently doesn't work
 	//Shaders
 	/*[Tooltip("Default shader.")]
@@ -99,6 +110,8 @@ public class PlayerController : MonoBehaviour {
 	//Set cursor state and set references
 	private void Start()
     {
+		initialY = transform.position.y;
+
 		cameraTransform = transform.GetChild(0);
 		table = FindObjectOfType<SpellCreation>();
 		clearButton = table.GetComponentInChildren<ClearTable>();
@@ -114,12 +127,17 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		StartCoroutine(WaitUntilRelease());
-    }
+
+		blurCam = new GameObject().AddComponent<Camera>();
+		blurCam.enabled = false;
+	}
 
     //Handle input
     void Update ()
     {
-		if (!isResetting)
+		HandlePause();
+
+		if (!isResetting && !Info.isPaused)
 		{
 			HandleMovement();
 
@@ -139,7 +157,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	#region Movement
-	//Handle player movement
+	//Handle player movement and ensure y coord doesn't change
 	void HandleMovement()
 	{
 		movement = Vector3.Normalize(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"))) * movementSpeed;
@@ -149,6 +167,14 @@ public class PlayerController : MonoBehaviour {
 		if (characterController.enabled)
 		{
 			characterController.Move(movement * Time.deltaTime);
+
+			Vector3 pos = transform.position;
+
+			if (pos.y != initialY)
+			{
+				pos.y = initialY;
+				transform.position = pos;
+			}
 		}
 	}
 	#endregion
@@ -630,7 +656,7 @@ public class PlayerController : MonoBehaviour {
 
 				break;
 			}
-
+			
 			elapsedTime += Time.deltaTime;
 			
 			yield return new WaitForEndOfFrame();
@@ -655,6 +681,59 @@ public class PlayerController : MonoBehaviour {
 		}
 		
 		canReset = true;
+	}
+	#endregion
+
+	#region Pause
+	//Handle pausing
+	void HandlePause()
+	{
+		if (Input.GetButtonDown("Cancel") || shouldUnpause)// || Input.GetKeyDown(KeyCode.Tab))
+		{
+			shouldUnpause = false;
+
+			Info.TogglePause();
+
+			Cursor.lockState = Info.isPaused ? CursorLockMode.None : CursorLockMode.Locked;
+			Cursor.visible = Info.isPaused;
+
+			//Blurring. doesn't work right now. only a desirable
+			/*if (Info.isPaused)
+			{
+				Texture2D bluredRender = new Texture2D(Screen.width, Screen.height);
+				
+				blurCam.CopyFrom(Camera.main);
+
+				RenderTexture temporaryRT = RenderTexture.GetTemporary(Screen.width, Screen.height);
+				blurCam.targetTexture = temporaryRT;
+
+				blurCam.RenderWithShader(blurShader, "");
+
+				RenderTexture.active = temporaryRT;
+				bluredRender.ReadPixels(new Rect(0, 0, temporaryRT.width, temporaryRT.height), 0, 0);
+				bluredRender.Apply();
+
+				pauseMenu.texture = bluredRender;
+
+				RenderTexture.ReleaseTemporary(temporaryRT);
+			}*/
+			
+			pauseMenu.gameObject.SetActive(Info.isPaused);
+		}
+	}
+
+	//Toggle pause from pause menu
+	public void TogglePause()
+	{
+		shouldUnpause = true;
+	}
+	
+	//Return to menu from pause menu
+	public void QuitToMenu()
+	{
+		Info.TogglePause();
+
+		SceneManager.LoadScene("PC Menu");
 	}
 	#endregion
 

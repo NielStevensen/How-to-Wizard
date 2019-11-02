@@ -61,26 +61,31 @@ public class CameraController : MonoBehaviour {
 	//Handle camera
 	void Update ()
     {
-			if (isRotatingHorizontally)
-			{
-				float rotationValue = 0;
+		if (Info.isPaused)
+		{
+			return;
+		}
 
-				rotationValue = Input.GetAxis("Mouse X") * mouseSensitivityX;
+		if (isRotatingHorizontally)
+		{
+			float rotationValue = 0;
 
-				rotationHorizontal += rotationValue;
+			rotationValue = Input.GetAxis("Mouse X") * mouseSensitivityX;
 
-				Quaternion quaternionHorizontal = Quaternion.AngleAxis(rotationHorizontal, Vector3.up);
+			rotationHorizontal += rotationValue;
 
-				transform.localRotation = Quaternion.identity * quaternionHorizontal;
-			}
-			else
-			{
-				float rotationValue = 0;
-				rotationValue = Input.GetAxis("Mouse Y") * mouseSensitivityY * mouseInversion;
-				rotationVertical += rotationValue;
-				rotationVertical = Mathf.Clamp(rotationVertical, minVerticalRotation, maxVerticalRotation);
-				Quaternion quaternionVertical = Quaternion.AngleAxis(rotationVertical, Vector3.left);
-				transform.localRotation = Quaternion.identity * quaternionVertical;
-			}
+			Quaternion quaternionHorizontal = Quaternion.AngleAxis(rotationHorizontal, Vector3.up);
+
+			transform.localRotation = Quaternion.identity * quaternionHorizontal;
+		}
+		else
+		{
+			float rotationValue = 0;
+			rotationValue = Input.GetAxis("Mouse Y") * mouseSensitivityY * mouseInversion;
+			rotationVertical += rotationValue;
+			rotationVertical = Mathf.Clamp(rotationVertical, minVerticalRotation, maxVerticalRotation);
+			Quaternion quaternionVertical = Quaternion.AngleAxis(rotationVertical, Vector3.left);
+			transform.localRotation = Quaternion.identity * quaternionVertical;
+		}
 	}
 }

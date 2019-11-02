@@ -21,6 +21,17 @@ public static class Info
 		return targetPlatform == Platform.VR;
 	}
 
+	//Pause status
+	public static bool isPaused = false;
+
+	//Toggle pause state
+	public static void TogglePause()
+	{
+		isPaused = !isPaused;
+
+		Time.timeScale = isPaused ? 0.0f : 1.0f;
+	}
+
 	//Current game mode
 	public static GameMode currentGameMode = GameMode.Unset;
 
