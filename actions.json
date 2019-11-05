@@ -16,7 +16,8 @@
     {
       "name": "/actions/default/in/SkeletonRightHand",
       "type": "skeleton",
-      "skeleton": "/skeleton/hand/right"
+      "skeleton": "/skeleton/hand/right",
+      "requirement": "suggested"
     },
     {
       "name": "/actions/default/in/HeadsetOnHead",
@@ -25,15 +26,22 @@
     },
     {
       "name": "/actions/default/in/Pose",
-      "type": "pose"
+      "type": "pose",
+      "requirement": "suggested"
     },
     {
       "name": "/actions/default/in/Hold",
-      "type": "boolean"
+      "type": "boolean",
+      "requirement": "suggested"
     },
     {
       "name": "/actions/default/in/Move",
       "type": "vector2"
+    },
+    {
+      "name": "/actions/default/in/Menu",
+      "type": "boolean",
+      "requirement": "suggested"
     },
     {
       "name": "/actions/default/out/Haptic",

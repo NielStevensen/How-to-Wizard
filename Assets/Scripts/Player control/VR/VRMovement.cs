@@ -90,15 +90,25 @@ public class VRMovement : MonoBehaviour
     public Image fadeBackdrop;
     public Text fadeText;
     private bool isInBounds = true;
+
+    //menu variables
+    public SteamVR_Action_Boolean menuButton;
+    private bool shouldUnpause = false;
+    private bool togglePause;
+    public GameObject menuLayout;
+    public LayerMask pausedLayers;
+    public GameObject pointer;
     #endregion
 
     //Get references, set player y position and set hitbox values
     private void Start()
     {
+        pointer = Instantiate(pointer);
 		if (!Info.IsCurrentlyVR())
 		{
 			return;
 		}
+        menuLayout.transform.SetParent(null); // seperate from vr view so raycsts work properly
 
         isTeleportation = Info.optionsData.useTeleportation;
 
@@ -132,7 +142,7 @@ public class VRMovement : MonoBehaviour
 
     //Handle hitbox, movement and teleportation
     void Update()
-    {
+    {   
         //Handle hitbox
         if (Physics.Raycast(cameraTransform.position, transform.up * -1, out hit, 1000.0f, movementLayerMask))
         {
@@ -143,7 +153,7 @@ public class VRMovement : MonoBehaviour
 
         //Determine if the player is in bounds
         bool isCurrentlyInBounds = Physics.Raycast(cameraTransform.position + new Vector3(0, 500, 0), transform.up * -1, out hit, 1000.0f, boundsLayermask);
-        
+
         if(isCurrentlyInBounds != isInBounds)
         {
             isInBounds = isCurrentlyInBounds;
@@ -152,8 +162,7 @@ public class VRMovement : MonoBehaviour
             {
                 StopCoroutine(fadeCoroutine);
             }
-
-            //fadeCoroutine = StartCoroutine(FadeToBlack(!isCurrentlyInBounds));
+            
             fadeCoroutine = StartCoroutine(Fade(isCurrentlyInBounds ? -1 : 1));
         }
         
@@ -183,70 +192,109 @@ public class VRMovement : MonoBehaviour
 
 			return;
 		}
-		
+
         //Handle locomotion
-        if (isTeleportation)
-		{
-            if (teleportAction.GetLastState(hand))
-			{
-                if (!visualisationObject.activeInHierarchy)
+        if (!Info.isPaused)
+        {
+            if (isTeleportation)
+            {
+                if (teleportAction.GetLastState(hand))
                 {
-                    visualisationObject.SetActive(true);
-                    visualisationRenderer.material = invalidMaterial;
+                    if (!visualisationObject.activeInHierarchy)
+                    {
+                        visualisationObject.SetActive(true);
+                        visualisationRenderer.material = invalidMaterial;
+                    }
+
+                    Vector3 destination = transform.position;
+
+                    if (Physics.Raycast(handObject.transform.position, handObject.transform.forward, out hit, teleportMaxDistance, teleportLayerMask))
+                    {
+                        destination = new Vector3(hit.point.x, transform.position.y + hitbox.center.y, hit.point.z);
+                    }
+                    else
+                    {
+                        destination = new Vector3(handObject.transform.position.x + handObject.transform.forward.x * teleportMaxDistance, transform.position.y + hitbox.center.y, handObject.transform.position.z + handObject.transform.forward.z * teleportMaxDistance);
+                    }
+
+                    visualisationObject.transform.position = destination;
+                    visualisationObject.transform.localScale = hitbox.size;
+
+                    RaycastHit[] hit2 = Physics.BoxCastAll(visualisationObject.transform.position, visualisationObject.transform.localScale / 2, Vector3.up * 0.01f, Quaternion.identity, 0.01f, teleportLayerMask);
+
+                    if (hit2.Length > 0)
+                    {
+                        if (isValidTeleport)
+                        {
+                            visualisationRenderer.material = invalidMaterial;
+                            isValidTeleport = false;
+                        }
+                    }
+                    else
+                    {
+                        if (!isValidTeleport)
+                        {
+                            visualisationRenderer.material = validMaterial;
+                            isValidTeleport = true;
+                        }
+                    }
                 }
-
-                Vector3 destination = transform.position;
-
-                if (Physics.Raycast(handObject.transform.position, handObject.transform.forward, out hit, teleportMaxDistance, teleportLayerMask))
-				{
-                    destination = new Vector3(hit.point.x, transform.position.y + hitbox.center.y, hit.point.z);
-                }
-				else
-				{
-                    destination = new Vector3(handObject.transform.position.x + handObject.transform.forward.x * teleportMaxDistance, transform.position.y + hitbox.center.y, handObject.transform.position.z + handObject.transform.forward.z * teleportMaxDistance);
-				}
-
-                visualisationObject.transform.position = destination;
-                visualisationObject.transform.localScale = hitbox.size;
-
-                RaycastHit[] hit2 = Physics.BoxCastAll(visualisationObject.transform.position, visualisationObject.transform.localScale / 2, Vector3.up * 0.01f, Quaternion.identity, 0.01f, teleportLayerMask);
-
-                if (hit2.Length > 0)
+                else if (teleportAction.GetLastStateUp(hand))
                 {
-					if (isValidTeleport)
-					{
-						visualisationRenderer.material = invalidMaterial;
-						isValidTeleport = false;
-					}
-                }
-                else
-                {
-					if (!isValidTeleport)
-					{
-						visualisationRenderer.material = validMaterial;
-						isValidTeleport = true;
-					}
+                    visualisationObject.SetActive(false);
+
+                    if (isValidTeleport)
+                    {
+                        transform.position = new Vector3(visualisationObject.transform.position.x, transform.position.y, visualisationObject.transform.position.z);
+
+                        isValidTeleport = false;
+                    }
                 }
             }
-			else if (teleportAction.GetLastStateUp(hand))
-			{
-                visualisationObject.SetActive(false);
+            else
+            {
+                movement = Vector3.Normalize(new Vector3(moveAction.GetAxis(hand).x, 0, moveAction.GetAxis(hand).y)) * movementSpeed;
+                movement = rotationReference.TransformDirection(movement);
 
-                if (isValidTeleport)
-                {
-                    transform.position = new Vector3(visualisationObject.transform.position.x, transform.position.y, visualisationObject.transform.position.z);
-
-                    isValidTeleport = false;
-                }
+                playerBody.velocity = movement * Time.deltaTime;
             }
-		}
-		else
-		{
-            movement = Vector3.Normalize(new Vector3(moveAction.GetAxis(hand).x, 0, moveAction.GetAxis(hand).y)) * movementSpeed;
-			movement = rotationReference.TransformDirection(movement);
+        }
 
-            playerBody.velocity = movement * Time.deltaTime;
-		}
+        if(togglePause)
+        {
+            togglePause = false;
+            Info.TogglePause();
+            shouldUnpause = false;
+        }
+        //Menu + pausing
+        if (menuButton.GetStateUp(hand))
+        {
+            menuLayout.SetActive(!Info.isPaused);
+            togglePause = true;
+            if (!Info.isPaused)
+            {
+                menuLayout.transform.position = (cameraTransform.position + rotationReference.transform.forward);
+                menuLayout.transform.LookAt(cameraTransform);
+            }         
+        }
+
+        //while paused
+        if(Info.isPaused)
+        {
+            if (Physics.Raycast(handObject.transform.position, handObject.transform.forward, out RaycastHit Output, 1000f, pausedLayers))
+            {
+                pointer.transform.position = handObject.transform.position;
+                Debug.Log(Output.collider.gameObject.name);
+                pointer.transform.localScale = new Vector3(0.1f,0.1f, Output.distance/2);
+                pointer.transform.LookAt(Output.point);
+            }
+            else
+            {
+                pointer.transform.position = handObject.transform.position;
+                pointer.transform.localScale = new Vector3(0.1f, 0.1f, 100f);
+                pointer.transform.rotation = handObject.transform.rotation;
+            }
+        }
     }
 
     //Out of bounds fade out coroutine
