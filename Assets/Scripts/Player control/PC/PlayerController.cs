@@ -55,6 +55,14 @@ public class PlayerController : MonoBehaviour {
 	public bool isSpellCasted = false;
 	[Tooltip("Spell casting source.")]
 	public GameObject spellOrigin;
+	[HideInInspector]
+	public Animator animator;
+	public static int startCastHash;
+	public static int throwHash;
+	public static int chargeHash;
+	public static int endChargeHash;
+	public static int touchHash;
+	public static int cancelCastHash;
 
 	[Space(10)]
 
@@ -81,7 +89,6 @@ public class PlayerController : MonoBehaviour {
 	public Color primaryDefault;
 	public Color secondaryDefault;
 	public Color effectDefault;
-	public Color hoverColour;
 	public Color selectedColour;
 	
 	//currently doesn't work
@@ -126,10 +133,18 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
+		animator = cameraTransform.GetComponentInChildren<Animator>();
+		startCastHash = Animator.StringToHash("startCast");
+		throwHash = Animator.StringToHash("throw");
+		chargeHash = Animator.StringToHash("charge");
+		endChargeHash = Animator.StringToHash("endCharge");
+		touchHash = Animator.StringToHash("touch");
+		cancelCastHash = Animator.StringToHash("cancelCast");
+
 		StartCoroutine(WaitUntilRelease());
 
-		blurCam = new GameObject().AddComponent<Camera>();
-		blurCam.enabled = false;
+		//blurCam = new GameObject().AddComponent<Camera>();
+		//blurCam.enabled = false;
 	}
 
     //Handle input
@@ -291,7 +306,7 @@ public class PlayerController : MonoBehaviour {
 
 		selectedCrystal.GetComponent<CrystalInfo>().isSelected = true;
 
-		selectedCrystal.GetComponent<Renderer>().material.color = hoverColour;
+		selectedCrystal.GetComponent<Renderer>().material.color = selectedColour;
 	}
 
 	//Deselect crystals
@@ -565,12 +580,24 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (selectedSpell == slot || storedSpells[slot] == null)
 		{
+			if(selectedSpell > -1)
+			{
+				animator.SetTrigger(cancelCastHash);
+				StartCoroutine(HandleCastingCooldown(-2));
+			}
+
 			selectedSpell = -1;
 
 			selectionBorder.localPosition = new Vector3(-1000.0f, -500, 0);
 		}
 		else
 		{
+			if (selectedSpell == -1)
+			{
+				animator.SetTrigger(startCastHash);
+				StartCoroutine(HandleCastingCooldown(-1));
+			}
+
 			selectedSpell = slot;
 
 			selectionBorder.localPosition = new Vector3(-1000.0f + (slot + 1) * 100.0f, -500, 0);
@@ -586,7 +613,7 @@ public class PlayerController : MonoBehaviour {
 		{
 			if (Input.GetButtonDown("Fire2"))
 			{
-				StartCoroutine(HandleCastingCooldown(storedSpells[selectedSpell], selectedSpell));
+				StartCoroutine(HandleCastingCooldown(selectedSpell));
 
 				Destroy(storedSpells[selectedSpell].GetComponent<Rigidbody>());
 				
@@ -604,27 +631,35 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	//Handle casting cooldown
-	IEnumerator HandleCastingCooldown(GameObject scroll, int index)
+	//Handle casting cooldown (and stop casting while bringing up/putting down hand)
+	IEnumerator HandleCastingCooldown(int index)
 	{
 		isCastingCooldown = true;
 
-		while (!isSpellCasted)
+		if(index > -1)
+		{
+			while (!isSpellCasted)
+			{
+				yield return new WaitForEndOfFrame();
+			}
+
+			isSpellCasted = false;
+
+			storageUI[index].color = Color.clear;
+
+			for (int i = 0; i < 5; i++)
+			{
+				storageIcons[index, i].sprite = moduleSymbols[13];
+			}
+		}
+
+		bool isRaisingHand = index == -1;
+
+		while (isRaisingHand ? animator.GetCurrentAnimatorStateInfo(0).IsName("Neutral") : !animator.GetCurrentAnimatorStateInfo(0).IsName("Neutral"))
 		{
 			yield return new WaitForEndOfFrame();
 		}
-
-		isSpellCasted = false;
-
-		storageUI[index].color = Color.clear;
 		
-		for (int i = 0; i < 5; i++)
-		{
-			storageIcons[index, i].sprite = moduleSymbols[13];
-		}
-
-		yield return new WaitForSeconds(castingDelay);
-
 		isCastingCooldown = false;
 	}
 	#endregion

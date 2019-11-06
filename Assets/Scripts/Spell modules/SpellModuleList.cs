@@ -327,8 +327,10 @@ public class SpellModuleList : MonoBehaviour
         if (modifier % 10 == 0)
 		{
             NotifySpellCasted();
-		}
 
+			FindObjectOfType<PlayerController>().animator.SetTrigger(PlayerController.throwHash);
+		}
+		
 		GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
         projectile.GetComponent<ProjectileReturn>().modifier = modifier;
         projectile.GetComponent<ProjectileReturn>().caller = this;
@@ -447,8 +449,10 @@ public class SpellModuleList : MonoBehaviour
 
 		Vector3 origin;
 		Vector3 direction;
-		
-        while (IsChargeHeld(isVR))
+
+		FindObjectOfType<PlayerController>().animator.SetTrigger(PlayerController.chargeHash);
+
+		while (IsChargeHeld(isVR))
         {
             if (isVR)
             {
@@ -482,7 +486,9 @@ public class SpellModuleList : MonoBehaviour
             holdTime += Time.deltaTime;
         }
 
-        holdTime = Mathf.Min(holdTime, maxChargeTime);
+		FindObjectOfType<PlayerController>().animator.SetTrigger(PlayerController.endChargeHash);
+
+		holdTime = Mathf.Min(holdTime, maxChargeTime);
 
 		if (hitTest)
 		{
@@ -524,22 +530,24 @@ public class SpellModuleList : MonoBehaviour
         GameObject aoeObject = null;
         Vector3 touchPoint = Vector3.zero;
 
-        if (!Info.IsCurrentlyVR())
-        {
-            if (Physics.Raycast(transform.position, transform.forward , out hit, touchDistance))
-            {
-                touchPoint = hit.point;
-            }
+		if (Info.IsCurrentlyVR())
+		{
+			touchPoint = handTransform.position;
+		}
+		else
+		{
+			if (Physics.Raycast(transform.position, transform.forward, out hit, touchDistance))
+			{
+				touchPoint = hit.point;
+			}
 			else
 			{
 				touchPoint = transform.position + transform.forward * touchDistance;
 			}
-        }
-        else
-        {
-            touchPoint = handTransform.position;
-        }
-        
+
+			FindObjectOfType<PlayerController>().animator.SetTrigger(PlayerController.touchHash);
+		}
+		
         info.collisionPoints.Add(touchPoint);
 
         aoeObject = Instantiate(aoePrefab, touchPoint, Quaternion.identity);
@@ -566,11 +574,7 @@ public class SpellModuleList : MonoBehaviour
 	//Notify player control scripts that the spell has been cast and that the cooldown should start depleting
 	void NotifySpellCasted()
 	{
-		if (Info.IsCurrentlyVR())
-		{
-
-		}
-		else
+		if (!Info.IsCurrentlyVR())
 		{
 			FindObjectOfType<PlayerController>().isSpellCasted = true;
 		}
@@ -752,8 +756,6 @@ public class SpellModuleList : MonoBehaviour
 	IEnumerator Weight(SpellInfo info)
 	{
 		GameObject weight = sie.SpawnAsSet(spellID, weightPrefab, "Weight", info.collisionPoints[0]);
-		//this can affect repositiong calculations. commented out for now
-		//weight.transform.rotation = playerRotation;
 		weight.transform.localScale *= info.potency;
 		weight.GetComponent<Rigidbody>().mass *= info.potency;
 		
