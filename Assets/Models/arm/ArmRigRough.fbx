@@ -1,0 +1,310 @@
+; FBX 7.5.0 project file
+; ----------------------------------------------------
+
+FBXHeaderExtension:  {
+	FBXHeaderVersion: 1003
+	FBXVersion: 7500
+	CreationTimeStamp:  {
+		Version: 1000
+		Year: 2019
+		Month: 11
+		Day: 6
+		Hour: 16
+		Minute: 23
+		Second: 2
+		Millisecond: 362
+	}
+	Creator: "FBX SDK/FBX Plugins version 2019.2"
+	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
+		Type: "UserData"
+		Version: 100
+		MetaData:  {
+			Version: 100
+			Title: ""
+			Subject: ""
+			Author: ""
+			Keywords: ""
+			Revision: ""
+			Comment: ""
+		}
+		Properties70:  {
+			P: "DocumentUrl", "KString", "Url", "", "D:\maya file\monsta\scripts\ArmRigRough.fbx"
+			P: "SrcDocumentUrl", "KString", "Url", "", "D:\maya file\monsta\scripts\ArmRigRough.fbx"
+			P: "Original", "Compound", "", ""
+			P: "Original|ApplicationVendor", "KString", "", "", "Autodesk"
+			P: "Original|ApplicationName", "KString", "", "", "Maya"
+			P: "Original|ApplicationVersion", "KString", "", "", "201806"
+			P: "Original|DateTime_GMT", "DateTime", "", "", "06/11/2019 05:23:02.349"
+			P: "Original|FileName", "KString", "", "", "D:\maya file\monsta\scripts\ArmRigRough.fbx"
+			P: "LastSaved", "Compound", "", ""
+			P: "LastSaved|ApplicationVendor", "KString", "", "", "Autodesk"
+			P: "LastSaved|ApplicationName", "KString", "", "", "Maya"
+			P: "LastSaved|ApplicationVersion", "KString", "", "", "201806"
+			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "06/11/2019 05:23:02.349"
+			P: "Original|ApplicationActiveProject", "KString", "", "", "D:\maya file\monsta"
+			P: "Original|ApplicationNativeFile", "KString", "", "", "D:\maya file\monsta\scenes\arm.ma"
+		}
+	}
+}
+GlobalSettings:  {
+	Version: 1000
+	Properties70:  {
+		P: "UpAxis", "int", "Integer", "",1
+		P: "UpAxisSign", "int", "Integer", "",1
+		P: "FrontAxis", "int", "Integer", "",2
+		P: "FrontAxisSign", "int", "Integer", "",1
+		P: "CoordAxis", "int", "Integer", "",0
+		P: "CoordAxisSign", "int", "Integer", "",1
+		P: "OriginalUpAxis", "int", "Integer", "",1
+		P: "OriginalUpAxisSign", "int", "Integer", "",1
+		P: "UnitScaleFactor", "double", "Number", "",1
+		P: "OriginalUnitScaleFactor", "double", "Number", "",1
+		P: "AmbientColor", "ColorRGB", "Color", "",0,0,0
+		P: "DefaultCamera", "KString", "", "", "Producer Perspective"
+		P: "TimeMode", "enum", "", "",11
+		P: "TimeProtocol", "enum", "", "",2
+		P: "SnapOnFrameMode", "enum", "", "",0
+		P: "TimeSpanStart", "KTime", "Time", "",-1924423250
+		P: "TimeSpanStop", "KTime", "Time", "",384884650000
+		P: "CustomFrameRate", "double", "Number", "",-1
+		P: "TimeMarker", "Compound", "", ""
+		P: "CurrentTimeMarker", "int", "Integer", "",-1
+	}
+}
+
+; Documents Description
+;------------------------------------------------------------------
+
+Documents:  {
+	Count: 1
+	Document: 2032038493888, "", "Scene" {
+		Properties70:  {
+			P: "SourceObject", "object", "", ""
+			P: "ActiveAnimStackName", "KString", "", "", "Take 001"
+		}
+		RootNode: 0
+	}
+}
+
+; Document References
+;------------------------------------------------------------------
+
+References:  {
+}
+
+; Object definitions
+;------------------------------------------------------------------
+
+Definitions:  {
+	Version: 100
+	Count: 19
+	ObjectType: "GlobalSettings" {
+		Count: 1
+	}
+	ObjectType: "AnimationStack" {
+		Count: 9
+		PropertyTemplate: "FbxAnimStack" {
+			Properties70:  {
+				P: "Description", "KString", "", "", ""
+				P: "LocalStart", "KTime", "Time", "",0
+				P: "LocalStop", "KTime", "Time", "",0
+				P: "ReferenceStart", "KTime", "Time", "",0
+				P: "ReferenceStop", "KTime", "Time", "",0
+			}
+		}
+	}
+	ObjectType: "AnimationLayer" {
+		Count: 9
+		PropertyTemplate: "FbxAnimLayer" {
+			Properties70:  {
+				P: "Weight", "Number", "", "A",100
+				P: "Mute", "bool", "", "",0
+				P: "Solo", "bool", "", "",0
+				P: "Lock", "bool", "", "",0
+				P: "Color", "ColorRGB", "Color", "",0.8,0.8,0.8
+				P: "BlendMode", "enum", "", "",0
+				P: "RotationAccumulationMode", "enum", "", "",0
+				P: "ScaleAccumulationMode", "enum", "", "",0
+				P: "BlendModeBypass", "ULongLong", "", "",0
+			}
+		}
+	}
+}
+
+; Object properties
+;------------------------------------------------------------------
+
+Objects:  {
+	AnimationStack: 2032476913888, "AnimStack::LiftArm", "" {
+		Properties70:  {
+			P: "LocalStop", "KTime", "Time", "",32715195250
+			P: "ReferenceStop", "KTime", "Time", "",32715195250
+		}
+	}
+	AnimationStack: 2032476915760, "AnimStack::Grabobject", "" {
+		Properties70:  {
+			P: "LocalStart", "KTime", "Time", "",32715195250
+			P: "LocalStop", "KTime", "Time", "",65430390500
+			P: "ReferenceStart", "KTime", "Time", "",32715195250
+			P: "ReferenceStop", "KTime", "Time", "",65430390500
+		}
+	}
+	AnimationStack: 2032476910560, "AnimStack::Release", "" {
+		Properties70:  {
+			P: "LocalStart", "KTime", "Time", "",65430390500
+			P: "LocalStop", "KTime", "Time", "",96221162500
+			P: "ReferenceStart", "KTime", "Time", "",65430390500
+			P: "ReferenceStop", "KTime", "Time", "",96221162500
+		}
+	}
+	AnimationStack: 2032476905776, "AnimStack::throw", "" {
+		Properties70:  {
+			P: "LocalStart", "KTime", "Time", "",96221162500
+			P: "LocalStop", "KTime", "Time", "",163575976250
+			P: "ReferenceStart", "KTime", "Time", "",96221162500
+			P: "ReferenceStop", "KTime", "Time", "",163575976250
+		}
+	}
+	AnimationStack: 2032476917216, "AnimStack::point", "" {
+		Properties70:  {
+			P: "LocalStart", "KTime", "Time", "",163575976250
+			P: "LocalStop", "KTime", "Time", "",188593478500
+			P: "ReferenceStart", "KTime", "Time", "",163575976250
+			P: "ReferenceStop", "KTime", "Time", "",188593478500
+		}
+	}
+	AnimationStack: 2032476911808, "AnimStack::un-point", "" {
+		Properties70:  {
+			P: "LocalStart", "KTime", "Time", "",188593478500
+			P: "LocalStop", "KTime", "Time", "",205913287750
+			P: "ReferenceStart", "KTime", "Time", "",188593478500
+			P: "ReferenceStop", "KTime", "Time", "",205913287750
+		}
+	}
+	AnimationStack: 2032476907648, "AnimStack::shootbeam", "" {
+		Properties70:  {
+			P: "LocalStart", "KTime", "Time", "",205913287750
+			P: "LocalStop", "KTime", "Time", "",250175022500
+			P: "ReferenceStart", "KTime", "Time", "",205913287750
+			P: "ReferenceStop", "KTime", "Time", "",250175022500
+		}
+	}
+	AnimationStack: 2032476907440, "AnimStack::un-shoot", "" {
+		Properties70:  {
+			P: "LocalStart", "KTime", "Time", "",250175022500
+			P: "LocalStop", "KTime", "Time", "",294436757250
+			P: "ReferenceStart", "KTime", "Time", "",250175022500
+			P: "ReferenceStop", "KTime", "Time", "",294436757250
+		}
+	}
+	AnimationStack: 2032476917840, "AnimStack::lowerarm", "" {
+		Properties70:  {
+			P: "LocalStart", "KTime", "Time", "",294436757250
+			P: "LocalStop", "KTime", "Time", "",323303106000
+			P: "ReferenceStart", "KTime", "Time", "",294436757250
+			P: "ReferenceStop", "KTime", "Time", "",323303106000
+		}
+	}
+	AnimationLayer: 2032396279632, "AnimLayer::BaseLayer", "" {
+	}
+	AnimationLayer: 2032396271424, "AnimLayer::BaseLayer", "" {
+	}
+	AnimationLayer: 2032396279936, "AnimLayer::BaseLayer", "" {
+	}
+	AnimationLayer: 2032396279024, "AnimLayer::BaseLayer", "" {
+	}
+	AnimationLayer: 2032396278112, "AnimLayer::BaseLayer", "" {
+	}
+	AnimationLayer: 2032396275984, "AnimLayer::BaseLayer", "" {
+	}
+	AnimationLayer: 2032396281760, "AnimLayer::BaseLayer", "" {
+	}
+	AnimationLayer: 2032396272032, "AnimLayer::BaseLayer", "" {
+	}
+	AnimationLayer: 2032396272336, "AnimLayer::BaseLayer", "" {
+	}
+}
+
+; Object connections
+;------------------------------------------------------------------
+
+Connections:  {
+	
+	;AnimLayer::BaseLayer, AnimStack::LiftArm
+	C: "OO",2032396279632,2032476913888
+	
+	;AnimLayer::BaseLayer, AnimStack::Grabobject
+	C: "OO",2032396271424,2032476915760
+	
+	;AnimLayer::BaseLayer, AnimStack::Release
+	C: "OO",2032396279936,2032476910560
+	
+	;AnimLayer::BaseLayer, AnimStack::throw
+	C: "OO",2032396279024,2032476905776
+	
+	;AnimLayer::BaseLayer, AnimStack::point
+	C: "OO",2032396278112,2032476917216
+	
+	;AnimLayer::BaseLayer, AnimStack::un-point
+	C: "OO",2032396275984,2032476911808
+	
+	;AnimLayer::BaseLayer, AnimStack::shootbeam
+	C: "OO",2032396281760,2032476907648
+	
+	;AnimLayer::BaseLayer, AnimStack::un-shoot
+	C: "OO",2032396272032,2032476907440
+	
+	;AnimLayer::BaseLayer, AnimStack::lowerarm
+	C: "OO",2032396272336,2032476917840
+}
+;Takes section
+;----------------------------------------------------
+
+Takes:  {
+	Current: "Take 001"
+	Take: "LiftArm" {
+		FileName: "LiftArm.tak"
+		LocalTime: 0,32715195250
+		ReferenceTime: 0,32715195250
+	}
+	Take: "Grabobject" {
+		FileName: "Grabobject.tak"
+		LocalTime: 32715195250,65430390500
+		ReferenceTime: 32715195250,65430390500
+	}
+	Take: "Release" {
+		FileName: "Release.tak"
+		LocalTime: 65430390500,96221162500
+		ReferenceTime: 65430390500,96221162500
+	}
+	Take: "throw" {
+		FileName: "throw.tak"
+		LocalTime: 96221162500,163575976250
+		ReferenceTime: 96221162500,163575976250
+	}
+	Take: "point" {
+		FileName: "point.tak"
+		LocalTime: 163575976250,188593478500
+		ReferenceTime: 163575976250,188593478500
+	}
+	Take: "un-point" {
+		FileName: "un-point.tak"
+		LocalTime: 188593478500,205913287750
+		ReferenceTime: 188593478500,205913287750
+	}
+	Take: "shootbeam" {
+		FileName: "shootbeam.tak"
+		LocalTime: 205913287750,250175022500
+		ReferenceTime: 205913287750,250175022500
+	}
+	Take: "un-shoot" {
+		FileName: "un-shoot.tak"
+		LocalTime: 250175022500,294436757250
+		ReferenceTime: 250175022500,294436757250
+	}
+	Take: "lowerarm" {
+		FileName: "lowerarm.tak"
+		LocalTime: 294436757250,323303106000
+		ReferenceTime: 294436757250,323303106000
+	}
+}
