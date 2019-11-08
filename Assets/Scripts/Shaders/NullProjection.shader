@@ -2,7 +2,7 @@
 {
     Properties
     {
-        _Colour ("Colour", Color) = (0.25, 0.375, 1, 1)
+        _Colour ("Colour", Color) = (0.25, 0.375, 1, 0.5)
         _MainTex ("Texture", 2D) = "white" {}
         _BumpMap ("Normal Map", 2D) = "bump" {}
 		_BorderColour ("Border Colour", Color) = (0.125, 0.1875, 1, 1)

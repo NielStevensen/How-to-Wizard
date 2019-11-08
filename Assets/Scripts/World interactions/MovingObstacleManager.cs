@@ -18,6 +18,10 @@ public class MovingObstacleManager : MonoBehaviour
 	[Tooltip("How far the object moves when activated.")]
 	public Vector3 activeDisplacement = Vector3.zero;
 	private Vector3 origin;
+	private Vector3 obstacleTop;
+	private Vector3 moveCheckHalfExtents;
+	[Tooltip("All player layers that the door should detect when trying to close.")]
+	public LayerMask playerLayers;
 
 	//Acting coroutine and progress
 	private Coroutine actingCoroutine;
@@ -27,16 +31,19 @@ public class MovingObstacleManager : MonoBehaviour
 	private void Start()
 	{
 		origin = transform.position;
+		obstacleTop = new Vector3(0, transform.localScale.y / 2, 0);
+		moveCheckHalfExtents = transform.localScale / 2;
+		moveCheckHalfExtents.y = 0.1f;
 	}
 
 	//Handle activation/deactivation of the object
 	public void HandleState(bool state)
 	{
-        if (!isDeactivatable && !state)
+		if (!isDeactivatable && !state)
         {
             return;
         }
-
+	
         isActivated = state;
 
         if (actingCoroutine != null)
@@ -52,9 +59,21 @@ public class MovingObstacleManager : MonoBehaviour
 	{
 		int lowerThreshold = 0 - alt;
 		int upperThreshold = 180 - alt;
-		
+
+		Vector3 pos;
+
 		while (lowerThreshold < activationProgress && activationProgress < upperThreshold)
 		{
+			pos = transform.position;
+
+			if (isDeactivatable && alt == -1)
+			{
+				while (Physics.BoxCastAll(pos + obstacleTop, moveCheckHalfExtents, Vector3.up, transform.rotation, 0.1f, playerLayers).Length > 0)
+				{
+					yield return new WaitForEndOfFrame();
+				}
+			}
+
 			activationProgress += 1 * alt;
 			
 			transform.position = origin + activeDisplacement * Mathf.Sin(Mathf.Deg2Rad * activationProgress * 0.5f);

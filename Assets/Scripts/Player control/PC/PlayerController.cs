@@ -22,8 +22,7 @@ public class PlayerController : MonoBehaviour {
 	public float interactionRange = 3.75f;
 	private Transform cameraTransform;
 	private bool isCraftCooldown = false;
-	[Tooltip("The cooldown on crafting after clicking the craft confirm.")]
-	public float craftCooldown = 2.5f;
+	private float craftCooldown = 2.5f;
 	private GameObject selectedCrystal = null;
 	private GameObject[] slottedCrystals = new GameObject[5] { null, null, null, null, null };
 	private AttachCrystal[] crystalSlots = new AttachCrystal[5];
@@ -122,6 +121,7 @@ public class PlayerController : MonoBehaviour {
 		cameraTransform = transform.GetChild(0);
 		table = FindObjectOfType<SpellCreation>();
 		clearButton = table.GetComponentInChildren<ClearTable>();
+		craftCooldown = table.craftCooldown;
 
 		crystalSlots = table.PCSpellSlots;
 		

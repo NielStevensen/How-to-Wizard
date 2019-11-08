@@ -43,7 +43,7 @@ public class NullManager : MonoBehaviour
 
 		burnController = GetComponent<BurnController>();
 		torchComponent = GetComponent<TorchTrigger>();
-
+		
 		Rigidbody rb = GetComponent<Rigidbody>();
 		bool kinematicState = false;
 
@@ -56,7 +56,7 @@ public class NullManager : MonoBehaviour
 		StartCoroutine(HandleKinematicState(rb, kinematicState));
 
 		nullProjection = Instantiate(gameObject, gameObject.transform.position, gameObject.transform.rotation);
-		nullProjection.transform.localScale *= 1.125f;
+		nullProjection.transform.localScale *= torchComponent == null ? 1.125f : 1.0625f;
 		nullProjection.layer = LayerMask.NameToLayer("Ignore Raycast");
 		nullProjection.transform.SetParent(gameObject.transform);
 		nullProjection.GetComponent<NullManager>().isProjection = true;
@@ -71,9 +71,10 @@ public class NullManager : MonoBehaviour
             }
         }
 		
-		foreach (Material mat in nullProjection.GetComponent<MeshRenderer>().materials)
+		foreach (Material mat in nullProjection.GetComponentInChildren<MeshRenderer>().materials)
 		{
 			mat.shader = nullShader;
+			mat.SetColor("_Colour", new Color(0.25f, 0.375f, 1.0f, 0.5f));
 		}
 		
         nullProjection.SetActive(isNulled);

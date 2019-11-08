@@ -9,17 +9,17 @@ public class SingleInstanceEnforcer : MonoBehaviour
 	public int currentSpellID = 0;
 	
 	//IDs of objects and references to them
-	private int timerID = -1;
+	private float timerID = -1;
 	private List<GameObject> timerList = new List<GameObject>();
-	private int proxID = -1;
+	private float proxID = -1;
 	private List<GameObject> proxList = new List<GameObject>();
-	private int weightID = -1;
+	private float weightID = -1;
 	private List<GameObject> weightList = new List<GameObject>();
-	private int barrierID = -1;
+	private float barrierID = -1;
 	private List<GameObject> barrierList = new List<GameObject>();
 	
 	//Spawn an object as part of the same set. If another set exists, destroy it
-	public GameObject SpawnAsSet(int spellID, GameObject prefab, string module, Vector3 pos)
+	public GameObject SpawnAsSet(float spellID, GameObject prefab, string module, Vector3 pos)
 	{
 		GameObject obj = Instantiate(prefab, pos, Quaternion.identity);
 		

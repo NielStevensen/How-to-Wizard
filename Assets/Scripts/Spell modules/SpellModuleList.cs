@@ -127,6 +127,8 @@ public class SpellModuleList : MonoBehaviour
 
 		SpellInfo info = new SpellInfo(0, new List<Vector3>(), new List<GameObject>());
 
+		float moduleID = 0;
+
 		foreach (string module in modules)
 		{
 			DataCoroutine<SpellInfo> dc = null;
@@ -174,11 +176,11 @@ public class SpellModuleList : MonoBehaviour
 
 					break;
 				case "Weight":
-					dc = new DataCoroutine<SpellInfo>(this, Weight(info));
+					dc = new DataCoroutine<SpellInfo>(this, Weight(info, moduleID));
 
 					break;
 				case "Barrier":
-					dc = new DataCoroutine<SpellInfo>(this, Barrier(info));
+					dc = new DataCoroutine<SpellInfo>(this, Barrier(info, moduleID));
 
 					break;
 				case "Null":
@@ -202,6 +204,8 @@ public class SpellModuleList : MonoBehaviour
 			info.potency = dc.result.potency;
 			info.collisionPoints = dc.result.collisionPoints;
 			info.collisionObjects = dc.result.collisionObjects;
+
+			moduleID += 0.2f;
 		}
 
 		yield return new WaitForEndOfFrame();
@@ -257,7 +261,7 @@ public class SpellModuleList : MonoBehaviour
 
         if (!isVR)
         {
-			while (lineSegments.Count < maxSimulationSegments)
+			while (lineSegments.Count < maxSimulationSegments && modifier % 10 == 0)
 			{
 				lineSegments.Add(Instantiate(segment));
 				lineSegments[lineSegments.Count - 1].name = lineSegments.Count.ToString();
@@ -753,9 +757,9 @@ public class SpellModuleList : MonoBehaviour
 	}
 
 	//Produce a physical weight
-	IEnumerator Weight(SpellInfo info)
+	IEnumerator Weight(SpellInfo info, float moduleID)
 	{
-		GameObject weight = sie.SpawnAsSet(spellID, weightPrefab, "Weight", info.collisionPoints[0]);
+		GameObject weight = sie.SpawnAsSet(spellID + moduleID, weightPrefab, "Weight", info.collisionPoints[0]);
 		weight.transform.localScale *= info.potency;
 		weight.GetComponent<Rigidbody>().mass *= info.potency;
 		
@@ -763,9 +767,9 @@ public class SpellModuleList : MonoBehaviour
 	}
 
 	//Produce a non-physical barrier with collision
-	IEnumerator Barrier(SpellInfo info)
+	IEnumerator Barrier(SpellInfo info, float moduleID)
 	{
-		GameObject barrier = sie.SpawnAsSet(spellID, barrierPrefab, "Barrier", info.collisionPoints[0]);
+		GameObject barrier = sie.SpawnAsSet(spellID + moduleID, barrierPrefab, "Barrier", info.collisionPoints[0]);
 		barrier.transform.rotation = playerRotation;
 		barrier.transform.localScale = new Vector3(info.potency, 10000, 0.1f);
 

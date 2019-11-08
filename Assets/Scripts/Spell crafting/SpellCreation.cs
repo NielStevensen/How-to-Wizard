@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SpellCreation : MonoBehaviour
 {
@@ -85,7 +86,28 @@ public class SpellCreation : MonoBehaviour
     {
         isCraftCooldown = true;
 
-        yield return new WaitForSeconds(craftCooldown);
+		//yield return new WaitForSeconds(craftCooldown);
+
+		//temp crafting cooldown feedback
+		float elapsedTime = 0.0f;
+		float percentage;
+		Renderer buttonRenderer = GetComponentInChildren<FinalizeSpell>().gameObject.GetComponent<Renderer>();
+		Color initialColour = new Color(1, 1, 1, 0.125f);
+		Color originalColour = buttonRenderer.material.color;
+		Image cooldownImage = buttonRenderer.gameObject.GetComponentInChildren<Image>();
+
+		while(elapsedTime < craftCooldown)
+		{
+			elapsedTime += Time.deltaTime;
+
+			percentage = Mathf.Min(elapsedTime / craftCooldown, 1.0f);
+
+			buttonRenderer.material.color = Color.Lerp(Color.white, originalColour, percentage);
+			cooldownImage.color = Color.Lerp(Color.clear, Color.black, percentage < 0.5f ? Mathf.Min(percentage * 10.0f, 1.0f) : Mathf.Min((1 - percentage) * 18.75f, 1.0f));
+			cooldownImage.fillAmount = percentage;
+			
+			yield return new WaitForEndOfFrame();
+		}
 
         isCraftCooldown = false;
     }

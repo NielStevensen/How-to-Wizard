@@ -108,3 +108,6 @@ MonoBehaviour:
   isDeactivatable: 1
   targetInvisibleWalls: []
   activeDisplacement: {x: 0, y: -5, z: 0}
+  playerLayers:
+    serializedVersion: 2
+    m_Bits: 33024
