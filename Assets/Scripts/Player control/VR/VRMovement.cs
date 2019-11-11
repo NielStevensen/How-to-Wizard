@@ -93,6 +93,7 @@ public class VRMovement : MonoBehaviour
 
     //menu variables
     public SteamVR_Action_Boolean menuButton;
+    public SteamVR_Action_Boolean Activate;
     private bool shouldUnpause = false;
     private bool togglePause;
     public GameObject menuLayout;
@@ -293,6 +294,21 @@ public class VRMovement : MonoBehaviour
                 pointer.transform.position = handObject.transform.position;
                 pointer.transform.localScale = new Vector3(0.1f, 0.1f, 100f);
                 pointer.transform.rotation = handObject.transform.rotation;
+            }
+            if (Activate.GetStateUp(hand))
+            {
+                Physics.Raycast(handObject.transform.position, handObject.transform.forward, out RaycastHit Output, 1000f, pausedLayers);
+                if(Output.collider.gameObject.name == "Resume")
+                {
+                    shouldUnpause = true;
+                }
+                if (Output.collider.gameObject.name == "Exit")
+                {
+                    Info.TogglePause();
+
+                    SceneManager.LoadScene("VRMenu");
+                }
+
             }
         }
     }
