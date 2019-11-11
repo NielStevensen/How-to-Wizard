@@ -332,7 +332,10 @@ public class SpellModuleList : MonoBehaviour
 		{
             NotifySpellCasted();
 
-			FindObjectOfType<PlayerController>().animator.SetTrigger(PlayerController.throwHash);
+            if (!isVR)
+            {
+                FindObjectOfType<PlayerController>().animator.SetTrigger(PlayerController.throwHash);
+            }
 		}
 		
 		GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
@@ -454,7 +457,10 @@ public class SpellModuleList : MonoBehaviour
 		Vector3 origin;
 		Vector3 direction;
 
-		FindObjectOfType<PlayerController>().animator.SetTrigger(PlayerController.chargeHash);
+        if (!isVR)
+        {
+            FindObjectOfType<PlayerController>().animator.SetTrigger(PlayerController.chargeHash);
+        }
 
 		while (IsChargeHeld(isVR))
         {
@@ -490,7 +496,10 @@ public class SpellModuleList : MonoBehaviour
             holdTime += Time.deltaTime;
         }
 
-		FindObjectOfType<PlayerController>().animator.SetTrigger(PlayerController.endChargeHash);
+        if (!isVR)
+        {
+            FindObjectOfType<PlayerController>().animator.SetTrigger(PlayerController.endChargeHash);
+        }
 
 		holdTime = Mathf.Min(holdTime, maxChargeTime);
 
@@ -548,7 +557,7 @@ public class SpellModuleList : MonoBehaviour
 			{
 				touchPoint = transform.position + transform.forward * touchDistance;
 			}
-
+            
 			FindObjectOfType<PlayerController>().animator.SetTrigger(PlayerController.touchHash);
 		}
 		

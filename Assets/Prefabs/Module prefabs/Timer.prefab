@@ -93,6 +93,6 @@ MonoBehaviour:
   shouldContinue: 1
   sml: {fileID: 0}
   potency: -1
-  baseTime: 5
+  baseTime: 7.5
   timerObj: {fileID: 0}
   isDepleted: 0

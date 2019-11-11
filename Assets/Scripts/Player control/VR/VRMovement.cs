@@ -135,7 +135,7 @@ public class VRMovement : MonoBehaviour
         Vector2 size = DeterminePlayAreaSize();
         currentPlayfieldSize = new Vector3(size.x, 2.0f, size.y);
         hitbox.size = currentPlayfieldSize;
-		playAreaVisualiser.localScale = new Vector3(size.x, 0.5f, size.y);
+		playAreaVisualiser.localScale = new Vector3(size.x, playAreaVisualiser.localScale.y, size.y);
 
         playerBody = GetComponent<Rigidbody>();
     }

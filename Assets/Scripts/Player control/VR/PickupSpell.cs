@@ -61,7 +61,7 @@ public class PickupSpell : MonoBehaviour
 
     private void setCollidingObject(Collider coll)
     {
-        if (collidingObject || !coll.GetComponent<Rigidbody>())
+        if (collidingObject || !coll.GetComponent<Rigidbody>() || coll.tag == "Interactable")
         {
             return;
         }

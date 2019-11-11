@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3744875835323820161}
   - component: {fileID: 6811791590867570885}
   - component: {fileID: 1053819738022448155}
+  - component: {fileID: 7650454410385531079}
   m_Layer: 0
   m_Name: Crown
   m_TagString: Untagged
@@ -77,6 +78,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &7650454410385531079
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4442379600582925328}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 3972231458891770745, guid: 2d6941c71de27bc41a08586863a1e0b2, type: 3}
 --- !u!1 &4753671392695303653
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,8 +186,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4375
-  m_Center: {x: 0, y: 0.1875, z: 0}
+  m_Radius: 0.375
+  m_Center: {x: 0, y: 0.09375, z: 0}
 --- !u!1 &5640844345113047338
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,16 +320,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1875025655204075865}
     m_Modifications:
-    - target: {fileID: 2401673171101124234, guid: 2e5c56e3f6be5d14a80f1f0895d81915,
-        type: 3}
-      propertyPath: m_Name
-      value: Fire
-      objectReference: {fileID: 0}
-    - target: {fileID: 2401673171101124234, guid: 2e5c56e3f6be5d14a80f1f0895d81915,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7893175302870560888, guid: 2e5c56e3f6be5d14a80f1f0895d81915,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -384,6 +389,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2401673171101124234, guid: 2e5c56e3f6be5d14a80f1f0895d81915,
+        type: 3}
+      propertyPath: m_Name
+      value: Fire
+      objectReference: {fileID: 0}
+    - target: {fileID: 2401673171101124234, guid: 2e5c56e3f6be5d14a80f1f0895d81915,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5638640808212434389, guid: 2e5c56e3f6be5d14a80f1f0895d81915,
         type: 3}
