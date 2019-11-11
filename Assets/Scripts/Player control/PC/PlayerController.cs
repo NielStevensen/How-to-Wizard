@@ -21,13 +21,19 @@ public class PlayerController : MonoBehaviour {
 	[Tooltip("Crafting and scroll interaction range.")]
 	public float interactionRange = 3.75f;
 	private Transform cameraTransform;
-	private bool isCraftCooldown = false;
+	[HideInInspector]
+	public bool isCraftCooldown = false;
 	private float craftCooldown = 2.5f;
 	private GameObject selectedCrystal = null;
 	private GameObject[] slottedCrystals = new GameObject[5] { null, null, null, null, null };
 	private AttachCrystal[] crystalSlots = new AttachCrystal[5];
 	private SpellCreation table = null;
 	private ClearTable clearButton = null;
+	[Tooltip("The layers crafting objects can be on.")]
+	public LayerMask craftingMask;
+	private Color previousColour;
+	[Tooltip("The colour selected crystals adopt.")]
+	public Color selectedColour;
 
 	[Space(10)]
 
@@ -81,37 +87,6 @@ public class PlayerController : MonoBehaviour {
 	[Tooltip("Pause blur shader.")]
 	public Shader blurShader;
 	#endregion
-
-	[Space(10)]
-	
-	//temp recolour values
-	public Color primaryDefault;
-	public Color secondaryDefault;
-	public Color effectDefault;
-	public Color selectedColour;
-	
-	//currently doesn't work
-	//Shaders
-	/*[Tooltip("Default shader.")]
-	public Material defaultMaterial;
-	[Tooltip("Outline shader.")]
-	public Material outlineMaterial;
-
-	[Space(10)]
-
-	//Outline colours
-	[Tooltip("Hover outline colour.")]
-	public Color hoverColour;
-	[Tooltip("Selected outline colour.")]
-	public Color selectedColour;
-
-	//Object reference
-	private RaycastHit hit;
-	private GameObject target = null;
-	private Renderer targetRenderer = null;
-	private CrystalInfo targetInfo = null;
-	private bool targetSelectState = false;
-	*/
 	
 	//Set cursor state and set references
 	private void Start()
@@ -166,8 +141,6 @@ public class PlayerController : MonoBehaviour {
 			{
 				HandleResetInput();
 			}
-
-			//HandleCraftingOutline();
 		}
 	}
 
@@ -182,7 +155,7 @@ public class PlayerController : MonoBehaviour {
 		if (characterController.enabled)
 		{
 			characterController.Move(movement * Time.deltaTime);
-
+			
 			Vector3 pos = transform.position;
 
 			if (pos.y != initialY)
@@ -207,7 +180,7 @@ public class PlayerController : MonoBehaviour {
 		{
 			RaycastHit hit;
 
-			if(Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, interactionRange, 1 << LayerMask.NameToLayer("Crafting")))
+			if(Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, interactionRange, craftingMask))
 			{
 				if (hit.collider.gameObject.GetComponent<CrystalInfo>())
 				{
@@ -306,7 +279,9 @@ public class PlayerController : MonoBehaviour {
 
 		selectedCrystal.GetComponent<CrystalInfo>().isSelected = true;
 
-		selectedCrystal.GetComponent<Renderer>().material.color = selectedColour;
+		Renderer crystalRenderer = selectedCrystal.GetComponent<Renderer>();
+		previousColour = crystalRenderer.material.color;
+		crystalRenderer.material.color = selectedColour;
 	}
 
 	//Deselect crystals
@@ -316,21 +291,7 @@ public class PlayerController : MonoBehaviour {
 		{
 			selectedCrystal.GetComponent<CrystalInfo>().isSelected = false;
 
-			switch (selectedCrystal.GetComponent<CrystalInfo>().moduleType)
-			{
-				case (0):
-					selectedCrystal.GetComponent<Renderer>().material.color = primaryDefault;
-
-					break;
-				case (1):
-					selectedCrystal.GetComponent<Renderer>().material.color = secondaryDefault;
-
-					break;
-				case (2):
-					selectedCrystal.GetComponent<Renderer>().material.color = effectDefault;
-
-					break;
-			}
+			selectedCrystal.GetComponent<Renderer>().material.color = previousColour;
 		}
 
 		selectedCrystal = null;
@@ -352,8 +313,6 @@ public class PlayerController : MonoBehaviour {
 	//Move crystals to their slot
 	IEnumerator SlotInCrystal(GameObject crystal, GameObject slot)
 	{
-		isCraftCooldown = true;
-
 		int slotNumber = int.Parse(slot.name[6].ToString()) - 1;
 
 		for(int i = 0; i < 5; i++)
@@ -370,6 +329,8 @@ public class PlayerController : MonoBehaviour {
 				}
 			}
 		}
+
+		isCraftCooldown = true;
 
 		if (slottedCrystals[slotNumber] != null)
 		{
@@ -419,111 +380,114 @@ public class PlayerController : MonoBehaviour {
 		{
 			RaycastHit hit;
 
-			if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, interactionRange, 1 << LayerMask.NameToLayer("Spell Scroll")))
+			if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, interactionRange, 1 << LayerMask.NameToLayer("Outline")))
 			{
-				int emptySlot = -1;
-
-				for(int i = 0; i < 3; i++)
+				if(hit.collider.gameObject.GetComponent<Spell>() != null)
 				{
-					if(storedSpells[i] == null)
+					int emptySlot = -1;
+
+					for (int i = 0; i < 3; i++)
 					{
-						emptySlot = i;
-
-						break;
-					}
-				}
-
-				if(emptySlot > -1)
-				{
-					isSpellCollected = true;
-
-					storedSpells[emptySlot] = hit.collider.gameObject;
-					
-					storedSpells[emptySlot].GetComponent<Collider>().enabled = false;
-					
-					foreach (Renderer renderer in storedSpells[emptySlot].transform.GetChild(0).GetComponentsInChildren<Renderer>())
-					{
-						renderer.enabled = false;
-					}
-
-					foreach (SpriteRenderer render in storedSpells[emptySlot].GetComponent<Spell>().symbolSlots)
-					{
-						render.enabled = false;
-					}
-
-					storedSpells[emptySlot].gameObject.name = "Stored Spell " + emptySlot;
-
-					storageUI[emptySlot].color = Color.yellow;
-
-					List<string> moduleList = storedSpells[emptySlot].GetComponent<Spell>().Modules;
-
-					for(int i = 0; i < moduleList.Count; i++)
-					{
-						int moduleIndex = 0;
-
-						switch (moduleList[i])
+						if (storedSpells[i] == null)
 						{
-							case "Projectile":
-								moduleIndex = 0;
+							emptySlot = i;
 
-								break;
-							case "Split":
-								moduleIndex = 1;
+							break;
+						}
+					}
 
-								break;
-							case "Charge":
-								moduleIndex = 2;
+					if (emptySlot > -1)
+					{
+						isSpellCollected = true;
 
-								break;
-							case "Touch":
-								moduleIndex = 3;
+						storedSpells[emptySlot] = hit.collider.gameObject;
 
-								break;
-							case "AOE":
-								moduleIndex = 4;
+						storedSpells[emptySlot].GetComponent<Collider>().enabled = false;
 
-								break;
-							case "Proximity":
-								moduleIndex = 5;
-
-								break;
-							case "Timer":
-								moduleIndex = 6;
-
-								break;
-							case "Fire":
-								moduleIndex = 7;
-
-								break;
-							case "Push":
-								moduleIndex = 8;
-
-								break;
-							case "Pull":
-								moduleIndex = 9;
-
-								break;
-							case "Weight":
-								moduleIndex = 10;
-
-								break;
-							case "Barrier":
-								moduleIndex = 11;
-
-								break;
-							case "Null":
-								moduleIndex = 12;
-
-								break;
+						foreach (Renderer renderer in storedSpells[emptySlot].transform.GetChild(0).GetComponentsInChildren<Renderer>())
+						{
+							renderer.enabled = false;
 						}
 
-						storageIcons[emptySlot, i].sprite = moduleSymbols[moduleIndex];
+						foreach (SpriteRenderer render in storedSpells[emptySlot].GetComponent<Spell>().symbolSlots)
+						{
+							render.enabled = false;
+						}
+
+						storedSpells[emptySlot].gameObject.name = "Stored Spell " + emptySlot;
+
+						storageUI[emptySlot].color = Color.yellow;
+
+						List<string> moduleList = storedSpells[emptySlot].GetComponent<Spell>().Modules;
+
+						for (int i = 0; i < moduleList.Count; i++)
+						{
+							int moduleIndex = 0;
+
+							switch (moduleList[i])
+							{
+								case "Projectile":
+									moduleIndex = 0;
+
+									break;
+								case "Split":
+									moduleIndex = 1;
+
+									break;
+								case "Charge":
+									moduleIndex = 2;
+
+									break;
+								case "Touch":
+									moduleIndex = 3;
+
+									break;
+								case "AOE":
+									moduleIndex = 4;
+
+									break;
+								case "Proximity":
+									moduleIndex = 5;
+
+									break;
+								case "Timer":
+									moduleIndex = 6;
+
+									break;
+								case "Fire":
+									moduleIndex = 7;
+
+									break;
+								case "Push":
+									moduleIndex = 8;
+
+									break;
+								case "Pull":
+									moduleIndex = 9;
+
+									break;
+								case "Weight":
+									moduleIndex = 10;
+
+									break;
+								case "Barrier":
+									moduleIndex = 11;
+
+									break;
+								case "Null":
+									moduleIndex = 12;
+
+									break;
+							}
+
+							storageIcons[emptySlot, i].sprite = moduleSymbols[moduleIndex];
+						}
 					}
 				}
 			}
 		}
 
-		//Cannot select a spel while on casting cooldown
+		//Cannot select a spell while on casting cooldown
 		if (isCastingCooldown)
 		{
 			return;
@@ -771,74 +735,4 @@ public class PlayerController : MonoBehaviour {
 		SceneManager.LoadScene("PC Menu");
 	}
 	#endregion
-
-	/*
-	#region Crafting outline
-	//Handle crafting outline
-	void HandleCraftingOutline()
-	{
-		GameObject newTarget = null;
-
-		if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, interactionRange, 1 << LayerMask.NameToLayer("Crafting")))
-		{
-			newTarget = hit.collider.gameObject;
-		}
-
-		if (target != null && newTarget == target)
-		{
-			if(targetInfo != null)
-			{
-				if (targetSelectState != targetInfo.isSelected)
-				{
-					targetSelectState = targetInfo.isSelected;
-
-					ApplyOutline();
-				}
-			}
-		}
-		else
-		{
-			if (target != null)
-			{
-				RemoveOutline();
-			}
-
-			target = newTarget;
-
-			if (target != null)
-			{
-				targetRenderer = target.GetComponent<Renderer>();
-				targetInfo = target.GetComponent<CrystalInfo>();
-				targetSelectState = targetInfo == null ? false : targetInfo.isSelected;
-
-				ApplyOutline();
-			}
-		}
-	}
-
-	//Apply outline
-	void ApplyOutline()
-	{
-		foreach (Material mat in targetRenderer.materials)
-		{
-			//mat.shader = outlineShader;
-			mat.SetInt("_DrawOutline", 1);
-			mat.SetColor("_OutlineColour", targetSelectState ? selectedColour : hoverColour);
-		}
-	}
-
-	//Remove outline
-	void RemoveOutline()
-	{
-		if (targetRenderer != null)
-		{
-			foreach (Material mat in targetRenderer.materials)
-			{
-				//mat.shader = defaultShader;
-				mat.SetInt("_DrawOutline", 0);
-			}
-		}
-	}
-	#endregion
-	*/
 }

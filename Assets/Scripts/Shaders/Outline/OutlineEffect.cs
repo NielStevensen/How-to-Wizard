@@ -1,10 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class OutlineEffect : MonoBehaviour
 {
+	//Should the outline be drawn?
+	[Tooltip("Is the player within range to draw an outline?")]
+	public bool shouldDrawOutline = false;
+	
 	//Cameras
 	private Camera mainCamera;
 	private Camera maskedCam;
@@ -12,14 +13,9 @@ public class OutlineEffect : MonoBehaviour
 	//Shaders
 	public Shader simpleShader;
 	public Shader outlineShader;
-
-	public RawImage ui;
-
+	
 	//Material
 	private Material outlineMaterial;
-
-	//Render texture
-	private RenderTexture maskedRT = null;
 	
 	//Set references and set up masked camera
 	void Start()
@@ -34,30 +30,31 @@ public class OutlineEffect : MonoBehaviour
 	//Affect rendered image
 	void OnRenderImage(RenderTexture source, RenderTexture destination)
 	{
-		//Set up masked camera values
-		maskedCam.CopyFrom(mainCamera);
-		maskedCam.clearFlags = CameraClearFlags.Color;
-		maskedCam.backgroundColor = Color.black;
-		maskedCam.cullingMask = 1 << LayerMask.NameToLayer("Crafting");
-		
-		//Create render texture if it is null
-		if(maskedRT == null)
+		if (shouldDrawOutline)
 		{
-			maskedRT = new RenderTexture(source.width, source.height, 0, RenderTextureFormat.R8);
+			//Set up masked camera values
+			maskedCam.CopyFrom(mainCamera);
+			maskedCam.clearFlags = CameraClearFlags.Color;
+			maskedCam.backgroundColor = Color.black;
+			maskedCam.cullingMask = 1 << LayerMask.NameToLayer("Outline");
+			
+			//Assign to memory
+			RenderTexture temporaryRT = RenderTexture.GetTemporary(Screen.width, Screen.height);
+
+			//Set target texture and shader
+			maskedCam.targetTexture = temporaryRT;
+			maskedCam.RenderWithShader(simpleShader, "");
+			outlineMaterial.SetTexture("_SceneTex", source);
+
+			//Pass through shader and draw to screen
+			Graphics.Blit(temporaryRT, destination, outlineMaterial);
+
+			//Release memory
+			RenderTexture.ReleaseTemporary(temporaryRT);
 		}
-
-		//Assign to memory
-		maskedRT.Create();
-
-		//Set target texture and shader
-		maskedCam.targetTexture = maskedRT;
-		maskedCam.RenderWithShader(simpleShader, "");
-		outlineMaterial.SetTexture("_SceneTex", source);
-		
-		//Pass through shader
-		Graphics.Blit(maskedRT, destination, outlineMaterial);
-
-		//Release memory
-		maskedRT.Release();
+		else
+		{
+			Graphics.Blit(source, destination);
+		}
 	}
 }

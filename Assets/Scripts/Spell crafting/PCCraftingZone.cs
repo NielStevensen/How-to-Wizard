@@ -5,32 +5,19 @@ using UnityEngine;
 public class PCCraftingZone : MonoBehaviour
 {
 	//Player references
-	[SerializeField]
 	private GameObject player;
 	private PlayerController controller;
 	private float interactionRange;
 	private Transform playerCamera;
-
-	//Shaders
-	[Tooltip("Default shader.")]
-	public Shader defaultShader;
-	[Tooltip("Outline shader.")]
-	public Shader outlineShader;
-
-	[Space(10)]
-
-	//Outline colours
-	[Tooltip("Hover outline colour.")]
-	public Color hoverColour;
-	[Tooltip("Selected outline colour.")]
-	public Color selectedColour;
-
+	private OutlineEffect outlineFX;
+	
 	//Object reference
 	private RaycastHit hit;
 	private GameObject target = null;
-	private Renderer targetRenderer = null;
-	private CrystalInfo targetInfo = null;
-	private bool targetSelectState = false;
+
+	//Layer values
+	public LayerMask outlineMask;
+	private int previousLayer = -1;
 
 	//Set reference
 	private void Start()
@@ -39,11 +26,31 @@ public class PCCraftingZone : MonoBehaviour
 		controller = player.GetComponent<PlayerController>();
 		interactionRange = controller.interactionRange;
 		playerCamera = player.transform.GetChild(0);
+		outlineFX = playerCamera.GetComponent<OutlineEffect>();
 	}
 	
+	//Enable outline
 	private void OnTriggerEnter(Collider other)
 	{
-		//print(other.gameObject.name + ", " + other.gameObject.layer);
+		if (other.gameObject == player)
+		{
+			outlineFX.shouldDrawOutline = true;
+		}
+	}
+
+	//Disable outline
+	private void OnTriggerExit(Collider other)
+	{
+		if (other.gameObject == player)
+		{
+			outlineFX.shouldDrawOutline = false;
+
+			if (target != null)
+			{
+				SetLayer(target, previousLayer);
+				target = null;
+			}
+		}
 	}
 
 	//While inside, raycast to highlight stuff
@@ -51,87 +58,65 @@ public class PCCraftingZone : MonoBehaviour
 	{
 		if (other.gameObject == player)
 		{
-			//print("player in");
-
 			GameObject newTarget = null;
 
-			if (Physics.Raycast(playerCamera.position, playerCamera.forward, out hit, interactionRange, 1 << LayerMask.NameToLayer("Crafting")))
+			if (Physics.Raycast(playerCamera.position, playerCamera.forward, out hit, interactionRange, outlineMask))
 			{
-				newTarget = hit.collider.gameObject;
-			}
-
-			if (target != null && newTarget == target)
-			{
-				if (targetSelectState != targetInfo.isSelected)
+				if (!controller.isCraftCooldown)
 				{
-					targetSelectState = targetInfo.isSelected;
-
-					ApplyOutline();
+					if(hit.collider.gameObject.GetComponent<FinalizeSpell>() == null)
+					{
+						newTarget = hit.collider.gameObject;
+					}
+					else
+					{
+						if (controller.isSpellCollected)
+						{
+							newTarget = hit.collider.gameObject;
+						}
+					}
 				}
-			}
-			else
-			{
-				if (target != null)
+				else
 				{
-					RemoveOutline();
+					if(hit.collider.gameObject.GetComponent<Spell>() != null)
+					{
+						newTarget = hit.collider.gameObject;
+					}
+				}
+				
+				//might want to check for crystal info so only crystals can be higlighted
+				//can get other crafting objects to do other things
+			}
+
+			if(newTarget != target)
+			{
+				if(target != null)
+				{
+					SetLayer(target, previousLayer);
 				}
 
 				target = newTarget;
 
-				if(target != null)
+				if (target != null)
 				{
-					targetRenderer = target.GetComponent<Renderer>();
-					targetInfo = target.GetComponent<CrystalInfo>();
-					targetSelectState = targetInfo == null ? false : targetInfo.isSelected;
-
-					ApplyOutline();
-				}	
+					previousLayer = target.layer;
+					SetLayer(target, LayerMask.NameToLayer("Outline"));
+				}
 			}
 		}
 	}
 
-	//Apply outline
-	void ApplyOutline()
+	//Set layer
+	void SetLayer(GameObject targetObject, int targetLayer)
 	{
-		Color temp;
+		targetObject.layer = targetLayer;
 
-		foreach (Material mat in targetRenderer.materials)
+		if (targetObject.GetComponent<Spell>() != null)
 		{
-			temp = mat.GetColor("_Color");
-
-			mat.shader = outlineShader;
-			
-			mat.SetColor("Colour", temp);
-			mat.SetColor("_OutlineColour", targetSelectState ? selectedColour : hoverColour);
-		}
-	}
-
-	//Remove outline
-	void RemoveOutline()
-	{
-		if (targetRenderer != null)
-		{
-			Color temp;
-
-			foreach (Material mat in targetRenderer.materials)
+			for (int i = 0; i < targetObject.transform.GetChild(0).childCount; i++)
 			{
-				temp = mat.GetColor("_Color");
-
-				mat.shader = defaultShader;
-
-				mat.SetColor("Colour", temp);
+				targetObject.transform.GetChild(0).GetChild(i).gameObject.layer = targetLayer;
 			}
-		}
-	}
-
-	//When exiting the crafting zone, deselect everything
-	private void OnTriggerExit(Collider other)
-	{
-		if (other.gameObject == player)
-		{
-			RemoveOutline();
-			
-			controller.DeselectCrystals();
 		}
 	}
 }

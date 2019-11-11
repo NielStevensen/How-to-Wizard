@@ -102,11 +102,6 @@
 					ColorIntensityInRadius += tex2D(_GrabTexture, float2(IN.uvs.x, 1 - IN.uvs.y) + float2(0, (i - NumberOfIterations / 2) * TX_y)).r / NumberOfIterations;
 				}
 
-				//half4 scene = tex2D(_SceneTex, float2(IN.uvs.x, IN.uvs.y));
-				//scene = ColorIntensityInRadius * scene;
-				//scene = (1 – ColorIntensityInRadius) * scene;
-				//return ColorIntensityInRadius * half4(1, 0, 0, 1) + scene;
-
 				half4 outcolor = ColorIntensityInRadius * half4(0, 1, 1, 1) * 2 + (1 - ColorIntensityInRadius) * tex2D(_SceneTex,  float2(IN.uvs.x, IN.uvs.y));
 				return outcolor;
 			}
