@@ -27,10 +27,18 @@ public class SpellCreation : MonoBehaviour
     [HideInInspector]
     public bool isSpellCollected = true;
 
+    //sounds
+    private AudioSource source;
+    public AudioClip sucesssSound;
+    public AudioClip failSound;
+
 	//Determine spell slots to use
 	private void Start()
 	{
-		moduleZones = Info.IsCurrentlyVR() ? VRSpellSlots : PCSpellSlots;
+        source = GetComponent<AudioSource>();
+        source.volume = Info.optionsData.sfxLevel;
+
+        moduleZones = Info.IsCurrentlyVR() ? VRSpellSlots : PCSpellSlots;
 	}
 
 	// Update is called once per frame
@@ -68,7 +76,7 @@ public class SpellCreation : MonoBehaviour
             if (isValid == true) // if the spell passes all checks
             {
                 GameObject currentSpell = Instantiate(spellPrefab, spawnpoint.position, spawnpoint.rotation);// create a spell object
-                
+                source.PlayOneShot(sucesssSound);
                 for ( int i = 0; i < spellInstructions.Count; i++)
                 {
                     currentSpell.GetComponent<Spell>().Modules.Add(spellInstructions[i]);
@@ -77,6 +85,7 @@ public class SpellCreation : MonoBehaviour
             else
             {
                 Instantiate(IncorrectSpell, spawnpoint.position, spawnpoint.rotation);
+                source.PlayOneShot(failSound);
             }
         }
     }
@@ -110,5 +119,10 @@ public class SpellCreation : MonoBehaviour
 		}
 
         isCraftCooldown = false;
+    }
+
+    public void FXManagment(GameObject target, float time)
+    {
+        Destroy(target, time);
     }
 }

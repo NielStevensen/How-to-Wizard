@@ -96,11 +96,29 @@ public class SpellModuleList : MonoBehaviour
 	public GameObject weightPrefab;
 	[Tooltip("Barrier object spawned by barrier module.")]
 	public GameObject barrierPrefab;
-	#endregion
-	#endregion
+    #endregion
 
-	//Set references
-	private void Start()
+    [Space(10)]
+
+    //sounds
+    public AudioClip ProjectileBreak;
+    public AudioClip SpawnWeight;
+
+    [Space(10)]
+    //particle FX
+    public GameObject chargePersistentFX;
+    public GameObject TouchFX;
+    public GameObject AOEFX;
+    public GameObject ProxFX;
+    public GameObject TimerFX;
+    public GameObject pushFX;
+    public GameObject pullFX;
+    public GameObject weightFX;
+
+    #endregion
+
+    //Set references
+    private void Start()
     {
         spell = GetComponent<Spell>();
 		sie = FindObjectOfType<SingleInstanceEnforcer>();
@@ -402,7 +420,7 @@ public class SpellModuleList : MonoBehaviour
         info.collisionObjects.Add(projectile.GetComponent<ProjectileReturn>().whatHit);
 
         Destroy(projectile);
-
+        AudioSource.PlayClipAtPoint(ProjectileBreak, info.collisionPoints[0], Info.optionsData.sfxLevel);
 		if(modifier == 10)
 		{
 			playerRotation = rotationReference.transform.rotation;
@@ -445,6 +463,7 @@ public class SpellModuleList : MonoBehaviour
     {
         float holdTime = 0.0f;
         GameObject line = Instantiate(segment);
+        GameObject FX = Instantiate(chargePersistentFX);
 
         float length; // length of segment
         float width; // width of segment
@@ -487,6 +506,7 @@ public class SpellModuleList : MonoBehaviour
 			}
 			
             width = 0.0125f + Mathf.Min(holdTime / maxChargeTime, 1.0f) / 10.0f;
+            FX.transform.position = hit.point;
             line.transform.localScale = new Vector3(width, width, length);
             line.transform.position = origin;
             line.transform.LookAt(hit.point);
@@ -519,6 +539,7 @@ public class SpellModuleList : MonoBehaviour
 		yield return info;
 
         Destroy(line);
+        Destroy(FX);
 
 		NotifySpellCasted();
 	}
@@ -562,7 +583,9 @@ public class SpellModuleList : MonoBehaviour
 		}
 		
         info.collisionPoints.Add(touchPoint);
-
+        GameObject FX = Instantiate(TouchFX);
+        FX.transform.position = touchPoint;
+        Destroy(FX, FX.GetComponent<ParticleSystem>().main.duration);
         aoeObject = Instantiate(aoePrefab, touchPoint, Quaternion.identity);
         aoeObject.transform.localScale *= touchSize;
 
@@ -574,7 +597,7 @@ public class SpellModuleList : MonoBehaviour
         }
 
         Destroy(aoeObject);
-
+        
         info.potency = 2;
 
 		playerRotation = rotationReference.transform.rotation;
@@ -609,8 +632,8 @@ public class SpellModuleList : MonoBehaviour
 		{
 			info.collisionObjects.Add(obj);
 		}
-		
-		Destroy(aoeObject);
+        aoeObject.GetComponentInChildren<ParticleSystem>().Play();
+        GameObject.FindObjectOfType<SpellCreation>().FXManagment(aoeObject, aoeObject.GetComponentInChildren<ParticleSystem>().main.duration);
 
 		yield return info;
 	}
@@ -768,7 +791,8 @@ public class SpellModuleList : MonoBehaviour
 	//Produce a physical weight
 	IEnumerator Weight(SpellInfo info, float moduleID)
 	{
-		GameObject weight = sie.SpawnAsSet(spellID + moduleID, weightPrefab, "Weight", info.collisionPoints[0]);
+        //AudioSource.PlayClipAtPoint(SpawnWeight, info.collisionPoints[0], Info.optionsData.sfxLevel); // oc do not steal
+        GameObject weight = sie.SpawnAsSet(spellID + moduleID, weightPrefab, "Weight", info.collisionPoints[0]);
 		weight.transform.localScale *= info.potency;
 		weight.GetComponent<Rigidbody>().mass *= info.potency;
 		

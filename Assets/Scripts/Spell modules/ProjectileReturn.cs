@@ -13,6 +13,7 @@ public class ProjectileReturn : MonoBehaviour
     [HideInInspector]
     public SpellModuleList caller;
     public int modifier;
+    public AudioClip hitSound;
 	
     private void OnCollisionEnter(Collision collision)
     {
@@ -33,7 +34,7 @@ public class ProjectileReturn : MonoBehaviour
                 else
                 {
                     caller.activeSplits[modifier + 1] = false;
-                }
+                }                
                 whatHit = collision.gameObject;
                 whereHit = collision.contacts[0].point;
             }
@@ -51,6 +52,7 @@ public class ProjectileReturn : MonoBehaviour
                 {
                     caller.activeSplits[modifier + 1] = false;
 				}
+
                 whatHit = collision.gameObject;
 				whereHit = collision.contacts[0].point;
 			}

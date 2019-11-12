@@ -11,7 +11,7 @@ public class ModuleLabel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Myimage.sprite = sprites[GetComponent<CrystalInfo>().moduleIndex];
+       Myimage.sprite = sprites[GetComponent<CrystalInfo>().moduleIndex];
     }
     // Update is called once per frame
     void Update()

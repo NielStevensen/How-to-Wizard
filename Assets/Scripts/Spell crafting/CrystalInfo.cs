@@ -20,5 +20,7 @@ public class CrystalInfo : MonoBehaviour
     {
         GetComponent<MeshFilter>().mesh = meshes[moduleType];
         GetComponent<Renderer>().material = materials[moduleType];
+        var col = GetComponentInChildren<ParticleSystem>().colorOverLifetime.color;
+        GetComponentInChildren<ParticleSystem>().startColor = GetComponent<Renderer>().material.color;
     }
 }

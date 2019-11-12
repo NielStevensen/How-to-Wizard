@@ -126,6 +126,8 @@ MonoBehaviour:
   whatHit: {fileID: 0}
   whereHit: {x: 0, y: 0, z: 0}
   caller: {fileID: 0}
+  modifier: 0
+  hitSound: {fileID: 8300000, guid: 48d70af3a35376a4585636672893bd5e, type: 3}
 --- !u!1001 &2492957497558597382
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -133,6 +135,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8329547765462354631}
     m_Modifications:
+    - target: {fileID: 3172087284084602966, guid: 8532497de949ce64986e72fa49762ff2,
+        type: 3}
+      propertyPath: m_Name
+      value: 'Projectile '
+      objectReference: {fileID: 0}
+    - target: {fileID: 3172087284084602966, guid: 8532497de949ce64986e72fa49762ff2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3172087284084602966, guid: 8532497de949ce64986e72fa49762ff2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4615945387264432489, guid: 8532497de949ce64986e72fa49762ff2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -202,21 +219,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 3172087284084602966, guid: 8532497de949ce64986e72fa49762ff2,
-        type: 3}
-      propertyPath: m_Name
-      value: 'Projectile '
-      objectReference: {fileID: 0}
-    - target: {fileID: 3172087284084602966, guid: 8532497de949ce64986e72fa49762ff2,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3172087284084602966, guid: 8532497de949ce64986e72fa49762ff2,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8656756992304476484, guid: 8532497de949ce64986e72fa49762ff2, type: 3}
