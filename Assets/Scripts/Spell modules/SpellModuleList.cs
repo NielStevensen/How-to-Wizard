@@ -623,7 +623,7 @@ public class SpellModuleList : MonoBehaviour
 	{
 		GameObject aoeObject = Instantiate(aoePrefab, info.collisionPoints[0], Quaternion.identity);
 		aoeObject.transform.localScale *= info.potency * aoeSizeAmplifier;
-
+		
 		yield return info;
 
 		info.collisionObjects.Clear();
@@ -632,8 +632,9 @@ public class SpellModuleList : MonoBehaviour
 		{
 			info.collisionObjects.Add(obj);
 		}
-        aoeObject.GetComponentInChildren<ParticleSystem>().Play();
-        GameObject.FindObjectOfType<SpellCreation>().FXManagment(aoeObject, aoeObject.GetComponentInChildren<ParticleSystem>().main.duration);
+
+		//aoeObject.GetComponentInChildren<ParticleSystem>().Play();
+		//GameObject.FindObjectOfType<SpellCreation>().FXManagment(aoeObject, aoeObject.GetComponentInChildren<ParticleSystem>().main.duration);
 
 		yield return info;
 	}
@@ -780,12 +781,11 @@ public class SpellModuleList : MonoBehaviour
 								Vector3 pushVector = Vector3.Normalize(obj.transform.position - origin) * pushForce;
 								pushVector.y = 0;
 
-                                GameObject FX = Instantiate(pushFX);
-                                FX.transform.position = hit.transform.position;
-                                FX.transform.LookAt(transform.position + pushVector);
-                                GameObject.FindObjectOfType<SpellCreation>().FXManagment(weightFX, weightFX.GetComponent<ParticleSystem>().main.duration);
-
-
+                                //GameObject FX = Instantiate(pushFX);
+                                //FX.transform.position = hit.transform.position;
+                                //FX.transform.LookAt(transform.position + pushVector);
+                                //GameObject.FindObjectOfType<SpellCreation>().FXManagment(weightFX, weightFX.GetComponent<ParticleSystem>().main.duration);
+								
                                 obj.GetComponent<Rigidbody>().AddForce(pushVector);
 							}
 						}
@@ -798,7 +798,7 @@ public class SpellModuleList : MonoBehaviour
 	//Produce a physical weight
 	IEnumerator Weight(SpellInfo info, float moduleID)
 	{
-        GameObject.FindObjectOfType<SpellCreation>().FXManagment(weightFX, weightFX.GetComponent<ParticleSystem>().main.duration);
+        //GameObject.FindObjectOfType<SpellCreation>().FXManagment(weightFX, weightFX.GetComponent<ParticleSystem>().main.duration);
         GameObject weight = sie.SpawnAsSet(spellID + moduleID, weightPrefab, "Weight", info.collisionPoints[0]);
 		weight.transform.localScale *= info.potency;
 		weight.GetComponent<Rigidbody>().mass *= info.potency;

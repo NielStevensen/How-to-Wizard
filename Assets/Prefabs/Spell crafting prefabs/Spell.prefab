@@ -837,7 +837,7 @@ MonoBehaviour:
   maxChargeTime: 2.5
   chargeIgnoreRays:
     serializedVersion: 2
-    m_Bits: 46852
+    m_Bits: 112388
   holdAction:
     actionPath: /actions/default/in/Hold
     needsReinit: 0
@@ -845,7 +845,7 @@ MonoBehaviour:
   touchSize: 0.1
   aoeSizeAmplifier: 2.5
   maxForceDistance: 5
-  maxForce: 1000
+  maxForce: 500
   projectilePrefab: {fileID: 7679059604262710080, guid: dba57a152f7942d41adfb60ea2b67c51,
     type: 3}
   segment: {fileID: 7658771609124669935, guid: 27d2b689845dde640aa4d5de692e1948, type: 3}

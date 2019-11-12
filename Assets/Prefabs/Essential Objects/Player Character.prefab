@@ -745,14 +745,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdc0899bdbbd1154890f95cd8f7feb09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 7.5
-  runModifier: 1.5
+  movementSpeed: 5
+  runModifier: 1.75
   interactionRange: 3.75
   isCraftCooldown: 0
   craftingMask:
     serializedVersion: 2
     m_Bits: 540672
-  selectedColour: {r: 0.29968077, g: 0, b: 0.5943396, a: 0.6862745}
+  selectedColour: {r: 0.29968077, g: 0, b: 0.5943396, a: 0.29411766}
   storageUI:
   - {fileID: 909716529300119064}
   - {fileID: 2979620391205457262}

@@ -114,10 +114,10 @@ public class PCUIController : MonoBehaviour
 	{
 		bool shouldNextBeAvailable = true;
 		
-		//for (int i = 0; i < clearData.Length; i++)
-		for (int i = 0; i < 6; i++)
+		for (int i = 0; i < clearData.Length; i++)
 		{
-			levelButtons[i].interactable = clearData[i] ? true : DetermineAvailability(ref shouldNextBeAvailable);
+			levelButtons[i].interactable = true;
+			//levelButtons[i].interactable = clearData[i] ? true : DetermineAvailability(ref shouldNextBeAvailable);
 		}
 	}
 

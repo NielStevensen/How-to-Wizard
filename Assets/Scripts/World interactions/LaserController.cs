@@ -42,11 +42,14 @@ public class LaserController : MonoBehaviour
 		isActivated = startsActivated;
 
 		laserObject = Instantiate(laserPrefab, laserOrigin.position, laserOrigin.rotation, laserOrigin);
+		laserObject.SetActive(isActivated);
 	}
 	
 	//Handle laser and impact
 	void Update()
 	{
+		laserObject.SetActive(isActivated);
+
 		if (isActivated)
 		{
 			RaycastHit hit;
