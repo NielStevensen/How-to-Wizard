@@ -105,6 +105,7 @@ public class VRMovement : MonoBehaviour
     private void Start()
     {
         pointer = Instantiate(pointer);
+
 		if (!Info.IsCurrentlyVR())
 		{
 			return;
@@ -266,6 +267,11 @@ public class VRMovement : MonoBehaviour
             togglePause = false;
             Info.TogglePause();
             shouldUnpause = false;
+            if (Info.isPaused == false)
+            {              
+                menuLayout.SetActive(false);
+            }
+            pointer.SetActive(Info.isPaused);
         }
         //Menu + pausing
         if (menuButton.GetStateUp(hand))
@@ -274,7 +280,7 @@ public class VRMovement : MonoBehaviour
             togglePause = true;
             if (!Info.isPaused)
             {
-                menuLayout.transform.position = (cameraTransform.position + rotationReference.transform.forward);
+                menuLayout.transform.position = new Vector3(transform.position.x, cameraTransform.position.y, transform.position.z) + rotationReference.transform.forward * ((currentPlayfieldSize.x + currentPlayfieldSize.z) / 2.0f);
                 menuLayout.transform.LookAt(cameraTransform);
             }         
         }
@@ -282,30 +288,23 @@ public class VRMovement : MonoBehaviour
         //while paused
         if(Info.isPaused)
         {
-            if (Physics.Raycast(handObject.transform.position, handObject.transform.forward, out RaycastHit Output, 1000f, pausedLayers))
-            {
-                pointer.transform.position = handObject.transform.position;
-                Debug.Log(Output.collider.gameObject.name);
-                pointer.transform.localScale = new Vector3(0.1f,0.1f, Output.distance/2);
-                pointer.transform.LookAt(Output.point);
-            }
-            else
-            {
-                pointer.transform.position = handObject.transform.position;
-                pointer.transform.localScale = new Vector3(0.1f, 0.1f, 100f);
-                pointer.transform.rotation = handObject.transform.rotation;
-            }
+            pointer.transform.position = handObject.transform.position;
+            pointer.transform.rotation = handObject.transform.rotation;
+            pointer.transform.localScale = Physics.Raycast(handObject.transform.position, handObject.transform.forward, out RaycastHit Output, 1000f, pausedLayers) ? new Vector3(0.1f, 0.1f, Output.distance / 2) : new Vector3(0.1f, 0.1f, 100f);
+            
+            //Pause menu interaction
             if (Activate.GetStateUp(hand))
             {
-                Physics.Raycast(handObject.transform.position, handObject.transform.forward, out RaycastHit Output, 1000f, pausedLayers);
+                Physics.Raycast(handObject.transform.position, handObject.transform.forward, out Output, 1000f, pausedLayers);
                 if(Output.collider.gameObject.name == "Resume")
                 {
                     shouldUnpause = true;
+                    togglePause = true;
                 }
                 if (Output.collider.gameObject.name == "Exit")
                 {
                     Info.TogglePause();
-
+                    print("his steven");
                     SceneManager.LoadScene("VRMenu");
                 }
 

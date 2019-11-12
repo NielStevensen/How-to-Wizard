@@ -550,7 +550,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8750719336342758355
 Transform:
   m_ObjectHideFlags: 0
@@ -759,6 +759,9 @@ MonoBehaviour:
   fadeText: {fileID: 5464176487640210000}
   menuButton:
     actionPath: /actions/default/in/Menu
+    needsReinit: 0
+  Activate:
+    actionPath: /actions/default/in/Grab
     needsReinit: 0
   menuLayout: {fileID: 428990502807100077}
   pausedLayers:
