@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 6229825048526922351}
   - component: {fileID: 8296151465847748519}
   - component: {fileID: 3798053452547577860}
+  - component: {fileID: 7488423084494208187}
+  - component: {fileID: -3663980047551045108}
   - component: {fileID: -1082656189990080177}
   m_Layer: 0
   m_Name: Burnable cube
@@ -107,6 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   burnTime: 5
+  fireCollider: {fileID: -3663980047551045108}
   incinerateShader: {fileID: 4800000, guid: 1741f46f85720fe479f2bb023e3f05af, type: 3}
   burningParticleEffect: {fileID: 833281335614011117, guid: b3c0eb21b0e2e0f459cdb6707739adce,
     type: 3}
@@ -126,6 +129,32 @@ MonoBehaviour:
   willNullDestroy: 0
   nullShader: {fileID: 4800000, guid: 358e88ce5fba08e48ae42706c075c8ea, type: 3}
   isProjection: 0
+--- !u!114 &7488423084494208187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8056526125134693242}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d3455a703909f149a65d5f8bfd222ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifetime: -1
+--- !u!65 &-3663980047551045108
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8056526125134693242}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1.0125, y: 1.0125, z: 1.0125}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &-1082656189990080177
 Rigidbody:
   m_ObjectHideFlags: 0
