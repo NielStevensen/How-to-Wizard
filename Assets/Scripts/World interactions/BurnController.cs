@@ -8,6 +8,10 @@ public class BurnController : MonoBehaviour
 	[Tooltip("The amount of time the object burns for before fully disintergrating.\nValues lesser than or equal to 0 will make the object burn indefinitely.")]
 	public float burnTime = 5.0f;
 
+	//Burn trigger
+	[Tooltip("The trigger that propagates fire.")]
+	public Collider fireCollider;
+
 	//Incinerate shader
 	[Tooltip("Shader at Special FX/Incinerate.")]
 	public Shader incinerateShader;
@@ -26,8 +30,8 @@ public class BurnController : MonoBehaviour
 		//spawn particle effect here
 		if(burningParticleEffect != null)
 		{
-			pfx = Instantiate(burningParticleEffect, transform.position, transform.rotation);
-            pfx.transform.localScale = transform.localScale;
+			pfx = Instantiate(burningParticleEffect, transform.position, transform.rotation, transform);
+			pfx.transform.localScale = transform.localScale;
 		}
 		
 		if(burnTime > 0)
@@ -38,6 +42,13 @@ public class BurnController : MonoBehaviour
         {
             GetComponent<TorchTrigger>().ToggleState(true);
         }
+
+		BurnController bc = GetComponent<BurnController>();
+
+		if(bc != null)
+		{
+			StartCoroutine(FirePropagation(bc));
+		}
 	}
 
 	//Control the disintegrating shader
@@ -74,5 +85,14 @@ public class BurnController : MonoBehaviour
         }
         
         Destroy(gameObject);
+	}
+
+	//Control fire propagation
+	IEnumerator FirePropagation(BurnController bc)
+	{
+		yield return new WaitForSeconds(burnTime > 0 ? burnTime * 0.1f : 0.01f);
+
+		bc.enabled = true;
+		fireCollider.enabled = true;
 	}
 }

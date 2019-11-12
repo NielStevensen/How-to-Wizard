@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour {
 	//Movement speed of the player
 	[Tooltip("Movement speed of the player.")]
     public float movementSpeed = 5.0f;
+	[Tooltip("Speed modifier while running.")]
+	public float runModifier = 1.5f;
 	private float initialY;
 
     //Movement expressed as a vector3
@@ -149,6 +151,7 @@ public class PlayerController : MonoBehaviour {
 	void HandleMovement()
 	{
 		movement = Vector3.Normalize(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"))) * movementSpeed;
+		movement *= Input.GetButton("Run") ? runModifier : 1.0f;
 		movement = transform.TransformDirection(movement);
 		CharacterController characterController = GetComponent<CharacterController>();
 

@@ -4,70 +4,121 @@ using UnityEngine;
 
 public class WeightRepositioner : MonoBehaviour
 {
-	//Objects already tested for intersection. If intersected again, the space is too small for this weight
-	[SerializeField]
-	private List<GameObject> intersectedObjects = new List<GameObject>();
-
+	//Layermask
 	[Tooltip("The layers that weight repositioning should ignore.")]
-	public LayerMask collisionIgnore;
+	public LayerMask weightMask;
 	
-	//stuff to try:
-		//print scale before penetration test to determine if scale is set correctly
-		//print calculated position based on output distance and direction to determine if this matches where the weightmoves to
-		//do penetration test 1 frame after scaling
-		//start the weight with collider disabled and enable after repositioning
-		//also start without gravity and enable after repositioning
-
 	//Try to reposition the weight to not intersect with anything
 	private void Start()
 	{
-		//print(transform.localScale);
-		
-		//References
-		Vector3 pos = transform.position;
-		Vector3 rePos = Vector3.zero;
-		Collider weightCollider = GetComponent<Collider>();
+		//Intersection values
+		bool isIntersecting = true;
+		RaycastHit[] hits;
+		List<RaycastHit> hits_ = new List<RaycastHit>();
 
-		//Find everything the weight overlaps
-		RaycastHit[] hits = Physics.BoxCastAll(pos, transform.localScale / 2.0f, Vector3.up, transform.rotation, 0.01f, collisionIgnore, QueryTriggerInteraction.Ignore);
+		//Object references
+		List<GameObject> testedObjects = new List<GameObject>();
+		GameObject target;
+
+		//Repositioning values
+		Vector3 direction;
+		float distance;
+		Vector3 repos;
+		Vector3 reposTotal = Vector3.zero;
 		
-		foreach(RaycastHit hit in hits)
+		//Collider reference
+		BoxCollider weightCollider = GetComponent<BoxCollider>();
+		weightCollider.size *= transform.localScale.x;
+
+		//Handle repositioning
+		while (isIntersecting)
 		{
-			intersectedObjects.Add(hit.collider.gameObject);
-		}
-		
-		//Foreach overlapping object, determine how to separate it from the weight
-		if(hits.Length > 0)
-		{
-			Vector3 direction;
-			float distance;
+			//Determine all objects intersecting with the weight
+			hits = Physics.BoxCastAll(transform.position, transform.localScale * 0.5f - Vector3.one * 0.01f, Vector3.up, transform.rotation, 0.01f, weightMask, QueryTriggerInteraction.Ignore);
 
-			int count = 0;
+			hits_.Clear();
 
-			foreach (RaycastHit hit in hits)
+			foreach(RaycastHit hit in hits)
 			{
-				if (hit.collider.gameObject != gameObject)
+				if(hit.collider.gameObject != gameObject)
 				{
-					print(hit.collider.gameObject.name + ": " + count++);
-
-					bool isCollidedPenetration = Physics.ComputePenetration(weightCollider, transform.position, transform.rotation,
-					hit.collider, hit.collider.gameObject.transform.position, hit.collider.gameObject.transform.rotation,
-					out direction, out distance);
-
-					bool isCollidedBoxcast = Physics.BoxCast(transform.position, transform.localScale / 2.0f, Vector3.up, transform.rotation, 0.01f, collisionIgnore, QueryTriggerInteraction.Ignore);
-
-					print("penetration: " + isCollidedPenetration.ToString() + ", boxcast:" + isCollidedBoxcast.ToString());
-
-					print(direction * distance);
-					
-					rePos += direction * distance;
+					hits_.Add(hit);
 				}
 			}
+			
+			//If there were no intersections, the space is clear and the weight can be spawned
+			if(hits_.Count == 0)
+			{
+				print("no longer intersecting");
 
-			transform.position += rePos;
+				isIntersecting = false;
+			}
+			//Else, try to reposition
+			else
+			{
+				target = hits_[0].collider.gameObject;
+
+				//Determine if the target object has been tested
+				bool alreadyTested = false;
+
+				foreach(GameObject obj in testedObjects)
+				{
+					if(obj == target)
+					{
+						alreadyTested = true;
+
+						print("double test. object: " + target.name);
+
+						break;
+					}
+				}
+
+				//If the target object has already been tested, the weight is in too small a space
+				if (alreadyTested)
+				{
+					break;
+				}
+
+				testedObjects.Add(target);
+
+				//Determine repositioning amount
+				Physics.ComputePenetration(weightCollider, transform.position, transform.rotation, hits_[0].collider, target.transform.position, target.transform.rotation, out direction, out distance);
+				
+				repos = direction * distance / transform.localScale.x;
+				reposTotal += repos;
+
+				//If the weight requires too much repositioning, it's in too small a space
+				if(reposTotal.magnitude > transform.localScale.x * 1.5f)
+				{
+					print("moved too far. move distance: " + reposTotal.magnitude);
+
+					break;
+				}
+
+				//Apply repositioning
+				transform.position += repos;
+			}
 		}
 
-		weightCollider.attachedRigidbody.isKinematic = false;
-		weightCollider.attachedRigidbody.useGravity = true;
+		//The weight failed its repositioning
+		if (isIntersecting)
+		{
+			//produce particle effect
+
+			//gameObject.GetComponent<Renderer>().enabled = true;
+
+			Destroy(gameObject);
+		}
+		//The weight was successfully repositioned
+		else
+		{
+			weightCollider.isTrigger = false;
+			weightCollider.size = Vector3.one;
+			weightCollider.attachedRigidbody.isKinematic = false;
+			weightCollider.attachedRigidbody.useGravity = true;
+			gameObject.GetComponent<Renderer>().enabled = true;
+
+			//produce particle effect
+		}
 	}
 }

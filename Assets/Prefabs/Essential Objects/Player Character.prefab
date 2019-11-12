@@ -747,6 +747,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 7.5
   interactionRange: 3.75
+  isCraftCooldown: 0
   craftingMask:
     serializedVersion: 2
     m_Bits: 540672
@@ -2455,6 +2456,7 @@ GameObject:
   - component: {fileID: 3968126287357400770}
   - component: {fileID: 3614862043197977423}
   - component: {fileID: 2659046673492529421}
+  - component: {fileID: 4338592569479071074}
   m_Layer: 8
   m_Name: Player POV
   m_TagString: MainCamera
@@ -2563,6 +2565,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentSpellID: 0
+--- !u!114 &4338592569479071074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7173184208746770719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a73b9cbace92f94e8a92a517d4d62d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shouldDrawOutline: 0
+  simpleShader: {fileID: 4800000, guid: 76de4574005898346b629634f944988d, type: 3}
+  outlineShader: {fileID: 4800000, guid: 231b4c64adf55d046bcd0d369e02b068, type: 3}
 --- !u!1 &7522894978399961673
 GameObject:
   m_ObjectHideFlags: 0
