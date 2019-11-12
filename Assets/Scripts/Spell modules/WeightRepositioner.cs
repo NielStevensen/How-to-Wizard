@@ -7,7 +7,8 @@ public class WeightRepositioner : MonoBehaviour
 	//Layermask
 	[Tooltip("The layers that weight repositioning should ignore.")]
 	public LayerMask weightMask;
-	
+    public AudioClip weightSound;
+    public GameObject weightFX;
 	//Try to reposition the weight to not intersect with anything
 	private void Start()
 	{
@@ -118,7 +119,10 @@ public class WeightRepositioner : MonoBehaviour
 			weightCollider.attachedRigidbody.useGravity = true;
 			gameObject.GetComponent<Renderer>().enabled = true;
 
-			//produce particle effect
-		}
-	}
+            //produce particle effect
+            AudioSource.PlayClipAtPoint(weightSound, transform.position, Info.optionsData.sfxLevel); // oc do not steal
+            GameObject FX = Instantiate(weightFX);
+            FX.transform.position = transform.position;
+        }
+    }
 }

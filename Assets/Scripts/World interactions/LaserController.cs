@@ -32,6 +32,8 @@ public class LaserController : MonoBehaviour
 	public GameObject laserPrefab;
 	private GameObject laserObject;
 
+    public GameObject DestroyFX;
+
 	//Log an error if there is no origin
 	void Start()
 	{
@@ -78,8 +80,11 @@ public class LaserController : MonoBehaviour
 					if (shouldDestroy)
 					{
 						Destroy(impactObject);
-						
-						impactObject = null;
+                        GameObject FX = Instantiate(DestroyFX);
+                        FX.transform.position = impactObject.transform.position;
+                        FX.transform.localScale = impactObject.transform.localScale *0.5f;
+                        GameObject.FindObjectOfType<SpellCreation>().FXManagment(FX, FX.GetComponent<ParticleSystem>().main.duration);
+                        impactObject = null;
 					}
 				}
 			}

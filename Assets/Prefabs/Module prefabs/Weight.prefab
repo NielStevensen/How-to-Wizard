@@ -125,6 +125,9 @@ MonoBehaviour:
   weightMask:
     serializedVersion: 2
     m_Bits: 411905
+  weightSound: {fileID: 8300000, guid: d0a7e525dba304e44850193f5716bbe1, type: 3}
+  weightFX: {fileID: 6564230237751211074, guid: 4cdbf5a1e15ade4498449359b53a259c,
+    type: 3}
 --- !u!114 &-4200811709711082274
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -718,7 +718,8 @@ public class SpellModuleList : MonoBehaviour
     {
         GameObject flame = Instantiate(firePrefab, info.collisionPoints[0], Quaternion.identity);
         flame.transform.localScale *= info.potency;
-		
+        flame.GetComponentInChildren<ParticleSystem>().transform.localScale *= info.potency;
+
         yield return info;
     }
 
@@ -778,8 +779,14 @@ public class SpellModuleList : MonoBehaviour
 
 								Vector3 pushVector = Vector3.Normalize(obj.transform.position - origin) * pushForce;
 								pushVector.y = 0;
-								
-								obj.GetComponent<Rigidbody>().AddForce(pushVector);
+
+                                GameObject FX = Instantiate(pushFX);
+                                FX.transform.position = hit.transform.position;
+                                FX.transform.LookAt(transform.position + pushVector);
+                                GameObject.FindObjectOfType<SpellCreation>().FXManagment(weightFX, weightFX.GetComponent<ParticleSystem>().main.duration);
+
+
+                                obj.GetComponent<Rigidbody>().AddForce(pushVector);
 							}
 						}
 					}
@@ -791,7 +798,7 @@ public class SpellModuleList : MonoBehaviour
 	//Produce a physical weight
 	IEnumerator Weight(SpellInfo info, float moduleID)
 	{
-        //AudioSource.PlayClipAtPoint(SpawnWeight, info.collisionPoints[0], Info.optionsData.sfxLevel); // oc do not steal
+        GameObject.FindObjectOfType<SpellCreation>().FXManagment(weightFX, weightFX.GetComponent<ParticleSystem>().main.duration);
         GameObject weight = sie.SpawnAsSet(spellID + moduleID, weightPrefab, "Weight", info.collisionPoints[0]);
 		weight.transform.localScale *= info.potency;
 		weight.GetComponent<Rigidbody>().mass *= info.potency;

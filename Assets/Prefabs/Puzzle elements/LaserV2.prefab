@@ -146,6 +146,8 @@ MonoBehaviour:
     m_Bits: 62208
   laserPrefab: {fileID: 7658771609124669935, guid: 27d2b689845dde640aa4d5de692e1948,
     type: 3}
+  DestroyFX: {fileID: 685881439387540383, guid: 8e7824508e217dd42b37ad1e4dd37784,
+    type: 3}
 --- !u!1 &5340348362828490973
 GameObject:
   m_ObjectHideFlags: 0
