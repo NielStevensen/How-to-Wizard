@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PC Menu.unity
     guid: c57cee3da07451741a09c8461044abcb
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/VRMenu.unity
     guid: d4126b74df802fa409144fe16f99cf56
   - enabled: 1
@@ -16,38 +16,44 @@ EditorBuildSettings:
     guid: c23e08bd1107653458fd1b3794068590
   - enabled: 1
     path: Assets/Scenes/Tutorial Levels/Level 2.unity
-    guid: 5ece86d2cbc09c7498a5e4ea7b07c3ec
+    guid: 019328035aa9345429fd3d57552b264d
   - enabled: 1
     path: Assets/Scenes/Tutorial Levels/Level 3.unity
-    guid: 39a7b9ca2a2301f43bcfd1acfaf8ed95
+    guid: 8561ed790c10f6d4d88cd8be5cb688b2
   - enabled: 1
     path: Assets/Scenes/Tutorial Levels/Level 4.unity
-    guid: e710863340d4dfc48a9985a91d41f437
+    guid: 9d94a82a8c7cd114d8c20d0a7a30dcf8
   - enabled: 1
     path: Assets/Scenes/Tutorial Levels/Level 5.unity
-    guid: b0ffd91bfda7fe448974853d350735ac
+    guid: 491c843dfdbae4a4cac24b8b086f3c94
   - enabled: 1
     path: Assets/Scenes/Tutorial Levels/Level 6.unity
-    guid: 663ebff14bab8d5468baa747c9aa68e8
+    guid: 5d51ddc387a2ca64e8b051db8eaf3afe
   - enabled: 1
     path: Assets/Scenes/Tutorial Levels/Level 7.unity
-    guid: 523a35ad9927ee943aaa2044c9ec6723
+    guid: ccf49238d3877e346a23f3e2177ddf8d
   - enabled: 1
     path: Assets/Scenes/Tutorial Levels/Level 8.unity
-    guid: e1a67e92e03d4164c80ed0a57585589e
+    guid: 17eaef7fa98647d41828218783ab4cd5
   - enabled: 1
     path: Assets/Scenes/Tutorial Levels/Level 9.unity
-    guid: 68f3486ca35732f478dddb5cd95d46d7
+    guid: 5fee7eead94830a45bcc3dce3e29d600
   - enabled: 1
     path: Assets/Scenes/Tutorial Levels/Level 10.unity
-    guid: 76ff1108a6c9e20459438ae0e68be052
+    guid: 0ee2c13c72728c94984ea9d8b8ae6346
   - enabled: 1
     path: Assets/Scenes/Tutorial Levels/Level 11.unity
-    guid: e9b4d06f2dba4bb43a219afd89a1c0be
+    guid: 898f616ff5b989c41aaa8945d6bd62c7
   - enabled: 1
     path: Assets/Scenes/Tutorial Levels/Level 12.unity
-    guid: 1694cbdeec00c084088f1d5317353ef8
+    guid: 9fba23e02ca1d4e4e81c0abdb13e8fc8
   - enabled: 1
     path: Assets/Scenes/Tutorial Levels/Level 13.unity
-    guid: f07bd59a01941c34db19fb2a890636b5
+    guid: c9a4a2f8dee234c4ba4be3d99228c3be
+  - enabled: 1
+    path: Assets/Scenes/Tutorial Levels/Level 14.unity
+    guid: 67cb8addf4691de4a8a7b5416ed9f453
+  - enabled: 1
+    path: Assets/Scenes/Tutorial Levels/Level 15.unity
+    guid: 535e35cf7134c934faf18baddde372c2
   m_configObjects: {}
