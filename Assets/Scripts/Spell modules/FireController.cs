@@ -15,7 +15,10 @@ public class FireController : MonoBehaviour
     //Setup
     void Start()
     {
-        Destroy(gameObject, lifetime);
+		if(lifetime > 0.0f)
+		{
+			Destroy(gameObject, lifetime);
+		}
 	}
 	
 	//On entering the flame, set flammable, un-nulled objects on fire
