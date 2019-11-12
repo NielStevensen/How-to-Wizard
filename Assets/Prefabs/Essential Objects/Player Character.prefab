@@ -746,6 +746,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 7.5
+  runModifier: 1.5
   interactionRange: 3.75
   isCraftCooldown: 0
   craftingMask:
@@ -3034,6 +3035,11 @@ PrefabInstance:
     - target: {fileID: -212444364392887427, guid: 6180e37eccae0114a8bff85f7ea0d4d6,
         type: 3}
       propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -212444364392887427, guid: 6180e37eccae0114a8bff85f7ea0d4d6,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

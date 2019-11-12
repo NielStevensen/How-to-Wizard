@@ -105,6 +105,8 @@ GameObject:
   - component: {fileID: 413479683879400657}
   - component: {fileID: 4953725351732804001}
   - component: {fileID: 4984048452663807803}
+  - component: {fileID: 7249215562115668133}
+  - component: {fileID: 4662207336493789458}
   m_Layer: 0
   m_Name: Crown pivot
   m_TagString: Untagged
@@ -140,6 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   burnTime: -1
+  fireCollider: {fileID: 0}
   incinerateShader: {fileID: 4800000, guid: 1741f46f85720fe479f2bb023e3f05af, type: 3}
   burningParticleEffect: {fileID: 0}
 --- !u!114 &413479683879400657
@@ -188,6 +191,32 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.375
   m_Center: {x: 0, y: 0.09375, z: 0}
+--- !u!114 &7249215562115668133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4753671392695303653}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d3455a703909f149a65d5f8bfd222ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifetime: -1
+--- !u!135 &4662207336493789458
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4753671392695303653}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 0.4375
+  m_Center: {x: 0, y: 0.125, z: 0}
 --- !u!1 &5640844345113047338
 GameObject:
   m_ObjectHideFlags: 0

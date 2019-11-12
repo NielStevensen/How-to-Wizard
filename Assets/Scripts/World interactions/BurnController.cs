@@ -43,11 +43,11 @@ public class BurnController : MonoBehaviour
             GetComponent<TorchTrigger>().ToggleState(true);
         }
 
-		BurnController bc = GetComponent<BurnController>();
+		FireController fc = GetComponent<FireController>();
 
-		if(bc != null)
+		if(fc != null)
 		{
-			StartCoroutine(FirePropagation(bc));
+			StartCoroutine(FirePropagation(fc));
 		}
 	}
 
@@ -88,11 +88,11 @@ public class BurnController : MonoBehaviour
 	}
 
 	//Control fire propagation
-	IEnumerator FirePropagation(BurnController bc)
+	IEnumerator FirePropagation(FireController fc)
 	{
 		yield return new WaitForSeconds(burnTime > 0 ? burnTime * 0.1f : 0.01f);
 
-		bc.enabled = true;
+		fc.enabled = true;
 		fireCollider.enabled = true;
 	}
 }
