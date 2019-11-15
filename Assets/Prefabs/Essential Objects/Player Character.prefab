@@ -752,7 +752,7 @@ MonoBehaviour:
   craftingMask:
     serializedVersion: 2
     m_Bits: 540672
-  selectedColour: {r: 0.29968077, g: 0, b: 0.5943396, a: 0.29411766}
+  selectedColour: {r: 0.29411766, g: 0, b: 0.5882353, a: 0.78431374}
   storageUI:
   - {fileID: 909716529300119064}
   - {fileID: 2979620391205457262}

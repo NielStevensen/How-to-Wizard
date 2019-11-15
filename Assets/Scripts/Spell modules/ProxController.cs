@@ -37,14 +37,13 @@ public class ProxController : MonoBehaviour
 			if(hit.collider.tag == "Interactable")
 			{
 				initialIntersects.Add(hit.collider.gameObject);
-
-				print(initialIntersects[initialIntersects.Count - 1].name);
 			}
 		}
 
 		proxObj = Instantiate(sml.aoePrefab, transform.position, Quaternion.identity);
 		proxObj.transform.localScale = transform.localScale;
-		proxObj.SetActive(false);
+		proxObj.GetComponent<Collider>().enabled = false;
+		proxObj.GetComponent<SpellTriggerHandler>().enabled = false;
 
 		StartCoroutine(ControlLifeTime());
 	}
@@ -56,7 +55,8 @@ public class ProxController : MonoBehaviour
 		{
 			if (!initialIntersects.Contains(other.gameObject))
 			{
-				proxObj.SetActive(true);
+				proxObj.GetComponent<Collider>().enabled = true;
+				proxObj.GetComponent<SpellTriggerHandler>().enabled = true;
 
 				isTriggered = true;
 			}
@@ -66,7 +66,10 @@ public class ProxController : MonoBehaviour
 	//Allow objects that leave its area to be detected if they re-enter
 	private void OnTriggerExit(Collider other)
 	{
-		initialIntersects.Remove(other.gameObject);
+		if (initialIntersects.Contains(other.gameObject))
+		{
+			initialIntersects.Remove(other.gameObject);
+		}
 	}
 
 	//Control the lifetime of hte prox object

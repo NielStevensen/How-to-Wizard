@@ -100,25 +100,28 @@ public class SpellModuleList : MonoBehaviour
 
     [Space(10)]
 
-    //sounds
-    public AudioClip ProjectileBreak;
+	#region SFX
+	//SFX
+	public AudioClip ProjectileBreak;
     public AudioClip SpawnWeight;
+	#endregion
 
-    [Space(10)]
-    //particle FX
-    public GameObject chargePersistentFX;
-    public GameObject TouchFX;
+	[Space(10)]
+
+	#region Particle FX
+	//Particle FX
+	public GameObject chargePersistentFX;
+    public GameObject touchFX;
     public GameObject AOEFX;
-    public GameObject ProxFX;
-    public GameObject TimerFX;
     public GameObject pushFX;
     public GameObject pullFX;
-    public GameObject weightFX;
+    public GameObject barrierFX;
+    public GameObject nullFX;
+	#endregion
+	#endregion
 
-    #endregion
-
-    //Set references
-    private void Start()
+	//Set references
+	private void Start()
     {
         spell = GetComponent<Spell>();
 		sie = FindObjectOfType<SingleInstanceEnforcer>();
@@ -314,7 +317,7 @@ public class SpellModuleList : MonoBehaviour
 						lineSegments[simulatedSegments].transform.LookAt(nextPoint);
 						lineSegments[simulatedSegments].transform.localScale = new Vector3(0.1f, 0.1f, (nextPoint - previousPoint).magnitude / 2);
 						simulatedSegments += 1;
-						if (Physics.Raycast(previousPoint, nextPoint - previousPoint, out hit, (nextPoint - previousPoint).magnitude))
+						if (Physics.Raycast(previousPoint, nextPoint - previousPoint, out hit, (nextPoint - previousPoint).magnitude, chargeIgnoreRays))
 						{
 							nextPoint = hit.point;
 							simulationComplete = true;
@@ -576,24 +579,33 @@ public class SpellModuleList : MonoBehaviour
 			}
 			else
 			{
-				touchPoint = transform.position + transform.forward * touchDistance;
+				touchPoint = Camera.main.transform.position + Camera.main.transform.forward * touchDistance;
 			}
             
 			FindObjectOfType<PlayerController>().animator.SetTrigger(PlayerController.touchHash);
 		}
 		
         info.collisionPoints.Add(touchPoint);
-        GameObject FX = Instantiate(TouchFX);
-        FX.transform.position = touchPoint;
-        Destroy(FX, FX.GetComponent<ParticleSystem>().main.duration);
+        //GameObject FX = Instantiate(touchFX);
+        //FX.transform.position = touchPoint;
+        //Destroy(FX, FX.GetComponent<ParticleSystem>().main.duration);
         aoeObject = Instantiate(aoePrefab, touchPoint, Quaternion.identity);
         aoeObject.transform.localScale *= touchSize;
+		SpellTriggerHandler sth = aoeObject.GetComponent<SpellTriggerHandler>();
 
-        yield return info;
-
-        foreach (GameObject obj in aoeObject.GetComponent<SpellTriggerHandler>().containedObjects)
+		while (sth.containedObjects.Count == 0)
+		{
+			yield return info;
+		}
+		
+        foreach (GameObject obj in sth.containedObjects)
         {
-            info.collisionObjects.Add(obj);
+			if (obj == null)
+			{
+				break;
+			}
+
+			info.collisionObjects.Add(obj);
         }
 
         Destroy(aoeObject);
@@ -623,16 +635,25 @@ public class SpellModuleList : MonoBehaviour
 	{
 		GameObject aoeObject = Instantiate(aoePrefab, info.collisionPoints[0], Quaternion.identity);
 		aoeObject.transform.localScale *= info.potency * aoeSizeAmplifier;
+		SpellTriggerHandler sth = aoeObject.GetComponent<SpellTriggerHandler>();
 		
-		yield return info;
-
-		info.collisionObjects.Clear();
-
-		foreach (GameObject obj in aoeObject.GetComponent<SpellTriggerHandler>().containedObjects)
+		while(sth.containedObjects.Count == 0)
 		{
+			yield return info;
+		}
+		
+		info.collisionObjects.Clear();
+		
+		foreach (GameObject obj in sth.containedObjects)
+		{
+			if (obj == null)
+			{
+				break;
+			}
+
 			info.collisionObjects.Add(obj);
 		}
-
+		
 		//aoeObject.GetComponentInChildren<ParticleSystem>().Play();
 		//GameObject.FindObjectOfType<SpellCreation>().FXManagment(aoeObject, aoeObject.GetComponentInChildren<ParticleSystem>().main.duration);
 
@@ -654,12 +675,22 @@ public class SpellModuleList : MonoBehaviour
 		
 		if (prox.shouldContinue)
 		{
-			yield return info;
+			SpellTriggerHandler sth = prox.proxObj.GetComponent<SpellTriggerHandler>();
+
+			while (sth.containedObjects.Count == 0)
+			{
+				yield return info;
+			}
 			
 			info.collisionObjects.Clear();
 			
 			foreach (GameObject gameObj in prox.proxObj.GetComponent<SpellTriggerHandler>().containedObjects)
 			{
+				if (gameObj == null)
+				{
+					break;
+				}
+				
 				info.collisionObjects.Add(gameObj);
 			}
 
@@ -692,10 +723,22 @@ public class SpellModuleList : MonoBehaviour
 		
 		if (timer.shouldContinue)
 		{
+			SpellTriggerHandler sth = timer.timerObj.GetComponent<SpellTriggerHandler>();
+
+			while (sth.containedObjects.Count == 0)
+			{
+				yield return info;
+			}
+
 			info.collisionObjects.Clear();
 
-			foreach (GameObject gameObj in timer.timerObj.GetComponent<SpellTriggerHandler>().containedObjects)
+			foreach (GameObject gameObj in sth.containedObjects)
 			{
+				if (gameObj == null)
+				{
+					break;
+				}
+
 				info.collisionObjects.Add(gameObj);
 			}
 			

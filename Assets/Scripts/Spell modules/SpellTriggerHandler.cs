@@ -5,17 +5,25 @@ using UnityEngine;
 public class SpellTriggerHandler : MonoBehaviour
 {
 	//Values to retrieve
-	//[HideInInspector]
 	public List<GameObject> containedObjects = new List<GameObject>();
-	
+
+	//Life of an AOE object
+	private int lifeTime = 10;
+
+	//Disable if no collision
+	private void Update()
+	{
+		lifeTime--;
+
+		if(lifeTime == 0)
+		{
+			containedObjects.Add(null);
+		}
+	}
+
 	//Find all objects contained in trigger
 	private void OnTriggerEnter(Collider other)
 	{
-		int otherLayer = other.gameObject.layer;
-
-		if (otherLayer != LayerMask.NameToLayer("Ignore Raycast") && otherLayer != LayerMask.NameToLayer("Player"))
-		{
-			containedObjects.Add(other.gameObject);
-		}
+		containedObjects.Add(other.gameObject);
 	}
 }

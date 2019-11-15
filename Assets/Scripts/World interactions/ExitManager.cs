@@ -71,6 +71,18 @@ public class ExitManager : MonoBehaviour
 
 		if(nextLevel != "")
 		{
+			if(nextLevel == "Menu")
+			{
+				if (Info.IsCurrentlyVR())
+				{
+					SceneManager.LoadScene("VR Menu");
+				}
+				else
+				{
+					SceneManager.LoadScene("PC Menu");
+				}
+			}
+
 			SceneManager.LoadScene(nextLevel);
 		}
 	}

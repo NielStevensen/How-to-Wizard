@@ -80,7 +80,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8321364314617540413}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -144,3 +144,4 @@ MonoBehaviour:
     m_Bits: 62208
   laserPrefab: {fileID: 7658771609124669935, guid: 27d2b689845dde640aa4d5de692e1948,
     type: 3}
+  DestroyFX: {fileID: 0}
