@@ -98,6 +98,13 @@ public class PCUIController : MonoBehaviour
 
 				break;
 			case (GameMode.Sandbox):
+				if(selectedLevel == -1)
+				{
+					selectedLevel = 1;
+				}
+
+				startButton.interactable = true;
+
 				for (int i = 0; i < levelButtons.Length; i++)
 				{
 					levelButtons[i].interactable = false;
@@ -116,8 +123,7 @@ public class PCUIController : MonoBehaviour
 		
 		for (int i = 0; i < clearData.Length; i++)
 		{
-			levelButtons[i].interactable = true;
-			//levelButtons[i].interactable = clearData[i] ? true : DetermineAvailability(ref shouldNextBeAvailable);
+			levelButtons[i].interactable = clearData[i] ? true : DetermineAvailability(ref shouldNextBeAvailable);
 		}
 	}
 
@@ -223,7 +229,7 @@ public class PCUIController : MonoBehaviour
 			}
 			else if(Info.currentGameMode == GameMode.Sandbox)
 			{
-				//SceneManager.LoadScene("Sandbox");
+				SceneManager.LoadScene("Sandbox");
 			}
         }
     }
