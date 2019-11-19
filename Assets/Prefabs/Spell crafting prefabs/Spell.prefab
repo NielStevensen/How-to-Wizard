@@ -834,6 +834,7 @@ MonoBehaviour:
   activeprojectile: 1
   activeSplits: 010101
   splitVariance: 1.5
+  hitpointCol: {fileID: 2100000, guid: 1e2326c4f6479e04786ddffb480ccc17, type: 2}
   maxChargeTime: 2.5
   chargeIgnoreRays:
     serializedVersion: 2
@@ -864,14 +865,12 @@ MonoBehaviour:
   SpawnWeight: {fileID: 8300000, guid: d0a7e525dba304e44850193f5716bbe1, type: 3}
   chargePersistentFX: {fileID: 4098909006485238225, guid: 2de2cf8342a642f4e9ed83f618cd1718,
     type: 3}
-  TouchFX: {fileID: 9053505572087147106, guid: afa71fbe4b504ef43aef6f1b6ff8a6c3, type: 3}
+  touchFX: {fileID: 0}
   AOEFX: {fileID: 941748908923636585, guid: 24b632cacce4dfc47a0febc9aa3dd86d, type: 3}
-  ProxFX: {fileID: 5168411322970879187, guid: 09069fe0dbb48874c9cf7fd98f4c5141, type: 3}
-  TimerFX: {fileID: 5168411322970879187, guid: 69df102b527b76f409acc953899c5788, type: 3}
   pushFX: {fileID: 7173739237145856868, guid: c31977078f230fb479cd4eae8a604096, type: 3}
   pullFX: {fileID: 799970612004283543, guid: f51a7c2ee148f8b47a8c2346088fd360, type: 3}
-  weightFX: {fileID: 6564230237751211074, guid: 4cdbf5a1e15ade4498449359b53a259c,
-    type: 3}
+  barrierFX: {fileID: 0}
+  nullFX: {fileID: 0}
 --- !u!114 &7585976291535763642
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,6 +13,9 @@ public class BeltHolder : MonoBehaviour
     public GameObject[] slots;
     public bool[] states;
 
+    [Tooltip("Displace the belt during play.")]
+    public Vector3 displacement = Vector3.zero;
+
     void Start()
     {
         relativeTo = GameObject.FindObjectOfType<VRMovement>().gameObject.GetComponentInChildren<CameraController>().gameObject;
@@ -23,6 +26,6 @@ public class BeltHolder : MonoBehaviour
 // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(relativeTo.transform.position.x, (relativeTo.transform.position.y - floorY) * waistHeight + floorY, relativeTo.transform.position.z);
+        transform.position = new Vector3(relativeTo.transform.position.x, (relativeTo.transform.position.y - floorY) * waistHeight + floorY, relativeTo.transform.position.z) + transform.TransformDirection(displacement);
     }
 }

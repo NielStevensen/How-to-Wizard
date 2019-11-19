@@ -46,8 +46,11 @@ public class SpellModuleList : MonoBehaviour
 	private List<GameObject> currentSplits = new List<GameObject>();
 	[Tooltip("How much split projectiles vary.")]
 	public float splitVariance = 1.25f;
+    float currentPower = 1;
+    public Material hitpointCol;
 
     [Space(10)]
+
 
 	//Charge values
 	[Tooltip("The amount of time in seconds charge must be held to achieve maximum charge.")]
@@ -290,10 +293,12 @@ public class SpellModuleList : MonoBehaviour
 
 			while (Input.GetButton("Fire2"))
 			{
-				holdTime += Time.deltaTime;
-				power = Mathf.Min(holdTime * 2, maxThrow) * 10;
+                currentPower = Mathf.Clamp(currentPower + Input.GetAxis("Mouse ScrollWheel"), 0.1f, maxThrow);
+                Debug.Log(currentPower);
+                holdTime += Time.deltaTime;
+				power = Mathf.Min(holdTime * 2, currentPower) * 10;
 				direction = transform.forward;
-
+                
 				if (modifier % 10 == 0)
 				{
 					time = 0;
@@ -317,7 +322,7 @@ public class SpellModuleList : MonoBehaviour
 						lineSegments[simulatedSegments].transform.LookAt(nextPoint);
 						lineSegments[simulatedSegments].transform.localScale = new Vector3(0.1f, 0.1f, (nextPoint - previousPoint).magnitude / 2);
 						simulatedSegments += 1;
-						if (Physics.Raycast(previousPoint, nextPoint - previousPoint, out hit, (nextPoint - previousPoint).magnitude, chargeIgnoreRays))
+						if (Physics.Raycast(previousPoint, nextPoint - previousPoint, out hit, (nextPoint - previousPoint).magnitude, ~chargeIgnoreRays))
 						{
 							nextPoint = hit.point;
 							simulationComplete = true;
@@ -325,7 +330,7 @@ public class SpellModuleList : MonoBehaviour
                             Destroy(targetOrb.GetComponent<SphereCollider>());
                             targetOrb.transform.position = hit.point;
                             targetOrb.transform.localScale *= 0.6f;
-                            targetOrb.GetComponent<Renderer>().material = segment.GetComponentInChildren<Renderer>().sharedMaterial;
+                            targetOrb.GetComponent<Renderer>().material = hitpointCol;
                         }
 
 					}
