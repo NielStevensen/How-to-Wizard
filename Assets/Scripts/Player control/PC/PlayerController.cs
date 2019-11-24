@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour {
 	private GameObject selectedCrystal = null;
 	private GameObject[] slottedCrystals = new GameObject[5] { null, null, null, null, null };
 	private AttachCrystal[] crystalSlots = new AttachCrystal[5];
+	private Animator[] slotAnimators = new Animator[5];
 	private SpellCreation table = null;
 	private ClearTable clearButton = null;
 	[Tooltip("The layers crafting objects can be on.")]
@@ -102,9 +103,14 @@ public class PlayerController : MonoBehaviour {
 
 		crystalSlots = table.PCSpellSlots;
 		
+		for(int i = 11; i < 16; i++)
+		{
+			slotAnimators[i - 11] = table.transform.GetChild(i).GetComponent<Animator>();
+		}
+
 		for(int i = 0; i < 3; i++)
 		{
-			for(int j = 0; j< 5; j++)
+			for (int j = 0; j< 5; j++)
 			{
 				storageIcons[i, j] = storageUI[i].transform.GetChild(j).gameObject.GetComponent<Image>();
 			}
@@ -285,6 +291,12 @@ public class PlayerController : MonoBehaviour {
 		Renderer crystalRenderer = selectedCrystal.GetComponent<Renderer>();
 		previousColour = crystalRenderer.material.color;
 		crystalRenderer.material.color = selectedColour;
+		selectedCrystal.GetComponentInChildren<ParticleSystem>().startColor = selectedColour;
+		
+		foreach(Animator anim in slotAnimators)
+		{
+			anim.enabled = true;
+		}
 	}
 
 	//Deselect crystals
@@ -295,9 +307,18 @@ public class PlayerController : MonoBehaviour {
 			selectedCrystal.GetComponent<CrystalInfo>().isSelected = false;
 
 			selectedCrystal.GetComponent<Renderer>().material.color = previousColour;
+			selectedCrystal.GetComponentInChildren<ParticleSystem>().startColor = previousColour;
 		}
 
 		selectedCrystal = null;
+
+		for(int i = 0; i < 5; i++)
+		{
+			if(slottedCrystals[i] == null)
+			{
+				slotAnimators[i].enabled = false;
+			}
+		}
 	}
 
 	//Destroy all slotted crystals
@@ -308,6 +329,11 @@ public class PlayerController : MonoBehaviour {
 		for(int i = 0; i < 5; i++)
 		{
 			slottedCrystals[i] = null;
+		}
+
+		foreach (Animator anim in slotAnimators)
+		{
+			anim.enabled = false;
 		}
 
 		clearButton.ClearCrystals();
