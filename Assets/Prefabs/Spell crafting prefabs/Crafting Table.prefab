@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6247174099758233456}
   - component: {fileID: 6448925891674400430}
   m_Layer: 0
-  m_Name: Spell Scroll Animation_0 (2)
+  m_Name: Spell Scroll Animation 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +30,7 @@ Transform:
   m_LocalScale: {x: 0.03, y: 0.03, z: 1}
   m_Children: []
   m_Father: {fileID: 7364187530247121673}
-  m_RootOrder: 20
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 80.853004, y: 0, z: 0}
 --- !u!212 &6247174099758233456
 SpriteRenderer:
@@ -89,7 +89,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 777530263859557516}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 79c74eb181371a54dadfcf29cfe3e24d, type: 2}
   m_CullingMode: 0
@@ -939,11 +939,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3734329722854317679}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.005, y: 1.864, z: 0.024}
+  m_LocalPosition: {x: 0, y: 1.875, z: 0}
   m_LocalScale: {x: 1, y: 2, z: 4}
   m_Children: []
   m_Father: {fileID: 7364187530247121673}
-  m_RootOrder: 16
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &3822745612609808075
 GameObject:
@@ -1301,7 +1301,7 @@ Transform:
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children: []
   m_Father: {fileID: 7364187530247121673}
-  m_RootOrder: 14
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &418533379638002041
 MeshFilter:
@@ -1546,7 +1546,7 @@ Transform:
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children: []
   m_Father: {fileID: 7364187530247121673}
-  m_RootOrder: 13
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8267753243070361094
 MeshFilter:
@@ -1659,7 +1659,7 @@ Transform:
   - {fileID: 4379220718939194535}
   - {fileID: 7468548812308603529}
   m_Father: {fileID: 7364187530247121673}
-  m_RootOrder: 15
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6052993534978006706
 GameObject:
@@ -1845,7 +1845,7 @@ GameObject:
   - component: {fileID: 1631601745412799043}
   - component: {fileID: 2254900217932001079}
   m_Layer: 0
-  m_Name: Spell Scroll Animation_0
+  m_Name: Spell Scroll Animation 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1863,7 +1863,7 @@ Transform:
   m_LocalScale: {x: 0.03, y: 0.03, z: 1}
   m_Children: []
   m_Father: {fileID: 7364187530247121673}
-  m_RootOrder: 18
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 80.853004, y: 0, z: 0}
 --- !u!212 &1631601745412799043
 SpriteRenderer:
@@ -1922,7 +1922,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6558425212807051546}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 79c74eb181371a54dadfcf29cfe3e24d, type: 2}
   m_CullingMode: 0
@@ -2042,7 +2042,7 @@ Transform:
   - {fileID: 8620756007802400745}
   - {fileID: 8151911560940745996}
   m_Father: {fileID: 7364187530247121673}
-  m_RootOrder: 17
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: -79.5}
 --- !u!1 &7560971752070989587
 GameObject:
@@ -2056,7 +2056,7 @@ GameObject:
   - component: {fileID: 2068247982770484431}
   - component: {fileID: 304387105652580443}
   m_Layer: 0
-  m_Name: Spell Scroll Animation_0 (4)
+  m_Name: Spell Scroll Animation 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2074,7 +2074,7 @@ Transform:
   m_LocalScale: {x: 0.03, y: 0.03, z: 1}
   m_Children: []
   m_Father: {fileID: 7364187530247121673}
-  m_RootOrder: 22
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 80.853004, y: 0, z: 0}
 --- !u!212 &2068247982770484431
 SpriteRenderer:
@@ -2133,7 +2133,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7560971752070989587}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 79c74eb181371a54dadfcf29cfe3e24d, type: 2}
   m_CullingMode: 0
@@ -2594,7 +2594,7 @@ Transform:
   m_Children:
   - {fileID: 8685520767328900715}
   m_Father: {fileID: 7364187530247121673}
-  m_RootOrder: 11
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: -10.5, y: 0, z: 0}
 --- !u!33 &8506865619734808859
 MeshFilter:
@@ -3212,6 +3212,11 @@ Transform:
   - {fileID: 3324729025294309232}
   - {fileID: 5411430602211291441}
   - {fileID: 4091449233727607194}
+  - {fileID: 1791455239251721305}
+  - {fileID: 8983870343615916105}
+  - {fileID: 2157805968069353388}
+  - {fileID: 2202246432489089383}
+  - {fileID: 287700136906027701}
   - {fileID: 8506865619734808839}
   - {fileID: 2478337073837887729}
   - {fileID: 8683765894808862038}
@@ -3219,11 +3224,6 @@ Transform:
   - {fileID: 3832180062714746137}
   - {fileID: 5025227151184255370}
   - {fileID: 6837455829843931229}
-  - {fileID: 2157805968069353388}
-  - {fileID: 1791455239251721305}
-  - {fileID: 287700136906027701}
-  - {fileID: 2202246432489089383}
-  - {fileID: 8983870343615916105}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
@@ -3416,7 +3416,7 @@ GameObject:
   - component: {fileID: 3263923793969789155}
   - component: {fileID: 2915789278167616414}
   m_Layer: 0
-  m_Name: Spell Scroll Animation_0 (3)
+  m_Name: Spell Scroll Animation 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3434,7 +3434,7 @@ Transform:
   m_LocalScale: {x: 0.03, y: 0.03, z: 1}
   m_Children: []
   m_Father: {fileID: 7364187530247121673}
-  m_RootOrder: 21
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 80.853004, y: 0, z: 0}
 --- !u!212 &3263923793969789155
 SpriteRenderer:
@@ -3493,7 +3493,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8899494658815549559}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 79c74eb181371a54dadfcf29cfe3e24d, type: 2}
   m_CullingMode: 0
@@ -3516,7 +3516,7 @@ GameObject:
   - component: {fileID: 4779452542842237029}
   - component: {fileID: 2335934512927160048}
   m_Layer: 0
-  m_Name: Spell Scroll Animation_0 (1)
+  m_Name: Spell Scroll Animation 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3534,7 +3534,7 @@ Transform:
   m_LocalScale: {x: 0.03, y: 0.03, z: 1}
   m_Children: []
   m_Father: {fileID: 7364187530247121673}
-  m_RootOrder: 19
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 80.853004, y: 0, z: 0}
 --- !u!212 &4779452542842237029
 SpriteRenderer:
@@ -3593,7 +3593,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9149700200070747690}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 79c74eb181371a54dadfcf29cfe3e24d, type: 2}
   m_CullingMode: 0
@@ -3637,7 +3637,7 @@ Transform:
   m_LocalScale: {x: 0.2, y: 0.05, z: 0.2}
   m_Children: []
   m_Father: {fileID: 7364187530247121673}
-  m_RootOrder: 12
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: -10.5, y: 0, z: 0}
 --- !u!33 &2250926865538779536
 MeshFilter:
