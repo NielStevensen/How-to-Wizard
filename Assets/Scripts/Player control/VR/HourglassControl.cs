@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 using UnityEngine;
 using System;
 
 public class HourglassControl : MonoBehaviour
 {
+	public bool isResetting = false;
 
     public float resetAngle;
     public float timeToReset;
@@ -44,7 +44,12 @@ public class HourglassControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Vector3.Angle(transform.up, Vector3.down) <= resetAngle)
+		if (isResetting)
+		{
+			return;
+		}
+
+		if (Vector3.Angle(transform.up, Vector3.down) <= resetAngle)
         {
             countdown -= Time.deltaTime;
         }
@@ -55,7 +60,9 @@ public class HourglassControl : MonoBehaviour
 
         if(countdown <= 0)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+			isResetting = true;
+
+			FindObjectOfType<VRMovement>().CallResetFade();
         }
     }
 }

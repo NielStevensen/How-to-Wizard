@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ExitManager : MonoBehaviour
@@ -20,7 +21,7 @@ public class ExitManager : MonoBehaviour
 	{
 		if(other.gameObject.layer == LayerMask.NameToLayer("Player"))
 		{
-			CompleteLevel();
+			StartCoroutine(CompleteLevel());
 		}
 		else if(other.gameObject.layer == LayerMask.NameToLayer("Hands"))
 		{
@@ -30,16 +31,16 @@ public class ExitManager : MonoBehaviour
 			{
 				if (hand.isHandInArea)
 				{
-					CompleteLevel();
+					StartCoroutine(CompleteLevel());
 				}
 			}
 		}
 	}
 
 	//Processes during level finish
-	void CompleteLevel()
+	IEnumerator CompleteLevel()
 	{
-        int levelIndex = levelNumber - 1;
+		int levelIndex = levelNumber - 1;
 
         PlayerData data = SaveSystem.LoadGame();
 
@@ -67,20 +68,15 @@ public class ExitManager : MonoBehaviour
 
 		SaveSystem.SaveGame(data);
 
+		yield return Info.IsCurrentlyVR() ? FindObjectOfType<VRMovement>().HandleLevelEndFadeVR() : FindObjectOfType<PlayerController>().HandleLevelEndFadePC();
+		
 		GetComponent<ManualTiling>().ClearMaterials();
 
 		if(nextLevel != "")
 		{
 			if(nextLevel == "Menu")
 			{
-				if (Info.IsCurrentlyVR())
-				{
-					SceneManager.LoadScene("VR Menu");
-				}
-				else
-				{
-					SceneManager.LoadScene("PC Menu");
-				}
+				SceneManager.LoadScene(Info.IsCurrentlyVR() ? "VR Menu" : "PC Menu");
 			}
 
 			SceneManager.LoadScene(nextLevel);

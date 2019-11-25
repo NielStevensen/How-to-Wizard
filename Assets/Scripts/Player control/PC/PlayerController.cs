@@ -82,15 +82,30 @@ public class PlayerController : MonoBehaviour {
 
 	[Space(10)]
 
-	//Pause valuse
+	//Pause values
 	[Tooltip("Pause UI.")]
 	public RawImage pauseMenu;
 	private bool shouldUnpause = false;
 	private Camera blurCam;
 	[Tooltip("Pause blur shader.")]
 	public Shader blurShader;
+
+	[Space(10)]
+
+	//Fade values
+	[Tooltip("Fade image.")]
+	public Image fadeImage;
+	private bool shouldFadeRestrictControl = false;
+	[Tooltip("Level start fade in time in seconds.")]
+	public float startFadeDuration = 1.25f;
+	[Tooltip("Level reset fade in time in seconds.")]
+	public float resetFadeDuration = 0.375f;
+	[Tooltip("Level finish fade in time in seconds.")]
+	public float finishFadeDuration = 2.5f;
+	[Tooltip("Level quit fade in time in seconds.")]
+	public float quitFadeDuration = 0.375f;
 	#endregion
-	
+
 	//Set cursor state and set references
 	private void Start()
     {
@@ -126,6 +141,8 @@ public class PlayerController : MonoBehaviour {
 
 		StartCoroutine(WaitUntilRelease());
 
+		StartCoroutine(HandleFade(startFadeDuration, Color.black, new Color(0, 0, 0, 0)));
+
 		//blurCam = new GameObject().AddComponent<Camera>();
 		//blurCam.enabled = false;
 	}
@@ -133,6 +150,11 @@ public class PlayerController : MonoBehaviour {
     //Handle input
     void Update ()
     {
+		if (shouldFadeRestrictControl)
+		{
+			return;
+		}
+
 		HandlePause();
 
 		if (!isResetting && !Info.isPaused)
@@ -330,12 +352,7 @@ public class PlayerController : MonoBehaviour {
 		{
 			slottedCrystals[i] = null;
 		}
-
-		foreach (Animator anim in slotAnimators)
-		{
-			anim.enabled = false;
-		}
-
+		
 		clearButton.ClearCrystals();
 	}
 
@@ -678,7 +695,7 @@ public class PlayerController : MonoBehaviour {
 
 		while(elapsedTime < resetTime)
 		{
-			if (!Input.GetButton("Reset"))
+			if (!Input.GetButton("Reset") || shouldFadeRestrictControl)
 			{
 				wasHeld = false;
 
@@ -694,14 +711,18 @@ public class PlayerController : MonoBehaviour {
 
 		if (wasHeld)
 		{
+			shouldFadeRestrictControl = true;
+
+			yield return StartCoroutine(HandleFade(resetFadeDuration, new Color(0, 0, 0, 0), Color.black));
+
 			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 		}
 	}
 
-	//Prevent holding q from a reset after a successful reset starting a reset
+	//Prevent holding q after a successful reset starting another reset
 	IEnumerator WaitUntilRelease()
 	{
-		yield return new WaitForSeconds(1);
+		yield return new WaitForSeconds(startFadeDuration);
 
 		while (Input.GetButtonDown("Reset") || Input.GetButton("Reset"))
 		{
@@ -756,12 +777,50 @@ public class PlayerController : MonoBehaviour {
 		shouldUnpause = true;
 	}
 	
-	//Return to menu from pause menu
-	public void QuitToMenu()
+	//Call quit functionality
+	public void CallQuit()
 	{
+		StartCoroutine(QuitToMenu());
+	}
+
+	//Return to menu from pause menu
+	IEnumerator QuitToMenu()
+	{
+		shouldFadeRestrictControl = true;
+
 		Info.TogglePause();
 
+		yield return StartCoroutine(HandleFade(quitFadeDuration, new Color(0, 0, 0, 0), Color.black));
+		
 		SceneManager.LoadScene("PC Menu");
+	}
+	#endregion
+
+	#region Fade
+	//Handle fading the screen for scene transitions
+	IEnumerator HandleFade(float fadeDuration, Color initialColour, Color finalColour)
+	{
+		float elapsedTime = 0.0f;
+		float percentage;
+
+		while(elapsedTime < fadeDuration)
+		{
+			elapsedTime += Time.deltaTime;
+
+			percentage = Mathf.Min(elapsedTime / fadeDuration, 1.0f);
+
+			fadeImage.color = Color.Lerp(initialColour, finalColour, percentage);
+
+			yield return new WaitForEndOfFrame();
+		}
+	}
+
+	//Handle the fade at the end of a level
+	public Coroutine HandleLevelEndFadePC()
+	{
+		shouldFadeRestrictControl = true;
+
+		return StartCoroutine(HandleFade(finishFadeDuration, new Color(0, 0, 0, 0), Color.black));
 	}
 	#endregion
 }

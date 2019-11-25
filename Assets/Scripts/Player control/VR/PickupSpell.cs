@@ -26,6 +26,13 @@ public class PickupSpell : MonoBehaviour
     //Refernce to creation area to noptify that a spell has been picked up
     private SpellCreation creationArea;
 
+	[HideInInspector]
+	public bool isFading = false;
+
+	//Spell slot animation
+	private Animator[] slotAnimators = new Animator[5];
+	private AttachCrystal[] slotInfo = new AttachCrystal[5];
+
     //Set reference
     private void Start()
     {
@@ -33,11 +40,22 @@ public class PickupSpell : MonoBehaviour
 
         playerBody = GetComponentInParent<VRMovement>();
         camTransform = gameObject.transform.parent.GetComponentInChildren<Camera>().transform;
+		
+		for(int i = 0; i < 5; i++)
+		{
+			slotAnimators[i] = creationArea.transform.GetChild(11 + i).GetComponent<Animator>();
+			slotInfo[i] = creationArea.transform.GetChild(1 + i).GetComponent<AttachCrystal>();
+		}
     }
 
     private void Update()
     {
-        isHandInArea = playerBody.isHeadInArea ? Mathf.Abs(transform.localPosition.x) < playerBody.currentPlayfieldSize.x / 2.0f && Mathf.Abs(transform.localPosition.z) < playerBody. currentPlayfieldSize.z / 2.0f : false;
+		if (isFading)
+		{
+			return;
+		}
+
+		isHandInArea = playerBody.isHeadInArea ? Mathf.Abs(transform.localPosition.x) < playerBody.currentPlayfieldSize.x / 2.0f && Mathf.Abs(transform.localPosition.z) < playerBody. currentPlayfieldSize.z / 2.0f : false;
 
         if (isHandInArea) // is the hand within the playspace
         {
@@ -95,8 +113,10 @@ public class PickupSpell : MonoBehaviour
 
         HourglassControl hourglassRef = objectInHand.GetComponent<HourglassControl>();
         SpellModuleList scrollRef = objectInHand.GetComponent<SpellModuleList>();
+		CrystalInfo crystalRef = objectInHand.GetComponent<CrystalInfo>();
 
-        if (hourglassRef != null)
+
+		if (hourglassRef != null)
         { 
             if (!hourglassRef.interactable) return; 
         }
@@ -106,11 +126,19 @@ public class PickupSpell : MonoBehaviour
         var joint = AddFixedJoint();
         joint.connectedBody = objectInHand.GetComponent<Rigidbody>();
 
-        if (objectInHand.GetComponent<CrystalInfo>() || objectInHand.GetComponent<VRSlider>() || scrollRef != null || hourglassRef != null)
+        if (objectInHand.GetComponent<VRSlider>() || crystalRef != null || scrollRef != null || hourglassRef != null)
         {
             objectInHand.GetComponent<Rigidbody>().isKinematic = false;
         }
         
+		if(crystalRef != null)
+		{
+			foreach (Animator anim in slotAnimators)
+			{
+				anim.enabled = true;
+			}
+		}
+
         if (scrollRef != null && scrollRef.transform.parent == null)
         {
             creationArea.isSpellCollected = true;
@@ -232,7 +260,15 @@ public class PickupSpell : MonoBehaviour
                 else if (objectInHand.GetComponent<CrystalInfo>()) // dont apply force to certain released objects
                 {
                     objectInHand.GetComponent<Rigidbody>().isKinematic = true;
-                }
+
+					for (int i = 0; i < 5; i++)
+					{
+						if (slotInfo[i].attachedType == -1)
+						{
+							slotAnimators[i].enabled = false;
+						}
+					}
+				}
                 else if (objectInHand.GetComponent<VRSlider>()) // call to update ststs
                 {
                     objectInHand.GetComponent<Rigidbody>().isKinematic = true;

@@ -99,23 +99,35 @@ public class VRMovement : MonoBehaviour
     public GameObject menuLayout;
     public LayerMask pausedLayers;
     public GameObject pointer;
-    #endregion
 
-    //Get references, set player y position and set hitbox values
-    private void Start()
+	//Fade transition values
+	[Tooltip("Fade image.")]
+	public Image fadeImage;
+	private bool shouldFadeRestrictControl = false;
+	[Tooltip("Level start fade in time in seconds.")]
+	public float startFadeDuration = 1.25f;
+	[Tooltip("Level reset fade in time in seconds.")]
+	public float resetFadeDuration = 0.375f;
+	[Tooltip("Level finish fade in time in seconds.")]
+	public float finishFadeDuration = 2.5f;
+	[Tooltip("Level quit fade in time in seconds.")]
+	public float quitFadeDuration = 0.375f;
+	#endregion
+
+	//Get references, set player y position and set hitbox values
+	private void Start()
     {
-        pointer = Instantiate(pointer);
-
 		if (!Info.IsCurrentlyVR())
 		{
 			return;
 		}
+
+		pointer = Instantiate(pointer);
         menuLayout.transform.SetParent(null); // seperate from vr view so raycsts work properly
 
         isTeleportation = Info.optionsData.useTeleportation;
 
 		pavRenderer = playAreaVisualiser.GetComponent<Renderer>();
-		
         visualisationRenderer = visualisationObject.GetComponent<Renderer>();
 
 		cameraTransform = GetComponentInChildren<Camera>().transform;
@@ -140,12 +152,19 @@ public class VRMovement : MonoBehaviour
 		playAreaVisualiser.localScale = new Vector3(size.x, playAreaVisualiser.localScale.y, size.y);
 
         playerBody = GetComponent<Rigidbody>();
-    }
+
+		StartCoroutine(HandleTransitionFade(startFadeDuration, Color.black, new Color(0, 0, 0, 0)));
+	}
 
     //Handle hitbox, movement and teleportation
     void Update()
-    {   
-        //Handle hitbox
+    {
+		if (shouldFadeRestrictControl)
+		{
+			return;
+		}
+		
+		//Handle hitbox
         if (Physics.Raycast(cameraTransform.position, transform.up * -1, out hit, 1000.0f, movementLayerMask))
         {
             currentPlayfieldSize.y = Mathf.Min(cameraTransform.localPosition.y, 2.0f);
@@ -273,11 +292,13 @@ public class VRMovement : MonoBehaviour
             }
             pointer.SetActive(Info.isPaused);
         }
+
         //Menu + pausing
-        if (menuButton.GetStateUp(hand))
+        if (menuButton.GetStateDown(hand))
         {
             menuLayout.SetActive(!Info.isPaused);
             togglePause = true;
+
             if (!Info.isPaused)
             {
                 menuLayout.transform.position = new Vector3(transform.position.x, cameraTransform.position.y, transform.position.z) + rotationReference.transform.forward * ((currentPlayfieldSize.x + currentPlayfieldSize.z) / 2.0f);
@@ -293,19 +314,18 @@ public class VRMovement : MonoBehaviour
             pointer.transform.localScale = Physics.Raycast(handObject.transform.position, handObject.transform.forward, out RaycastHit Output, 1000f, pausedLayers) ? new Vector3(0.1f, 0.1f, Output.distance / 2) : new Vector3(0.1f, 0.1f, 100f);
             
             //Pause menu interaction
-            if (Activate.GetStateUp(hand))
+            if (Activate.GetStateDown(hand))
             {
                 Physics.Raycast(handObject.transform.position, handObject.transform.forward, out Output, 1000f, pausedLayers);
+
                 if(Output.collider.gameObject.name == "Resume")
                 {
                     shouldUnpause = true;
                     togglePause = true;
                 }
-                if (Output.collider.gameObject.name == "Exit")
+                else if (Output.collider.gameObject.name == "Exit")
                 {
-                    Info.TogglePause();
-                    print("his steven");
-                    SceneManager.LoadScene("VRMenu");
+					StartCoroutine(HandleQuitFade());
                 }
 
             }
@@ -344,8 +364,73 @@ public class VRMovement : MonoBehaviour
         }
     }
 
-    //Determine the size of the player's play area and use to calculate hitbox size
-    Vector2 DeterminePlayAreaSize()
+	//Handle fading the screen for scene transitions
+	IEnumerator HandleTransitionFade(float fadeDuration, Color initialColour, Color finalColour)
+	{
+		float elapsedTime = 0.0f;
+		float percentage;
+
+		while (elapsedTime < fadeDuration)
+		{
+			elapsedTime += Time.deltaTime;
+
+			percentage = Mathf.Min(elapsedTime / fadeDuration, 1.0f);
+
+			fadeImage.color = Color.Lerp(initialColour, finalColour, percentage);
+
+			yield return new WaitForEndOfFrame();
+		}
+	}
+
+	//Common transition fade functionality
+	void InitialiseFadeOut()
+	{
+		shouldFadeRestrictControl = true;
+
+		foreach(PickupSpell hand in FindObjectsOfType<PickupSpell>())
+		{
+			hand.isFading = true;
+		}
+	}
+
+	//Handle the fade at the end of a level
+	public Coroutine HandleLevelEndFadeVR()
+	{
+		InitialiseFadeOut();
+
+		return StartCoroutine(HandleTransitionFade(finishFadeDuration, new Color(0, 0, 0, 0), Color.black));
+	}
+
+	//Call reset fade functionality
+	public void CallResetFade()
+	{
+		StartCoroutine(HandleResetFade());
+	}
+
+	//Handle the fade when resetting
+	IEnumerator HandleResetFade()
+	{
+		InitialiseFadeOut();
+		
+		yield return StartCoroutine(HandleTransitionFade(resetFadeDuration, new Color(0, 0, 0, 0), Color.black));
+
+		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+	}
+
+	//Handle the fade when quitting from the pause menu
+	IEnumerator HandleQuitFade()
+	{
+		InitialiseFadeOut();
+
+		Info.TogglePause();
+
+		yield return StartCoroutine(HandleTransitionFade(quitFadeDuration, new Color(0, 0, 0, 0), Color.black));
+
+		SceneManager.LoadScene("VR Menu");
+	}
+
+	//Determine the size of the player's play area and use to calculate hitbox size
+	Vector2 DeterminePlayAreaSize()
     {
         HmdQuad_t hmdRef = new HmdQuad_t();
         OpenVR.Chaperone.GetPlayAreaRect(ref hmdRef);
