@@ -32,6 +32,9 @@ public class SpellCreation : MonoBehaviour
     public AudioClip sucesssSound;
     public AudioClip failSound;
 
+	private Animator animator;
+	private int creationHash;
+
 	//Determine spell slots to use
 	private void Start()
 	{
@@ -39,6 +42,9 @@ public class SpellCreation : MonoBehaviour
         source.volume = Info.optionsData.sfxLevel;
 
         moduleZones = Info.IsCurrentlyVR() ? VRSpellSlots : PCSpellSlots;
+
+		animator = GetComponent<Animator>();
+		creationHash = Animator.StringToHash("createSpell");
 	}
 
 	// Update is called once per frame
@@ -81,6 +87,8 @@ public class SpellCreation : MonoBehaviour
                 {
                     currentSpell.GetComponent<Spell>().Modules.Add(spellInstructions[i]);
                 }
+
+				animator.SetTrigger(creationHash);
             }
             else
             {
