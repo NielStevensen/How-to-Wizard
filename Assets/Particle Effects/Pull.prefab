@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3640834806263080764}
   - component: {fileID: 4249612730841240407}
   - component: {fileID: 7131530375223036915}
-  m_Layer: 1
+  m_Layer: 0
   m_Name: Pull
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1

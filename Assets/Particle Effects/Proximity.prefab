@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4333171868193294997}
   - component: {fileID: 333543630440257076}
   - component: {fileID: 3437521446990179647}
-  m_Layer: 1
+  m_Layer: 0
   m_Name: Proximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
