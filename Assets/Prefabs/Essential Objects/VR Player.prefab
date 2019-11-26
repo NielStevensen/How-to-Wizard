@@ -883,7 +883,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 65ebf3e4a99d5574e9e43f052829edc6, type: 3}
   - {fileID: 21300000, guid: 9337084ea3365fd44a7328c8ed7cba95, type: 3}
   - {fileID: 21300000, guid: fe116a2b4a1737941a05c162d84124cb, type: 3}
-  unlockedPictures: 0000000000000000000000000000000000000000
   fadeImage: {fileID: 7850280417582139049}
   startFadeDuration: 1.25
   resetFadeDuration: 0.375
@@ -2951,7 +2950,7 @@ MonoBehaviour:
   - {fileID: 1922393881}
   - {fileID: 523906862}
   states: 000000
-  displacement: {x: 0, y: 0, z: 0}
+  displacement: {x: 0, y: 0, z: -0.1}
 --- !u!1001 &695872237050025396
 PrefabInstance:
   m_ObjectHideFlags: 0

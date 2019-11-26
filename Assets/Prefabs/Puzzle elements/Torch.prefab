@@ -87,7 +87,7 @@ MeshCollider:
   m_GameObject: {fileID: 4442379600582925328}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 1
   m_CookingOptions: 14
@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 413479683879400657}
   - component: {fileID: 4953725351732804001}
   - component: {fileID: 4984048452663807803}
+  - component: {fileID: 7458509526511854259}
   - component: {fileID: 7249215562115668133}
   - component: {fileID: 4662207336493789458}
   m_Layer: 0
@@ -177,7 +178,7 @@ MonoBehaviour:
   isNulled: 0
   willNullDestroy: 0
   nullShader: {fileID: 4800000, guid: 358e88ce5fba08e48ae42706c075c8ea, type: 3}
-  nullParticles: {fileID: 357902674088087968, guid: ca155e5af7fb294468fd36fa81da59f6,
+  nullParticles: {fileID: 357902674088087968, guid: 902a7191b8c1e6249a43cbb75381f194,
     type: 3}
   isProjection: 0
 --- !u!135 &4984048452663807803
@@ -193,6 +194,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.375
   m_Center: {x: 0, y: 0.09375, z: 0}
+--- !u!64 &7458509526511854259
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4753671392695303653}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 547849264481240097, guid: 948a206660b4e024eb06510a1d9afcc8, type: 3}
 --- !u!114 &7249215562115668133
 MonoBehaviour:
   m_ObjectHideFlags: 0
