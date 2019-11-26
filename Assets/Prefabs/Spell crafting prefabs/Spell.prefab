@@ -843,7 +843,7 @@ MonoBehaviour:
     actionPath: /actions/default/in/Hold
     needsReinit: 0
   touchDistance: 1.5
-  touchSize: 0.1
+  touchSize: 0.3
   aoeSizeAmplifier: 2.5
   maxForceDistance: 5
   maxForce: 500
@@ -865,7 +865,7 @@ MonoBehaviour:
   SpawnWeight: {fileID: 8300000, guid: d0a7e525dba304e44850193f5716bbe1, type: 3}
   chargePersistentFX: {fileID: 4098909006485238225, guid: 2de2cf8342a642f4e9ed83f618cd1718,
     type: 3}
-  touchFX: {fileID: 0}
+  touchFX: {fileID: 9053505572087147106, guid: afa71fbe4b504ef43aef6f1b6ff8a6c3, type: 3}
   AOEFX: {fileID: 941748908923636585, guid: 24b632cacce4dfc47a0febc9aa3dd86d, type: 3}
   pushFX: {fileID: 7173739237145856868, guid: c31977078f230fb479cd4eae8a604096, type: 3}
   pullFX: {fileID: 799970612004283543, guid: f51a7c2ee148f8b47a8c2346088fd360, type: 3}

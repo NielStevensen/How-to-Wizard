@@ -121,8 +121,8 @@ public class WeightRepositioner : MonoBehaviour
 
             //produce particle effect
             AudioSource.PlayClipAtPoint(weightSound, transform.position, Info.optionsData.sfxLevel); // oc do not steal
-            //GameObject FX = Instantiate(weightFX);
-            //FX.transform.position = transform.position;
+            GameObject FX = Instantiate(weightFX);
+            FX.transform.position = transform.position;
         }
     }
 }

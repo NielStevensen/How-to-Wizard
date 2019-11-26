@@ -13,9 +13,12 @@ public class NullManager : MonoBehaviour
 
     //Null projection object
     private GameObject nullProjection;
-	[Tooltip("Null shader.")]
+    private GameObject nulleffect;
+    [Tooltip("Null shader.")]
 	public Shader nullShader;
-	[HideInInspector]
+    [Tooltip("Null Particle effects.")]
+    public GameObject nullParticles;
+    [HideInInspector]
 	public bool isProjection = false;
 
 	//Burn controller
@@ -56,6 +59,7 @@ public class NullManager : MonoBehaviour
 		StartCoroutine(HandleKinematicState(rb, kinematicState));
 
 		nullProjection = Instantiate(gameObject, gameObject.transform.position, gameObject.transform.rotation);
+        nulleffect = Instantiate(nullParticles, gameObject.transform.position, gameObject.transform.rotation, nullProjection.transform);
 		nullProjection.transform.localScale *= torchComponent == null ? 1.125f : 1.0625f;
 		nullProjection.layer = LayerMask.NameToLayer("Ignore Raycast");
 		nullProjection.transform.SetParent(gameObject.transform);

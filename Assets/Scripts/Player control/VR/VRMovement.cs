@@ -99,6 +99,10 @@ public class VRMovement : MonoBehaviour
     public GameObject menuLayout;
     public LayerMask pausedLayers;
     public GameObject pointer;
+    public Image Instuction;
+    public Sprite[] menuPictures;
+    public bool[] unlockedPictures = new bool[20];
+    int currentText;
 
 	//Fade transition values
 	[Tooltip("Fade image.")]
@@ -116,7 +120,8 @@ public class VRMovement : MonoBehaviour
 
 	//Get references, set player y position and set hitbox values
 	private void Start()
-    {
+    { 
+        
 		if (!Info.IsCurrentlyVR())
 		{
 			return;
@@ -154,7 +159,47 @@ public class VRMovement : MonoBehaviour
         playerBody = GetComponent<Rigidbody>();
 
 		StartCoroutine(HandleTransitionFade(startFadeDuration, Color.black, new Color(0, 0, 0, 0)));
-	}
+
+        //check unlocked pictures baserd on progression
+        PlayerData data = SaveSystem.LoadGame();
+        for (int  i = 0; i < 8;i++)
+        {
+            unlockedPictures[i] = true;
+        }
+        if(data.storyClearData[0])
+        {
+            unlockedPictures[8] = true;
+        }
+        if (data.storyClearData[1])
+        {
+            unlockedPictures[9] = true;
+            unlockedPictures[10] = true;
+        }
+        if (data.storyClearData[3])
+        {
+            unlockedPictures[11] = true;
+            unlockedPictures[12] = true;
+        }
+        if (data.storyClearData[5])
+        {
+            unlockedPictures[13] = true;
+            unlockedPictures[14] = true;
+        }
+        if (data.storyClearData[6])
+        {
+            unlockedPictures[15] = true;
+            unlockedPictures[16] = true;
+        }
+        if (data.storyClearData[7])
+        {
+            unlockedPictures[17] = true;
+            unlockedPictures[18] = true;
+        }
+        if (data.storyClearData[8])
+        {
+            unlockedPictures[19] = true;
+        }
+    }
 
     //Handle hitbox, movement and teleportation
     void Update()
@@ -301,7 +346,7 @@ public class VRMovement : MonoBehaviour
 
             if (!Info.isPaused)
             {
-                menuLayout.transform.position = new Vector3(transform.position.x, cameraTransform.position.y, transform.position.z) + rotationReference.transform.forward * ((currentPlayfieldSize.x + currentPlayfieldSize.z) / 2.0f);
+                menuLayout.transform.position = new Vector3(transform.position.x, cameraTransform.position.y, transform.position.z) + rotationReference.transform.forward * ((currentPlayfieldSize.x + currentPlayfieldSize.z) / 4.0f);
                 menuLayout.transform.LookAt(cameraTransform);
             }         
         }
@@ -312,23 +357,61 @@ public class VRMovement : MonoBehaviour
             pointer.transform.position = handObject.transform.position;
             pointer.transform.rotation = handObject.transform.rotation;
             pointer.transform.localScale = Physics.Raycast(handObject.transform.position, handObject.transform.forward, out RaycastHit Output, 1000f, pausedLayers) ? new Vector3(0.1f, 0.1f, Output.distance / 2) : new Vector3(0.1f, 0.1f, 100f);
-            
-            //Pause menu interaction
-            if (Activate.GetStateDown(hand))
-            {
-                Physics.Raycast(handObject.transform.position, handObject.transform.forward, out Output, 1000f, pausedLayers);
 
-                if(Output.collider.gameObject.name == "Resume")
+            //Pause menu interaction
+            if ((Activate.GetStateDown(hand)))
+            {
+                if (Physics.Raycast(handObject.transform.position, handObject.transform.forward, out Output, 1000f, pausedLayers))
                 {
-                    shouldUnpause = true;
-                    togglePause = true;
-                }
-                else if (Output.collider.gameObject.name == "Exit")
-                {
-					StartCoroutine(HandleQuitFade());
+                    if (Output.collider.gameObject.name == "Resume")
+                    {
+                        shouldUnpause = true;
+                        togglePause = true;
+                    }
+                    else if (Output.collider.gameObject.name == "Exit")
+                    {
+                        StartCoroutine(HandleQuitFade());
+                    }
+                    else if(Output.collider.gameObject.name == "Next")
+                    {
+                        cycletext(currentText + 1, 1);
+                    }
+                    else if (Output.collider.gameObject.name == "Previous")
+                    {
+                        cycletext(currentText - 1, -1);
+                    }
                 }
 
             }
+        }
+    }
+
+    public void cycletext(int start,int direction)
+    {
+        bool found = false;
+        for(int i = start; i < 20 && i >= 0; i += direction)
+        {
+            if(unlockedPictures[i] && found == false)
+            {
+                currentText = i;
+                found = true;
+            }
+        }
+        if (found)
+        {
+            Instuction.sprite = menuPictures[currentText];
+            
+        }
+        else if (direction == 1)
+        {
+            // cycle back to start
+            Instuction.sprite = menuPictures[0];
+            currentText = 0;
+        }
+        else if (direction == -1)
+        {
+            // run again from the top
+            cycletext(19, -1);
         }
     }
 

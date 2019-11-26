@@ -120,9 +120,4 @@ public class SpellCreation : MonoBehaviour
 
         isCraftCooldown = false;
     }
-
-    public void FXManagment(GameObject target, float time)
-    {
-        Destroy(target, time);
-    }
 }

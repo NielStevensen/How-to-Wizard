@@ -86,7 +86,6 @@ public class LaserController : MonoBehaviour
                         GameObject FX = Instantiate(DestroyFX);
                         FX.transform.position = impactObject.transform.position;
                         FX.transform.localScale = impactObject.transform.localScale *0.5f;
-                        GameObject.FindObjectOfType<SpellCreation>().FXManagment(FX, FX.GetComponent<ParticleSystem>().main.duration);
                         impactObject = null;
 					}
 				}

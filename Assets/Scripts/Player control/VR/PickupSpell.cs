@@ -41,11 +41,14 @@ public class PickupSpell : MonoBehaviour
         playerBody = GetComponentInParent<VRMovement>();
         camTransform = gameObject.transform.parent.GetComponentInChildren<Camera>().transform;
 		
-		for(int i = 0; i < 5; i++)
-		{
-			slotAnimators[i] = creationArea.transform.GetChild(11 + i).GetComponent<Animator>();
-			slotInfo[i] = creationArea.transform.GetChild(1 + i).GetComponent<AttachCrystal>();
-		}
+        if(creationArea != null)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                slotAnimators[i] = creationArea.transform.GetChild(11 + i).GetComponent<Animator>();
+                slotInfo[i] = creationArea.transform.GetChild(1 + i).GetComponent<AttachCrystal>();
+            }
+        }
     }
 
     private void Update()

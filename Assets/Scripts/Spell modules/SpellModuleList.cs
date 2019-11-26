@@ -591,9 +591,9 @@ public class SpellModuleList : MonoBehaviour
 		}
 		
         info.collisionPoints.Add(touchPoint);
-        //GameObject FX = Instantiate(touchFX);
-        //FX.transform.position = touchPoint;
-        //Destroy(FX, FX.GetComponent<ParticleSystem>().main.duration);
+        GameObject FX = Instantiate(touchFX);
+        FX.transform.position = touchPoint;
+        Destroy(FX, FX.GetComponent<ParticleSystem>().main.duration);
         aoeObject = Instantiate(aoePrefab, touchPoint, Quaternion.identity);
         aoeObject.transform.localScale *= touchSize;
 		SpellTriggerHandler sth = aoeObject.GetComponent<SpellTriggerHandler>();
@@ -639,7 +639,8 @@ public class SpellModuleList : MonoBehaviour
 	IEnumerator AOE(SpellInfo info)
 	{
 		GameObject aoeObject = Instantiate(aoePrefab, info.collisionPoints[0], Quaternion.identity);
-		aoeObject.transform.localScale *= info.potency * aoeSizeAmplifier;
+
+        aoeObject.transform.localScale *= info.potency * aoeSizeAmplifier;
 		SpellTriggerHandler sth = aoeObject.GetComponent<SpellTriggerHandler>();
 		
 		while(sth.containedObjects.Count == 0)
@@ -658,9 +659,8 @@ public class SpellModuleList : MonoBehaviour
 
 			info.collisionObjects.Add(obj);
 		}
-		
-		//aoeObject.GetComponentInChildren<ParticleSystem>().Play();
-		//GameObject.FindObjectOfType<SpellCreation>().FXManagment(aoeObject, aoeObject.GetComponentInChildren<ParticleSystem>().main.duration);
+
+        aoeObject.transform.GetChild(0).gameObject.SetActive(true);
 
 		yield return info;
 	}
@@ -829,10 +829,10 @@ public class SpellModuleList : MonoBehaviour
 								Vector3 pushVector = Vector3.Normalize(obj.transform.position - origin) * pushForce;
 								pushVector.y = 0;
 
-                                //GameObject FX = Instantiate(pushFX);
-                                //FX.transform.position = hit.transform.position;
-                                //FX.transform.LookAt(transform.position + pushVector);
-                                //GameObject.FindObjectOfType<SpellCreation>().FXManagment(weightFX, weightFX.GetComponent<ParticleSystem>().main.duration);
+                                GameObject FX = Instantiate(pushFX);
+                                FX.transform.position = hit.transform.position;
+                                FX.transform.LookAt(transform.position + pushVector);
+                                //GameObject.FindObjectOfType<SpellCreation>().FXManagment(pushFX, pushFX.GetComponent<ParticleSystem>().main.duration);
 								
                                 obj.GetComponent<Rigidbody>().AddForce(pushVector);
 							}
