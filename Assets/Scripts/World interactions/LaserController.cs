@@ -31,6 +31,7 @@ public class LaserController : MonoBehaviour
 	[Tooltip("Laser visualisation object.")]
 	public GameObject laserPrefab;
 	private GameObject laserObject;
+	private float scaleModifier = 1.0f;
 
     public GameObject DestroyFX;
 
@@ -43,6 +44,8 @@ public class LaserController : MonoBehaviour
 
 		laserObject = Instantiate(laserPrefab, laserOrigin.position, laserOrigin.rotation, laserOrigin);
 		laserObject.SetActive(isActivated);
+
+		scaleModifier = (1.0f / transform.localScale.z) * 0.5f;
 	}
 	
 	//Handle laser and impact
@@ -53,14 +56,12 @@ public class LaserController : MonoBehaviour
 		if (isActivated)
 		{
 			RaycastHit hit;
-
-			//Debug.DrawLine(laserOrigin.position, laserOrigin.position + Vector3.Normalize(laserOrigin.forward) * 1000.0f, Color.red);
-
+			
 			float laserLength = 1000.0f;
 
 			if (Physics.Raycast(laserOrigin.position, laserOrigin.forward, out hit, 1000.0f, ~laserIgnore))
 			{
-				laserLength = hit.distance / 2;
+				laserLength = hit.distance * scaleModifier;
 
 				if (hit.collider.gameObject != impactObject)
 				{
