@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4755910207299559865}
   - component: {fileID: 8188457337431527447}
   - component: {fileID: 8073779800745273250}
-  m_Layer: 1
+  m_Layer: 0
   m_Name: Burning Area Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
