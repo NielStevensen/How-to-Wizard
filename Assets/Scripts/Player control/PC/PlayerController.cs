@@ -89,8 +89,13 @@ public class PlayerController : MonoBehaviour {
 	private Camera blurCam;
 	[Tooltip("Pause blur shader.")]
 	public Shader blurShader;
+    //Pause tips
+    public Image Instuction;
+    public Sprite[] menuPictures;
+    public bool[] unlockedPictures = new bool[20];
+    int currentText;
 
-	[Space(10)]
+    [Space(10)]
 
 	//Fade values
 	[Tooltip("Fade image.")]
@@ -109,7 +114,46 @@ public class PlayerController : MonoBehaviour {
 	//Set cursor state and set references
 	private void Start()
     {
-		initialY = transform.position.y;
+        PlayerData data = SaveSystem.LoadGame();
+        for (int i = 0; i < 8; i++)
+        {
+            unlockedPictures[i] = true;
+        }
+        if (data.storyClearData[0])
+        {
+            unlockedPictures[8] = true;
+        }
+        if (data.storyClearData[1])
+        {
+            unlockedPictures[9] = true;
+            unlockedPictures[10] = true;
+        }
+        if (data.storyClearData[3])
+        {
+            unlockedPictures[11] = true;
+            unlockedPictures[12] = true;
+        }
+        if (data.storyClearData[5])
+        {
+            unlockedPictures[13] = true;
+            unlockedPictures[14] = true;
+        }
+        if (data.storyClearData[6])
+        {
+            unlockedPictures[15] = true;
+            unlockedPictures[16] = true;
+        }
+        if (data.storyClearData[7])
+        {
+            unlockedPictures[17] = true;
+            unlockedPictures[18] = true;
+        }
+        if (data.storyClearData[8])
+        {
+            unlockedPictures[19] = true;
+        }
+
+        initialY = transform.position.y;
 
 		cameraTransform = transform.GetChild(0);
 		table = FindObjectOfType<SpellCreation>();
@@ -783,8 +827,39 @@ public class PlayerController : MonoBehaviour {
 		StartCoroutine(QuitToMenu());
 	}
 
-	//Return to menu from pause menu
-	IEnumerator QuitToMenu()
+    public void cycletext(int direction)
+    {
+        int start = currentText + direction;
+        bool found = false;
+        for (int i = start; i < 20 && i >= 0; i += direction)
+        {
+            if (unlockedPictures[i] && found == false)
+            {
+                currentText = i;
+                found = true;
+            }
+        }
+        if (found)
+        {
+            Instuction.sprite = menuPictures[currentText];
+
+        }
+        else if (direction == 1)
+        {
+            // cycle back to start
+            Instuction.sprite = menuPictures[0];
+            currentText = 0;
+        }
+        else if (direction == -1)
+        {
+            // run again from the top
+            currentText = 20;
+            cycletext(-1);
+        }
+    }
+
+    //Return to menu from pause menu
+    IEnumerator QuitToMenu()
 	{
 		shouldFadeRestrictControl = true;
 

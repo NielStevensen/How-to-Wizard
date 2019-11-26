@@ -101,7 +101,7 @@ public class VRMovement : MonoBehaviour
     public GameObject pointer;
     public Image Instuction;
     public Sprite[] menuPictures;
-    public bool[] unlockedPictures = new bool[20];
+    private bool[] unlockedPictures = new bool[20];
     int currentText;
 
 	//Fade transition values

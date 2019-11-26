@@ -60,9 +60,9 @@ public class NullManager : MonoBehaviour
 
 		nullProjection = Instantiate(gameObject, gameObject.transform.position, gameObject.transform.rotation);
         nulleffect = Instantiate(nullParticles, gameObject.transform.position, gameObject.transform.rotation, nullProjection.transform);
+        nulleffect.transform.localScale = transform.localScale;
 		nullProjection.transform.localScale *= torchComponent == null ? 1.125f : 1.0625f;
 		nullProjection.layer = LayerMask.NameToLayer("Ignore Raycast");
-		nullProjection.transform.SetParent(gameObject.transform);
 		nullProjection.GetComponent<NullManager>().isProjection = true;
 
         Component[] allComponents = nullProjection.GetComponents<Component>();
