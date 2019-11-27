@@ -22,7 +22,7 @@ public class SpellCreation : MonoBehaviour
     //VR crafting cooldown
     [Tooltip("The cooldown on crafting after clicking the craft confirm.")]
     public float craftCooldown = 2.5f;
-    [HideInInspector]
+    //[HideInInspector]
     public bool isCraftCooldown = false;
     [HideInInspector]
     public bool isSpellCollected = true;
@@ -34,6 +34,7 @@ public class SpellCreation : MonoBehaviour
 
 	private Animator animator;
 	private int creationHash;
+	private PlayerController player;
 
 	//Determine spell slots to use
 	private void Start()
@@ -44,7 +45,9 @@ public class SpellCreation : MonoBehaviour
         moduleZones = Info.IsCurrentlyVR() ? VRSpellSlots : PCSpellSlots;
 
 		animator = GetComponent<Animator>();
+		animator.SetTrigger(Info.IsCurrentlyVR() ? "isVR" : "isPC");
 		creationHash = Animator.StringToHash("createSpell");
+		player = FindObjectOfType<PlayerController>();
 	}
 
 	// Update is called once per frame
@@ -68,9 +71,7 @@ public class SpellCreation : MonoBehaviour
         if (moduletypes.Count > 0)
         {
             isSpellCollected = false;
-
-            StartCoroutine(HandleCraftingCooldown());
-
+			
             if (moduletypes[0] != 0) isValid = false; // if the first is  a primary
             if (moduletypes.Count > 1) if (moduletypes[1] == 0) isValid = false; // if there is a second and second is a not primary
 
@@ -81,14 +82,7 @@ public class SpellCreation : MonoBehaviour
 
             if (isValid == true) // if the spell passes all checks
             {
-                GameObject currentSpell = Instantiate(spellPrefab, spawnpoint.position, spawnpoint.rotation);// create a spell object
-                source.PlayOneShot(sucesssSound);
-                for ( int i = 0; i < spellInstructions.Count; i++)
-                {
-                    currentSpell.GetComponent<Spell>().Modules.Add(spellInstructions[i]);
-                }
-
-				animator.SetTrigger(creationHash);
+				StartCoroutine(HandleSpellCreation());
             }
             else
             {
@@ -98,6 +92,47 @@ public class SpellCreation : MonoBehaviour
         }
     }
     
+	IEnumerator HandleSpellCreation()
+	{
+		isCraftCooldown = true;
+
+		string closeName = Info.IsCurrentlyVR() ? "Spell Creation VR Close" : "Spell Creation PC Close";
+		string openName = Info.IsCurrentlyVR() ? "Spell Creation VR Open" : "Spell Creation PC Open";
+
+		animator.SetTrigger(creationHash);
+		
+		while (animator.GetCurrentAnimatorStateInfo(0).IsTag("Neutral"))
+		{
+			yield return new WaitForEndOfFrame();
+		}
+		
+		while (animator.GetCurrentAnimatorStateInfo(0).IsTag("Closing"))
+		{
+			yield return new WaitForEndOfFrame();
+		}
+		
+		GameObject currentSpell = Instantiate(spellPrefab, spawnpoint.position, spawnpoint.rotation);
+		
+		for (int i = 0; i < spellInstructions.Count; i++)
+		{
+			currentSpell.GetComponent<Spell>().Modules.Add(spellInstructions[i]);
+		}
+
+		source.PlayOneShot(sucesssSound);
+
+		while (animator.GetCurrentAnimatorStateInfo(0).IsTag("Opening"))
+		{
+			yield return new WaitForEndOfFrame();
+		}
+		
+		isCraftCooldown = false;
+
+		if (!Info.IsCurrentlyVR())
+		{
+			player.isCraftCooldown = false;
+		}
+	}
+
     //Handle crafting cooldown while a spell is crafting
     IEnumerator HandleCraftingCooldown()
     {

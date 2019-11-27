@@ -280,8 +280,6 @@ public class PlayerController : MonoBehaviour {
 					if (selectedCrystal != null)
 					{
 						StartCoroutine(SlotInCrystal(selectedCrystal, hit.collider.gameObject));
-
-						DeselectCrystals();
 					}
 				}
 				else if (hit.collider.gameObject.GetComponent<FinalizeSpell>())
@@ -305,8 +303,7 @@ public class PlayerController : MonoBehaviour {
                         if (areSlottedCrystals)
                         {
                             isSpellCollected = false;
-
-                            StartCoroutine(HandleCraftingCooldown());
+							isCraftCooldown = true;
 
                             for (int i = 0; i < 5; i++)
                             {
@@ -447,15 +444,7 @@ public class PlayerController : MonoBehaviour {
 
 		crystal.GetComponent<CrystalInfo>().unused = false;
 
-		isCraftCooldown = false;
-	}
-
-	//Handle crafting cooldown whlie a spell is crafting
-	IEnumerator HandleCraftingCooldown()
-	{
-		isCraftCooldown = true;
-
-		yield return new WaitForSeconds(craftCooldown);
+		DeselectCrystals();
 
 		isCraftCooldown = false;
 	}
