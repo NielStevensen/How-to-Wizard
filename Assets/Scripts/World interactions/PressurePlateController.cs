@@ -129,15 +129,13 @@ public class PressurePlateController : MonoBehaviour
 		if(currentWeight >= weightThreshold && !isActivated)
 		{
 			isActivated = true;
-
-			UpdateSymbols(true);
 		}
 		else if(currentWeight < weightThreshold && isActivated)
 		{
 			isActivated = false;
-
-			UpdateSymbols(false);
 		}
+
+		UpdateSymbols(isActivated);
 
         foreach (MovingObstacleManager target in targetObstacles)
         {
@@ -153,13 +151,18 @@ public class PressurePlateController : MonoBehaviour
 	//Update mechanism symbols
 	void UpdateSymbols(bool state)
 	{
-		for(int i = 0; i < targetSymbols.Count; i++)
+		float arc = Mathf.Min(currentWeight / weightThreshold, 1.0f) * 360.0f;
+
+		for (int i = 0; i < targetSymbols.Count; i++)
 		{
 			targetSymbols[i].color = state ? Color.red : Color.white;
-
-			if (state)
+			
+			if (currentWeight > 0.0f)
 			{
 				symbolPFX[i].Play();
+
+				var pfxShape = symbolPFX[i].shape;
+				pfxShape.arc = arc;
 			}
 			else
 			{
