@@ -294,7 +294,6 @@ public class SpellModuleList : MonoBehaviour
 			while (Input.GetButton("Fire2"))
 			{
                 currentPower = Mathf.Clamp(currentPower + Input.GetAxis("Mouse ScrollWheel"), 0.1f, maxThrow);
-                Debug.Log(currentPower);
                 holdTime += Time.deltaTime;
 				power = Mathf.Min(holdTime * 2, currentPower) * 10;
 				direction = transform.forward;
@@ -360,7 +359,19 @@ public class SpellModuleList : MonoBehaviour
 
             if (!isVR)
             {
-                FindObjectOfType<PlayerController>().animator.SetTrigger(PlayerController.throwHash);
+				Animator arm = FindObjectOfType<PlayerController>().animator;
+
+				arm.SetTrigger(PlayerController.throwHash);
+
+				while (arm.GetCurrentAnimatorStateInfo(0).IsTag("Neutral"))
+				{
+					yield return info;
+				}
+				
+				while (arm.GetCurrentAnimatorStateInfo(0).IsTag("Start"))
+				{
+					yield return info;
+				}
             }
 		}
 		
@@ -471,7 +482,6 @@ public class SpellModuleList : MonoBehaviour
     {
         float holdTime = 0.0f;
         GameObject line = Instantiate(segment);
-        GameObject FX = Instantiate(chargePersistentFX);
 
         float length; // length of segment
         float width; // width of segment
@@ -486,8 +496,23 @@ public class SpellModuleList : MonoBehaviour
 
         if (!isVR)
         {
-            FindObjectOfType<PlayerController>().animator.SetTrigger(PlayerController.chargeHash);
-        }
+			Animator arm = FindObjectOfType<PlayerController>().animator;
+			
+			arm.SetTrigger(PlayerController.chargeHash);
+
+			while (arm.GetCurrentAnimatorStateInfo(0).IsTag("Neutral"))
+			{
+				yield return info;
+			}
+
+			//if i get the charge anim split
+			/*while (arm.GetCurrentAnimatorStateInfo(0).IsTag("Start"))
+			{
+				yield return info;
+			}*/
+		}
+
+		GameObject FX = Instantiate(chargePersistentFX);
 
 		while (IsChargeHeld(isVR))
         {
@@ -515,6 +540,7 @@ public class SpellModuleList : MonoBehaviour
 			
             width = 0.0125f + Mathf.Min(holdTime / maxChargeTime, 1.0f) / 10.0f;
             FX.transform.position = hit.point;
+			FX.transform.LookAt(origin);
             line.transform.localScale = new Vector3(width, width, length);
             line.transform.position = origin;
             line.transform.LookAt(hit.point);
@@ -578,6 +604,20 @@ public class SpellModuleList : MonoBehaviour
 		}
 		else
 		{
+			Animator arm = FindObjectOfType<PlayerController>().animator;
+
+			arm.SetTrigger(PlayerController.touchHash);
+
+			while (arm.GetCurrentAnimatorStateInfo(0).IsTag("Neutral"))
+			{
+				yield return info;
+			}
+
+			while (arm.GetCurrentAnimatorStateInfo(0).IsTag("Start"))
+			{
+				yield return info;
+			}
+
 			if (Physics.Raycast(transform.position, transform.forward, out hit, touchDistance))
 			{
 				touchPoint = hit.point;
@@ -586,8 +626,6 @@ public class SpellModuleList : MonoBehaviour
 			{
 				touchPoint = Camera.main.transform.position + Camera.main.transform.forward * touchDistance;
 			}
-            
-			FindObjectOfType<PlayerController>().animator.SetTrigger(PlayerController.touchHash);
 		}
 		
         info.collisionPoints.Add(touchPoint);

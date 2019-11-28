@@ -225,7 +225,7 @@ public class PCUIController : MonoBehaviour
             }
 			else if(Info.currentGameMode == GameMode.Challenge)
 			{
-				//SceneManager.LoadScene("Level " + selectedLevel);
+				SceneManager.LoadScene("Level " + selectedLevel + " Challenge");
 			}
 			else if(Info.currentGameMode == GameMode.Sandbox)
 			{
