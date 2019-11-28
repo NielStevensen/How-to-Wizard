@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BurningSpell Scroll Rolled
+  m_Name: Spell Scroll Rolled Burning
   m_Shader: {fileID: 4800000, guid: 1741f46f85720fe479f2bb023e3f05af, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
