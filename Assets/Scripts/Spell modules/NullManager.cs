@@ -83,7 +83,7 @@ public class NullManager : MonoBehaviour
         nullProjection.SetActive(isNulled);
 
         nulleffect = Instantiate(nullParticles, gameObject.transform.position, gameObject.transform.rotation, nullProjection.transform);
-        nulleffect.transform.localScale = transform.localScale;
+        //nulleffect.transform.localScale = transform.localScale;
     }
     
 	//Stop the projection from breaking physics
