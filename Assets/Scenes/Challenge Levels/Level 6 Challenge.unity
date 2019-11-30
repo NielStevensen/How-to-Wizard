@@ -3356,7 +3356,7 @@ PrefabInstance:
     - target: {fileID: 1950758007156749483, guid: 6519d52e2e687844b8a15a4698d0fd42,
         type: 3}
       propertyPath: nextLevel
-      value: Level 7
+      value: Level 7 Challenge
       objectReference: {fileID: 0}
     - target: {fileID: 2944788077895704645, guid: 6519d52e2e687844b8a15a4698d0fd42,
         type: 3}
