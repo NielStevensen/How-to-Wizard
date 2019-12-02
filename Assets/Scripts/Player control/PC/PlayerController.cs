@@ -408,6 +408,8 @@ public class PlayerController : MonoBehaviour {
 			{
 				if(i == slotNumber)
 				{
+					DeselectCrystals();
+
 					yield break;
 				}
 				else
@@ -428,6 +430,14 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		slottedCrystals[slotNumber] = crystal;
+
+		for (int i = 0; i < 5; i++)
+		{
+			if (slottedCrystals[i] == null)
+			{
+				slotAnimators[i].enabled = false;
+			}
+		}
 
 		Vector3 origin = crystal.transform.position;
 		Vector3 direction = (slot.transform.position + new Vector3(0, 0.1875f, 0)) - origin;

@@ -143,7 +143,7 @@ MonoBehaviour:
   laserOrigin: {fileID: 9195606968004748842}
   laserIgnore:
     serializedVersion: 2
-    m_Bits: 128768
+    m_Bits: 653104
   laserPrefab: {fileID: 7658771609124669935, guid: 27d2b689845dde640aa4d5de692e1948,
     type: 3}
   DestroyFX: {fileID: 685881439387540383, guid: 8e7824508e217dd42b37ad1e4dd37784,

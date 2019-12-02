@@ -57,12 +57,11 @@ public class MovingObstacleManager : MonoBehaviour
 	//Move the object
 	IEnumerator MoveObstacle(int alt)
 	{
-		int lowerThreshold = 0 - alt;
-		int upperThreshold = 180 - alt;
-
 		Vector3 pos;
-
-		while (lowerThreshold < activationProgress && activationProgress < upperThreshold)
+		
+		int threshold = 90 + 90 * alt;
+		
+		while (activationProgress != threshold)
 		{
 			pos = transform.position;
 
