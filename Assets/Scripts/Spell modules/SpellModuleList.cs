@@ -480,20 +480,8 @@ public class SpellModuleList : MonoBehaviour
 	//Beam maintained while the button is held
 	IEnumerator Charge(SpellInfo info)
     {
-        float holdTime = 0.0f;
-        GameObject line = Instantiate(segment);
-
-        float length; // length of segment
-        float width; // width of segment
-
-		RaycastHit hit = new RaycastHit();
-        bool hitTest = false;
-
 		bool isVR = Info.IsCurrentlyVR();
-
-		Vector3 origin;
-		Vector3 direction;
-
+		
         if (!isVR)
         {
 			Animator arm = FindObjectOfType<PlayerController>().animator;
@@ -512,7 +500,18 @@ public class SpellModuleList : MonoBehaviour
 			}*/
 		}
 
+		Vector3 origin;
+		Vector3 direction;
+
+		float holdTime = 0.0f;
+		float length; // length of segment
+		float width; // width of segment
+		
+		GameObject line = Instantiate(segment);
 		GameObject FX = Instantiate(chargePersistentFX);
+
+		RaycastHit hit = new RaycastHit();
+		bool hitTest = false;
 
 		while (IsChargeHeld(isVR))
         {
@@ -525,7 +524,32 @@ public class SpellModuleList : MonoBehaviour
             {
 				origin = transform.position;
 				direction = transform.forward;
-            }
+
+				/*Vector3 projectedPoint;
+				Vector3 laserDirection;
+
+				hitTest = Physics.Raycast(origin, direction, out hit, 1000.0f, ~chargeIgnoreRays);
+
+				if (hitTest)
+				{
+					projectedPoint = hit.point;
+				}
+				else
+				{
+					projectedPoint = origin + Vector3.Normalize(transform.forward) * 1000.0f;
+				}
+
+				laserDirection = projectedPoint - origin;
+
+				bool anotherHitTest = Physics.Raycast(origin, laserDirection, out hit, 1000.0f, ~chargeIgnoreRays);*/
+
+				//i can raycast here to get a proper raycast through the reticle
+				//then use the hit point from that raycast to determine the direction from the hand to the point
+				//branches here: should objects in the way block the laser?
+				//then do another raycast to determine if the new hit point is close, if not, the actual laser is blocked
+				//////don't block: reduce potency and store original point
+				//////does block: continue as normal, the original code will show things as blocked
+			}
 
 			hitTest = Physics.Raycast(origin, direction, out hit, 1000.0f, ~chargeIgnoreRays);
 			
@@ -539,11 +563,12 @@ public class SpellModuleList : MonoBehaviour
 			}
 			
             width = 0.0125f + Mathf.Min(holdTime / maxChargeTime, 1.0f) / 10.0f;
-            FX.transform.position = hit.point;
-			FX.transform.LookAt(origin);
             line.transform.localScale = new Vector3(width, width, length);
             line.transform.position = origin;
             line.transform.LookAt(hit.point);
+
+			FX.transform.position = hit.point;
+			FX.transform.LookAt(origin);
 
 			yield return info;
 
@@ -554,12 +579,10 @@ public class SpellModuleList : MonoBehaviour
         {
             FindObjectOfType<PlayerController>().animator.SetTrigger(PlayerController.endChargeHash);
         }
-
-		holdTime = Mathf.Min(holdTime, maxChargeTime);
-
+		
 		if (hitTest)
 		{
-			info.potency = 0.5f + 1.0f * holdTime / maxChargeTime;
+			info.potency = 0.5f + 1.0f * Mathf.Min(holdTime, maxChargeTime) / maxChargeTime;
 			info.collisionPoints.Add(hit.point);
 			info.collisionObjects.Add(hit.transform.gameObject);
 

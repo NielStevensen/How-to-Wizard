@@ -26,8 +26,10 @@ public class PlayerController : MonoBehaviour {
 	[HideInInspector]
 	public bool isCraftCooldown = false;
 	private float craftCooldown = 2.5f;
-	private GameObject selectedCrystal = null;
-	private GameObject[] slottedCrystals = new GameObject[5] { null, null, null, null, null };
+	[HideInInspector]
+	public GameObject selectedCrystal = null;
+	[HideInInspector]
+	public GameObject[] slottedCrystals = new GameObject[5] { null, null, null, null, null };
 	private AttachCrystal[] crystalSlots = new AttachCrystal[5];
 	private Animator[] slotAnimators = new Animator[5];
 	private SpellCreation table = null;

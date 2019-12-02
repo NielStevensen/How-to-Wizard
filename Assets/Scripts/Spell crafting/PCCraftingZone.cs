@@ -62,20 +62,41 @@ public class PCCraftingZone : MonoBehaviour
 
 			if (Physics.Raycast(playerCamera.position, playerCamera.forward, out hit, interactionRange, outlineMask))
 			{
+				//Handle highlighting for crystals, slots, creation and clear. Can only be highlighted while not on crafting cooldown
 				if (!controller.isCraftCooldown)
 				{
-					if(hit.collider.gameObject.GetComponent<FinalizeSpell>() == null)
+					//Crystals and spell scrolls can highlight whenever while not on crafting cooldown
+					if (hit.collider.gameObject.GetComponent<CrystalInfo>() != null || hit.collider.gameObject.GetComponent<Spell>() != null)
 					{
 						newTarget = hit.collider.gameObject;
 					}
+					//Slots can only highlight ifn a crystal is selected
+					else if (hit.collider.gameObject.GetComponent<AttachCrystal>() != null)
+					{
+						newTarget = controller.selectedCrystal != null ? hit.collider.gameObject : null;
+					}
+					//Spell creation and clear only highlight if there is at least 1 slotted crystal
 					else
 					{
-						if (controller.isSpellCollected)
+						bool areCrystalsSlotted = false;
+
+						foreach (GameObject obj in controller.slottedCrystals)
 						{
-							newTarget = hit.collider.gameObject;
+							if (obj != null)
+							{
+								areCrystalsSlotted = true;
+
+								break;
+							}
+						}
+
+						if (areCrystalsSlotted)
+						{
+							newTarget = hit.collider.gameObject.GetComponent<ClearTable>() != null ? hit.collider.gameObject : controller.isSpellCollected ? hit.collider.gameObject : null;
 						}
 					}
 				}
+				//Spell scrolls can be highlighted at any time
 				else
 				{
 					if(hit.collider.gameObject.GetComponent<Spell>() != null)
@@ -83,9 +104,6 @@ public class PCCraftingZone : MonoBehaviour
 						newTarget = hit.collider.gameObject;
 					}
 				}
-				
-				//might want to check for crystal info so only crystals can be higlighted
-				//can get other crafting objects to do other things
 			}
 
 			if(newTarget != target)
