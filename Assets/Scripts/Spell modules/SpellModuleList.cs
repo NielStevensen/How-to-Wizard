@@ -502,16 +502,24 @@ public class SpellModuleList : MonoBehaviour
 
 		Vector3 origin;
 		Vector3 direction;
+		Vector3 destination;
 
 		float holdTime = 0.0f;
 		float length; // length of segment
 		float width; // width of segment
 		
 		GameObject line = Instantiate(segment);
+		Renderer lineRenderer = line.GetComponentInChildren<Renderer>();
+		lineRenderer.material.EnableKeyword("_EMISSION");
 		GameObject FX = Instantiate(chargePersistentFX);
 
 		RaycastHit hit = new RaycastHit();
 		bool hitTest = false;
+
+		Vector3 camPos;
+		RaycastHit projectedHit;
+		Vector3 projectedPoint;
+		Vector3 projectedDirection;
 
 		while (IsChargeHeld(isVR))
         {
@@ -522,52 +530,28 @@ public class SpellModuleList : MonoBehaviour
             }
             else
             {
-				origin = transform.position;
-				direction = transform.forward;
+				camPos = transform.parent.parent.position;
 
-				/*Vector3 projectedPoint;
-				Vector3 laserDirection;
-
-				hitTest = Physics.Raycast(origin, direction, out hit, 1000.0f, ~chargeIgnoreRays);
-
-				if (hitTest)
-				{
-					projectedPoint = hit.point;
-				}
-				else
-				{
-					projectedPoint = origin + Vector3.Normalize(transform.forward) * 1000.0f;
-				}
-
-				laserDirection = projectedPoint - origin;
-
-				bool anotherHitTest = Physics.Raycast(origin, laserDirection, out hit, 1000.0f, ~chargeIgnoreRays);*/
-
-				//i can raycast here to get a proper raycast through the reticle
-				//then use the hit point from that raycast to determine the direction from the hand to the point
-				//branches here: should objects in the way block the laser?
-				//then do another raycast to determine if the new hit point is close, if not, the actual laser is blocked
-				//////don't block: reduce potency and store original point
-				//////does block: continue as normal, the original code will show things as blocked
+				projectedPoint = Physics.Raycast(camPos, transform.forward, out projectedHit, 1000.0f, ~chargeIgnoreRays) ? 
+								projectedHit.point : camPos + Vector3.Normalize(transform.forward) * 1000.0f;
+				projectedDirection = projectedPoint - camPos;
+				
+				origin = transform.parent.GetChild(0).position;
+				direction = projectedPoint - origin;
 			}
 
 			hitTest = Physics.Raycast(origin, direction, out hit, 1000.0f, ~chargeIgnoreRays);
-			
-			if (hitTest)
-            {
-                length = (origin - hit.point).magnitude / 2;
-            }
-			else
-			{
-                length = 1000f;
-			}
-			
-            width = 0.0125f + Mathf.Min(holdTime / maxChargeTime, 1.0f) / 10.0f;
-            line.transform.localScale = new Vector3(width, width, length);
-            line.transform.position = origin;
-            line.transform.LookAt(hit.point);
 
-			FX.transform.position = hit.point;
+			length = hitTest ? (origin - hit.point).magnitude / 2 : 1000.0f;
+			destination = hitTest ? hit.point : origin + Vector3.Normalize(direction) * 1000.0f;
+			
+			lineRenderer.material.SetColor("_EmissionColor", Color.red * Mathf.Min(holdTime / maxChargeTime, 1.0f) * 1.0f);
+			width = 0.025f + Mathf.Min(holdTime / maxChargeTime, 1.0f) / 37.5f;
+			line.transform.localScale = new Vector3(width, width, length);
+            line.transform.position = origin;
+            line.transform.LookAt(destination);
+
+			FX.transform.position = destination;
 			FX.transform.LookAt(origin);
 
 			yield return info;
