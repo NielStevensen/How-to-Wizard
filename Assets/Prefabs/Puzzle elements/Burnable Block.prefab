@@ -131,6 +131,7 @@ MonoBehaviour:
   nullShader: {fileID: 4800000, guid: 358e88ce5fba08e48ae42706c075c8ea, type: 3}
   nullParticles: {fileID: 357902674088087968, guid: ca155e5af7fb294468fd36fa81da59f6,
     type: 3}
+  ToggleSound: {fileID: 8300000, guid: 101b0060ce08627418eec0181eaf65f4, type: 3}
   isProjection: 0
 --- !u!114 &9039099522454592980
 MonoBehaviour:

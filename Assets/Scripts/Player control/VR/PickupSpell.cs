@@ -33,6 +33,11 @@ public class PickupSpell : MonoBehaviour
 	private Animator[] slotAnimators = new Animator[5];
 	private AttachCrystal[] slotInfo = new AttachCrystal[5];
 
+    //sounds
+    public AudioClip crystalPickup;
+    public AudioClip scrollPickup;
+
+
     //Set reference
     private void Start()
     {
@@ -136,15 +141,20 @@ public class PickupSpell : MonoBehaviour
         
 		if(crystalRef != null)
 		{
-			foreach (Animator anim in slotAnimators)
+            AudioSource.PlayClipAtPoint(crystalPickup, transform.position, Info.optionsData.sfxLevel);
+            foreach (Animator anim in slotAnimators)
 			{
 				anim.enabled = true;
 			}
 		}
 
-        if (scrollRef != null && scrollRef.transform.parent == null)
+        if (scrollRef != null)
         {
-            creationArea.isSpellCollected = true;
+            AudioSource.PlayClipAtPoint(scrollPickup, transform.position, Info.optionsData.sfxLevel);
+            if (scrollRef.transform.parent == null)
+            {
+                creationArea.isSpellCollected = true;
+            }
         }
         
         for (int i = 0; i < beltObjects.Length; i++) // check all slots to see if any are suitable
@@ -255,6 +265,9 @@ public class PickupSpell : MonoBehaviour
                         if (beltSlots[i] == true)
                         {
                             objectInHand.transform.SetParent(beltObjects[i].transform);
+                            //objectInHand.transform.localScale = new Vector3(objectInHand.transform.localScale.x / beltObjects[i].transform.localScale.x, 
+                                //objectInHand.transform.localScale.y / beltObjects[i].transform.localScale.y, objectInHand.transform.localScale.z / beltObjects[i].transform.localScale.z);
+
                             objectInHand.GetComponent<Rigidbody>().isKinematic = true;
                             beltSlots[i] = false;
                         }

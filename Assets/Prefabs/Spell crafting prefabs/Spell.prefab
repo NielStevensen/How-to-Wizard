@@ -862,7 +862,10 @@ MonoBehaviour:
   barrierPrefab: {fileID: 1801681100854976075, guid: 511f04f297c2c9045bbe6771e30a9822,
     type: 3}
   ProjectileBreak: {fileID: 8300000, guid: 48d70af3a35376a4585636672893bd5e, type: 3}
+  ProjectileSpawn: {fileID: 8300000, guid: 6be8c68754d70e848965deb9f21f290a, type: 3}
   SpawnWeight: {fileID: 8300000, guid: d0a7e525dba304e44850193f5716bbe1, type: 3}
+  BarrierSpawn: {fileID: 8300000, guid: 1d790dfd164083d4095cd48e050b0076, type: 3}
+  ForceSound: {fileID: 8300000, guid: 65bd3c48300ac7a48a484f0c2bb211f8, type: 3}
   chargePersistentFX: {fileID: 4098909006485238225, guid: 2de2cf8342a642f4e9ed83f618cd1718,
     type: 3}
   touchFX: {fileID: 9053505572087147106, guid: afa71fbe4b504ef43aef6f1b6ff8a6c3, type: 3}

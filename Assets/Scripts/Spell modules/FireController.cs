@@ -15,6 +15,10 @@ public class FireController : MonoBehaviour
     //Setup
     void Start()
     {
+        if(GetComponentInChildren<AudioSource>() != null)
+        {
+            GetComponentInChildren<AudioSource>().volume = Info.optionsData.sfxLevel;
+        }
 		if(lifetime > 0.0f)
 		{
 			Destroy(gameObject, lifetime);

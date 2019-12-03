@@ -106,7 +106,10 @@ public class SpellModuleList : MonoBehaviour
 	#region SFX
 	//SFX
 	public AudioClip ProjectileBreak;
+	public AudioClip ProjectileSpawn;
     public AudioClip SpawnWeight;
+    public AudioClip BarrierSpawn;
+    public AudioClip ForceSound;
 	#endregion
 
 	[Space(10)]
@@ -353,29 +356,30 @@ public class SpellModuleList : MonoBehaviour
         }
         if (targetOrb != null) Destroy(targetOrb);
 
-        if (modifier % 10 == 0)
-		{
-            NotifySpellCasted();
+        if (!isVR)
+        {
+            Animator arm = FindObjectOfType<PlayerController>().animator;
 
-            if (!isVR)
+            if (modifier % 10 == 0)
             {
-				Animator arm = FindObjectOfType<PlayerController>().animator;
+                NotifySpellCasted();
 
-				arm.SetTrigger(PlayerController.throwHash);
-
-				while (arm.GetCurrentAnimatorStateInfo(0).IsTag("Neutral"))
-				{
-					yield return info;
-				}
-				
-				while (arm.GetCurrentAnimatorStateInfo(0).IsTag("Start"))
-				{
-					yield return info;
-				}
+                arm.SetTrigger(PlayerController.throwHash);
             }
-		}
-		
+
+            while (arm.GetCurrentAnimatorStateInfo(0).IsTag("Neutral"))
+            {
+                yield return info;
+            }
+
+            while (arm.GetCurrentAnimatorStateInfo(0).IsTag("Start"))
+            {
+                yield return info;
+            }
+        }
+        
 		GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+        AudioSource.PlayClipAtPoint(ProjectileSpawn, transform.position, Info.optionsData.sfxLevel);
         projectile.GetComponent<ProjectileReturn>().modifier = modifier;
         projectile.GetComponent<ProjectileReturn>().caller = this;
 
@@ -877,7 +881,7 @@ public class SpellModuleList : MonoBehaviour
                                 GameObject FX = Instantiate(pushFX);
                                 FX.transform.position = hit.transform.position;
                                 FX.transform.LookAt(transform.position + pushVector);
-                                //GameObject.FindObjectOfType<SpellCreation>().FXManagment(pushFX, pushFX.GetComponent<ParticleSystem>().main.duration);
+                                AudioSource.PlayClipAtPoint(ForceSound, hit.transform.position, Info.optionsData.sfxLevel);
 								
                                 obj.GetComponent<Rigidbody>().AddForce(pushVector);
 							}
@@ -903,7 +907,8 @@ public class SpellModuleList : MonoBehaviour
 	IEnumerator Barrier(SpellInfo info, float moduleID)
 	{
 		GameObject barrier = sie.SpawnAsSet(spellID + moduleID, barrierPrefab, "Barrier", info.collisionPoints[0]);
-		barrier.transform.rotation = playerRotation;
+        AudioSource.PlayClipAtPoint(BarrierSpawn, info.collisionPoints[0], Info.optionsData.sfxLevel);
+        barrier.transform.rotation = playerRotation;
 		barrier.transform.localScale = new Vector3(info.potency, 10000, 0.1f);
 
 		yield return info;

@@ -181,6 +181,7 @@ MonoBehaviour:
   nullShader: {fileID: 4800000, guid: 358e88ce5fba08e48ae42706c075c8ea, type: 3}
   nullParticles: {fileID: 357902674088087968, guid: 902a7191b8c1e6249a43cbb75381f194,
     type: 3}
+  ToggleSound: {fileID: 8300000, guid: 101b0060ce08627418eec0181eaf65f4, type: 3}
   isProjection: 0
 --- !u!135 &4984048452663807803
 SphereCollider:
@@ -356,7 +357,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.28463438
+  m_Radius: 0.15
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}

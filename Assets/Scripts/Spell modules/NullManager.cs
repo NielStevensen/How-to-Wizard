@@ -18,6 +18,7 @@ public class NullManager : MonoBehaviour
 	public Shader nullShader;
     [Tooltip("Null Particle effects.")]
     public GameObject nullParticles;
+    public AudioClip ToggleSound;
     [HideInInspector]
 	public bool isProjection = false;
 
@@ -81,6 +82,7 @@ public class NullManager : MonoBehaviour
 		}
 		
         nullProjection.SetActive(isNulled);
+        AudioSource.PlayClipAtPoint(ToggleSound, transform.position, Info.optionsData.sfxLevel);
 
         nulleffect = Instantiate(nullParticles, gameObject.transform.position, gameObject.transform.rotation, nullProjection.transform);
         //nulleffect.transform.localScale = transform.localScale;
