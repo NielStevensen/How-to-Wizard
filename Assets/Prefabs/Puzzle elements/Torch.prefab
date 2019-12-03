@@ -146,6 +146,7 @@ MonoBehaviour:
   fireCollider: {fileID: 4662207336493789458}
   incinerateShader: {fileID: 4800000, guid: 1741f46f85720fe479f2bb023e3f05af, type: 3}
   burningParticleEffect: {fileID: 0}
+  ignite: {fileID: 8300000, guid: 04a93e7d4f5848e43ade08cdd82075fa, type: 3}
 --- !u!114 &413479683879400657
 MonoBehaviour:
   m_ObjectHideFlags: 0

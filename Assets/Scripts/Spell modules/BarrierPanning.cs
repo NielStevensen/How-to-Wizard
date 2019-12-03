@@ -16,6 +16,7 @@ public class BarrierPanning : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Info.isPaused) return;
         mat.mainTextureOffset = (mat.mainTextureOffset + panningSpeed / 1000f);
     }
 }

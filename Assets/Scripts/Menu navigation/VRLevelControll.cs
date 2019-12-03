@@ -39,37 +39,43 @@ public class VRLevelControll : MonoBehaviour
 
     public void Cycle(int distsance)
     {
-        if (distsance >= 1)
+        if (Info.currentGameMode == GameMode.Story || Info.currentGameMode == GameMode.NewGamePlus)
         {
-            if(stats.storyClearData[(selectedLevel - 1) % stats.storyClearData.Length])
+            if (distsance >= 1)
             {
-                selectedLevel += 1;
+                if (stats.storyClearData[(selectedLevel - 1) % stats.storyClearData.Length])
+                {
+                    selectedLevel += 1;
+                }
             }
-            //else
-            //{
-            //    selectedLevel = 1;
-            //}
+            else if (distsance <= 1)
+            {
+                if (selectedLevel > 1)
+                {
+                    selectedLevel -= 1;
+                }
+            }
         }
-        else if(distsance <= 1)
+        if (Info.currentGameMode == GameMode.Challenge)
         {
-            if(selectedLevel > 1)
+            if (distsance >= 1)
             {
-                selectedLevel -= 1;
+                if (stats.extraClearData[(selectedLevel - 1) % stats.extraClearData.Length])
+                {
+                    selectedLevel += 1;
+                }
             }
-            //else
-            //{
-            //    for(int i = stats.storyClearData.Length; i > 0; --i)
-            //    {
-            //        selectedLevel = i;
-            //        if (stats.storyClearData[i])
-            //        {
-            //            break;
-            //        }
-            //    }
-            //}
+            else if (distsance <= 1)
+            {
+                if (selectedLevel > 1)
+                {
+                    selectedLevel -= 1;
+                }
+            }
         }
         display.sprite = levelPics[selectedLevel - 1];
-        DisplayStats();
+        if (Info.currentGameMode == GameMode.Sandbox) display.sprite = levelPics[15]; // overirde picture for snadbox mode
+         DisplayStats();
     }
 
 	//Display the stats for the currently selected level
@@ -153,11 +159,11 @@ public class VRLevelControll : MonoBehaviour
             }
 			else if(Info.currentGameMode == GameMode.Challenge)
 			{
-				//SceneManager.LoadScene("Level " + selectedLevel);
+				SceneManager.LoadScene("Level " + selectedLevel + " Challenge");
 			}
 			else if(Info.currentGameMode == GameMode.Sandbox)
 			{
-				//SceneManager.LoadScene("Sandbox");
+				SceneManager.LoadScene("Sandbox");
 			}
         }
     }

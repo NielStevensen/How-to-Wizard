@@ -7,10 +7,20 @@ public class CycleButton : MonoBehaviour
 
     public VRLevelControll controller;
     public int cycleValue;
+    public GameMode mode;
+
+    public GameObject challengeButton;
+    public GameObject newGamePlusButton;
+    private PlayerData stats;
     // Start is called before the first frame update
     void Start()
     {
-        
+        stats = SaveSystem.LoadGame();
+        if(stats.storyClearData[14])
+        {
+            challengeButton.SetActive(true);
+            newGamePlusButton.SetActive(true);
+        }
     }
 
     // Update is called once per frame
@@ -20,7 +30,11 @@ public class CycleButton : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.GetComponent<PickupSpell>() != null)
+        if (mode != GameMode.Unset)
+        {
+            Info.currentGameMode = mode;
+        }
+        if (other.GetComponent<PickupSpell>() != null)
         {
             controller.Cycle(cycleValue);
         }

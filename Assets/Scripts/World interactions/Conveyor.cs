@@ -32,6 +32,7 @@ public class Conveyor : MonoBehaviour
 
     private void Update()
     {
+        if (Info.isPaused) return;
         belt.GetComponent<MeshRenderer>().material.mainTextureOffset = (belt.GetComponent<MeshRenderer>().material.mainTextureOffset + panningSpeed / 1000f);
         foreach(GameObject a in gears)
         {

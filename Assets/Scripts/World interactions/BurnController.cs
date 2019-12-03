@@ -20,18 +20,20 @@ public class BurnController : MonoBehaviour
 	[Tooltip("The particle effect spawned on the object when burning.")]
 	public GameObject burningParticleEffect;
     private GameObject pfx;
-	//could have multiple particle effects, differing by shape of emitter
-	//specify here based on shape og object
-	//on start, set the size of the particle effect to the scale of the object
+    public AudioClip ignite;
+    //could have multiple particle effects, differing by shape of emitter
+    //specify here based on shape og object
+    //on start, set the size of the particle effect to the scale of the object
 
-	//Spawn burning particle effect and cause disintegration
-	private void OnEnable()
+    //Spawn burning particle effect and cause disintegration
+    private void OnEnable()
 	{
 		//spawn particle effect here
 		if(burningParticleEffect != null)
 		{
 			pfx = Instantiate(burningParticleEffect, transform.position, transform.rotation, transform);
 			pfx.transform.localScale = transform.localScale;
+            AudioSource.PlayClipAtPoint(ignite, transform.position,Info.optionsData.sfxLevel);           
 		}
 		
 		if(burnTime > 0)
