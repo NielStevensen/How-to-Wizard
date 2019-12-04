@@ -596,6 +596,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 771956579}
     m_Modifications:
+    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
+        type: 3}
+      propertyPath: m_Name
+      value: WallTorch (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 2472525243651276720, guid: 90f7dff3545b4814a9002f4b06fef903,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -651,11 +656,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -4.2590003
       objectReference: {fileID: 0}
-    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
-        type: 3}
-      propertyPath: m_Name
-      value: WallTorch (1)
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90f7dff3545b4814a9002f4b06fef903, type: 3}
 --- !u!4 &156580515 stripped
@@ -671,6 +671,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 771956579}
     m_Modifications:
+    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
+        type: 3}
+      propertyPath: m_Name
+      value: WallTorch (2)
+      objectReference: {fileID: 0}
     - target: {fileID: 2472525243651276720, guid: 90f7dff3545b4814a9002f4b06fef903,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -725,11 +730,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -4.2590003
-      objectReference: {fileID: 0}
-    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
-        type: 3}
-      propertyPath: m_Name
-      value: WallTorch (2)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90f7dff3545b4814a9002f4b06fef903, type: 3}
@@ -1039,6 +1039,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 771956579}
     m_Modifications:
+    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
+        type: 3}
+      propertyPath: m_Name
+      value: WallTorch
+      objectReference: {fileID: 0}
     - target: {fileID: 2472525243651276720, guid: 90f7dff3545b4814a9002f4b06fef903,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1093,11 +1098,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -4.2590003
-      objectReference: {fileID: 0}
-    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
-        type: 3}
-      propertyPath: m_Name
-      value: WallTorch
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90f7dff3545b4814a9002f4b06fef903, type: 3}
@@ -1440,6 +1440,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 771956579}
     m_Modifications:
+    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
+        type: 3}
+      propertyPath: m_Name
+      value: WallTorch (5)
+      objectReference: {fileID: 0}
     - target: {fileID: 2472525243651276720, guid: 90f7dff3545b4814a9002f4b06fef903,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1499,11 +1504,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.x
       value: 0.50000024
-      objectReference: {fileID: 0}
-    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
-        type: 3}
-      propertyPath: m_Name
-      value: WallTorch (5)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90f7dff3545b4814a9002f4b06fef903, type: 3}
@@ -2010,6 +2010,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 771956579}
     m_Modifications:
+    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
+        type: 3}
+      propertyPath: m_Name
+      value: WallTorch (6)
+      objectReference: {fileID: 0}
     - target: {fileID: 2472525243651276720, guid: 90f7dff3545b4814a9002f4b06fef903,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2074,11 +2079,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.50000024
-      objectReference: {fileID: 0}
-    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
-        type: 3}
-      propertyPath: m_Name
-      value: WallTorch (6)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90f7dff3545b4814a9002f4b06fef903, type: 3}
@@ -2509,6 +2509,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 771956579}
     m_Modifications:
+    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
+        type: 3}
+      propertyPath: m_Name
+      value: WallTorch (7)
+      objectReference: {fileID: 0}
     - target: {fileID: 2472525243651276720, guid: 90f7dff3545b4814a9002f4b06fef903,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2574,11 +2579,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.50000024
       objectReference: {fileID: 0}
-    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
-        type: 3}
-      propertyPath: m_Name
-      value: WallTorch (7)
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90f7dff3545b4814a9002f4b06fef903, type: 3}
 --- !u!4 &1081056974 stripped
@@ -2598,6 +2598,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Exit Zone
+      objectReference: {fileID: 0}
+    - target: {fileID: 2944788077895704702, guid: 6519d52e2e687844b8a15a4698d0fd42,
+        type: 3}
+      propertyPath: activeDisplacement.y
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8762625748907206035, guid: 6519d52e2e687844b8a15a4698d0fd42,
         type: 3}
@@ -2669,16 +2674,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6718347648042009821, guid: 6519d52e2e687844b8a15a4698d0fd42,
-        type: 3}
-      propertyPath: wallTileSize.x
-      value: 0.33333334
-      objectReference: {fileID: 0}
-    - target: {fileID: 6718347648042009821, guid: 6519d52e2e687844b8a15a4698d0fd42,
-        type: 3}
-      propertyPath: wallTileSize.y
-      value: 0.33333334
-      objectReference: {fileID: 0}
     - target: {fileID: 5709730212774208161, guid: 6519d52e2e687844b8a15a4698d0fd42,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2699,15 +2694,20 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 9.67
       objectReference: {fileID: 0}
+    - target: {fileID: 6718347648042009821, guid: 6519d52e2e687844b8a15a4698d0fd42,
+        type: 3}
+      propertyPath: wallTileSize.x
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 6718347648042009821, guid: 6519d52e2e687844b8a15a4698d0fd42,
+        type: 3}
+      propertyPath: wallTileSize.y
+      value: 0.33333334
+      objectReference: {fileID: 0}
     - target: {fileID: 2944788077895704697, guid: 6519d52e2e687844b8a15a4698d0fd42,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: -9.18
-      objectReference: {fileID: 0}
-    - target: {fileID: 2944788077895704702, guid: 6519d52e2e687844b8a15a4698d0fd42,
-        type: 3}
-      propertyPath: activeDisplacement.y
-      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6519d52e2e687844b8a15a4698d0fd42, type: 3}
@@ -3130,6 +3130,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 771956579}
     m_Modifications:
+    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
+        type: 3}
+      propertyPath: m_Name
+      value: WallTorch (4)
+      objectReference: {fileID: 0}
     - target: {fileID: 2472525243651276720, guid: 90f7dff3545b4814a9002f4b06fef903,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3189,11 +3194,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.x
       value: 0.50000024
-      objectReference: {fileID: 0}
-    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
-        type: 3}
-      propertyPath: m_Name
-      value: WallTorch (4)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90f7dff3545b4814a9002f4b06fef903, type: 3}
@@ -3463,6 +3463,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1.500001
+      objectReference: {fileID: 0}
+    - target: {fileID: 8191919461207840989, guid: c1cfe68a8a2cbb843b3fc5f7cfe9963a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8191919461207840989, guid: c1cfe68a8a2cbb843b3fc5f7cfe9963a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8191919461207840989, guid: c1cfe68a8a2cbb843b3fc5f7cfe9963a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8191919461207840989, guid: c1cfe68a8a2cbb843b3fc5f7cfe9963a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1cfe68a8a2cbb843b3fc5f7cfe9963a, type: 3}
@@ -4282,6 +4302,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 771956579}
     m_Modifications:
+    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
+        type: 3}
+      propertyPath: m_Name
+      value: WallTorch (3)
+      objectReference: {fileID: 0}
     - target: {fileID: 2472525243651276720, guid: 90f7dff3545b4814a9002f4b06fef903,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4341,11 +4366,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.x
       value: 0.50000024
-      objectReference: {fileID: 0}
-    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
-        type: 3}
-      propertyPath: m_Name
-      value: WallTorch (3)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90f7dff3545b4814a9002f4b06fef903, type: 3}

@@ -463,6 +463,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 253815183}
     m_Modifications:
+    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
+        type: 3}
+      propertyPath: m_Name
+      value: WallTorch (7)
+      objectReference: {fileID: 0}
     - target: {fileID: 2472525243651276720, guid: 90f7dff3545b4814a9002f4b06fef903,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -527,11 +532,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.50000024
-      objectReference: {fileID: 0}
-    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
-        type: 3}
-      propertyPath: m_Name
-      value: WallTorch (7)
       objectReference: {fileID: 0}
     - target: {fileID: 2010429232279344646, guid: 90f7dff3545b4814a9002f4b06fef903,
         type: 3}
@@ -669,7 +669,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 213737279}
   m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: -4.992, y: 1.9375, z: -1.25}
+  m_LocalPosition: {x: -4.992, y: 1.9375, z: -1.625}
   m_LocalScale: {x: 0.15, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 128762979}
@@ -906,6 +906,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 253815183}
     m_Modifications:
+    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
+        type: 3}
+      propertyPath: m_Name
+      value: WallTorch (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 2472525243651276720, guid: 90f7dff3545b4814a9002f4b06fef903,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -960,11 +965,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -4.2590003
-      objectReference: {fileID: 0}
-    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
-        type: 3}
-      propertyPath: m_Name
-      value: WallTorch (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90f7dff3545b4814a9002f4b06fef903, type: 3}
@@ -1650,16 +1650,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6052993534978006706, guid: 0d98f2536113cb24fb2d2a651f23cbb3,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1654239520921516028, guid: 0d98f2536113cb24fb2d2a651f23cbb3,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1265932090549564272, guid: 0d98f2536113cb24fb2d2a651f23cbb3,
         type: 3}
       propertyPath: m_IsActive
@@ -1714,6 +1704,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6052993534978006706, guid: 0d98f2536113cb24fb2d2a651f23cbb3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1654239520921516028, guid: 0d98f2536113cb24fb2d2a651f23cbb3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d98f2536113cb24fb2d2a651f23cbb3, type: 3}
@@ -1955,6 +1955,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 253815183}
     m_Modifications:
+    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
+        type: 3}
+      propertyPath: m_Name
+      value: WallTorch (4)
+      objectReference: {fileID: 0}
     - target: {fileID: 2472525243651276720, guid: 90f7dff3545b4814a9002f4b06fef903,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2014,11 +2019,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.x
       value: 0.50000024
-      objectReference: {fileID: 0}
-    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
-        type: 3}
-      propertyPath: m_Name
-      value: WallTorch (4)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90f7dff3545b4814a9002f4b06fef903, type: 3}
@@ -2526,6 +2526,26 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 8191919461207840989, guid: c1cfe68a8a2cbb843b3fc5f7cfe9963a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.38268343
+      objectReference: {fileID: 0}
+    - target: {fileID: 8191919461207840989, guid: c1cfe68a8a2cbb843b3fc5f7cfe9963a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.92387956
+      objectReference: {fileID: 0}
+    - target: {fileID: 8191919461207840989, guid: c1cfe68a8a2cbb843b3fc5f7cfe9963a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -135
+      objectReference: {fileID: 0}
+    - target: {fileID: 8191919461207840989, guid: c1cfe68a8a2cbb843b3fc5f7cfe9963a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1cfe68a8a2cbb843b3fc5f7cfe9963a, type: 3}
 --- !u!212 &1164747667 stripped
@@ -2547,6 +2567,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 253815183}
     m_Modifications:
+    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
+        type: 3}
+      propertyPath: m_Name
+      value: WallTorch (2)
+      objectReference: {fileID: 0}
     - target: {fileID: 2472525243651276720, guid: 90f7dff3545b4814a9002f4b06fef903,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2602,11 +2627,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -4.2590003
       objectReference: {fileID: 0}
-    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
-        type: 3}
-      propertyPath: m_Name
-      value: WallTorch (2)
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90f7dff3545b4814a9002f4b06fef903, type: 3}
 --- !u!4 &1241824195 stripped
@@ -2622,6 +2642,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 253815183}
     m_Modifications:
+    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
+        type: 3}
+      propertyPath: m_Name
+      value: WallTorch (6)
+      objectReference: {fileID: 0}
     - target: {fileID: 2472525243651276720, guid: 90f7dff3545b4814a9002f4b06fef903,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2686,11 +2711,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.50000024
-      objectReference: {fileID: 0}
-    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
-        type: 3}
-      propertyPath: m_Name
-      value: WallTorch (6)
       objectReference: {fileID: 0}
     - target: {fileID: 2010429232279344646, guid: 90f7dff3545b4814a9002f4b06fef903,
         type: 3}
@@ -3189,6 +3209,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 253815183}
     m_Modifications:
+    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
+        type: 3}
+      propertyPath: m_Name
+      value: WallTorch
+      objectReference: {fileID: 0}
     - target: {fileID: 2472525243651276720, guid: 90f7dff3545b4814a9002f4b06fef903,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3244,11 +3269,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -4.2590003
       objectReference: {fileID: 0}
-    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
-        type: 3}
-      propertyPath: m_Name
-      value: WallTorch
-      objectReference: {fileID: 0}
     - target: {fileID: 2010429232279344646, guid: 90f7dff3545b4814a9002f4b06fef903,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -3274,6 +3294,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 253815183}
     m_Modifications:
+    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
+        type: 3}
+      propertyPath: m_Name
+      value: WallTorch (3)
+      objectReference: {fileID: 0}
     - target: {fileID: 2472525243651276720, guid: 90f7dff3545b4814a9002f4b06fef903,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3334,11 +3359,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 0.50000024
       objectReference: {fileID: 0}
-    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
-        type: 3}
-      propertyPath: m_Name
-      value: WallTorch (3)
-      objectReference: {fileID: 0}
     - target: {fileID: 2010429232279344646, guid: 90f7dff3545b4814a9002f4b06fef903,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -3364,6 +3384,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 253815183}
     m_Modifications:
+    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
+        type: 3}
+      propertyPath: m_Name
+      value: WallTorch (5)
+      objectReference: {fileID: 0}
     - target: {fileID: 2472525243651276720, guid: 90f7dff3545b4814a9002f4b06fef903,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3424,11 +3449,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 0.50000024
       objectReference: {fileID: 0}
-    - target: {fileID: 1303930380696154639, guid: 90f7dff3545b4814a9002f4b06fef903,
-        type: 3}
-      propertyPath: m_Name
-      value: WallTorch (5)
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90f7dff3545b4814a9002f4b06fef903, type: 3}
 --- !u!4 &1733573580 stripped
@@ -3464,7 +3484,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1801668876}
   m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: -4.992, y: 1.9375, z: -3}
+  m_LocalPosition: {x: -4.992, y: 1.9375, z: -3.375}
   m_LocalScale: {x: 0.15, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 128762979}
