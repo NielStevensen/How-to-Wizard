@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/PC Menu.unity
     guid: c57cee3da07451741a09c8461044abcb
   - enabled: 1
-    path: Assets/Scenes/VR Menu old.unity
-    guid: d4126b74df802fa409144fe16f99cf56
+    path: Assets/Scenes/VR Menu.unity
+    guid: a926fb2a072c74043a3a482bf8f5e68d
   - enabled: 1
     path: Assets/Scenes/Sandbox.unity
     guid: dd566b4357ddb034cab64005bc6fe151
