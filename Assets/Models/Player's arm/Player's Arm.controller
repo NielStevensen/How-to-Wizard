@@ -107,7 +107,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: End throw
-  m_Speed: 2.5
+  m_Speed: 3.75
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -8109478676490074321}
@@ -278,9 +278,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0
+  m_TransitionDuration: 0.0032051355
   m_TransitionOffset: 0
-  m_ExitTime: 1.0037708
+  m_ExitTime: 0.98963064
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -399,7 +399,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Charge
-  m_Speed: 2.5
+  m_Speed: 3.75
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -1607690657872082843}
@@ -474,7 +474,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: End touch
-  m_Speed: 2.5
+  m_Speed: 3.75
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 180752390687598427}
@@ -527,7 +527,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Touch
-  m_Speed: 2.5
+  m_Speed: 3.75
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 898193837651556473}
@@ -555,7 +555,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Start cast
-  m_Speed: 2.5
+  m_Speed: 3.75
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 2700587972274564167}
@@ -586,7 +586,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Throw
-  m_Speed: 2.5
+  m_Speed: 3.75
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -1436848231550798624}
@@ -639,7 +639,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: End charge
-  m_Speed: 2.5
+  m_Speed: 3.75
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 7418454311105581488}
