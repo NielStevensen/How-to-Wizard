@@ -43,7 +43,9 @@ public class TorchTrigger : MonoBehaviour
             {
                 target.HandleState(isActivated);
             }
-        }
+
+			GetComponent<BurnController>().enabled = true;
+		}
     }
 
     // Update is called once per frame
@@ -65,8 +67,8 @@ public class TorchTrigger : MonoBehaviour
                 target.HandleState(isActivated);
             }
         }
-        if(!isActivated) GetComponent<BurnController>().enabled = false;
 
+        if(!isActivated) GetComponent<BurnController>().enabled = false;
     }
 
 	//Update mechanism symbols
