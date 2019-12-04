@@ -81,11 +81,9 @@ public class NullManager : MonoBehaviour
 			mat.SetColor("_Colour", new Color(0.25f, 0.375f, 1.0f, 0.5f));
 		}
 		
-        nullProjection.SetActive(isNulled);
-        AudioSource.PlayClipAtPoint(ToggleSound, transform.position, Info.optionsData.sfxLevel);
-
+        nullProjection.SetActive(false);
+        
         nulleffect = Instantiate(nullParticles, gameObject.transform.position, gameObject.transform.rotation, nullProjection.transform);
-        //nulleffect.transform.localScale = transform.localScale;
     }
     
 	//Stop the projection from breaking physics
@@ -97,11 +95,17 @@ public class NullManager : MonoBehaviour
 		{
 			rb.isKinematic = state;
 		}
+
+		yield return new WaitForEndOfFrame();
+
+		nullProjection.SetActive(isNulled);
 	}
 
     //Invert null state
     public void HandleNullEvent()
     {
+		AudioSource.PlayClipAtPoint(ToggleSound, transform.position, Info.optionsData.sfxLevel);
+
 		if (willNullDestroy)
 		{
 			Destroy(gameObject);
