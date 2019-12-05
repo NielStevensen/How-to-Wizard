@@ -38,7 +38,8 @@ public class LaserController : MonoBehaviour
 	//Log an error if there is no origin
 	void Start()
 	{
-		Debug.Assert(laserOrigin != null, gameObject.name + " does not have a laser origin!");
+        GetComponent<AudioSource>().enabled = isActivated;
+        Debug.Assert(laserOrigin != null, gameObject.name + " does not have a laser origin!");
 		
 		isActivated = startsActivated;
 
@@ -113,5 +114,6 @@ public class LaserController : MonoBehaviour
 	public void HandleState(bool state)
 	{
 		isActivated = startsActivated != state;
+        GetComponent<AudioSource>().enabled = isActivated;
 	}
 }

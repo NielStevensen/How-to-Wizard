@@ -296,7 +296,7 @@ public class SpellModuleList : MonoBehaviour
 
 			while (Input.GetButton("Fire2"))
 			{
-                currentPower = Mathf.Clamp(currentPower + Input.GetAxis("Mouse ScrollWheel"), 0.1f, maxThrow);
+                currentPower = Mathf.Clamp(currentPower + Input.GetAxis("Mouse ScrollWheel"), 0.5f, maxThrow);
                 holdTime += Time.deltaTime;
 				power = Mathf.Min(holdTime * 2, currentPower) * 10;
 				direction = transform.forward;
@@ -322,16 +322,16 @@ public class SpellModuleList : MonoBehaviour
 
 						lineSegments[simulatedSegments].transform.position = previousPoint; // place segments
 						lineSegments[simulatedSegments].transform.LookAt(nextPoint);
-						lineSegments[simulatedSegments].transform.localScale = new Vector3(0.1f, 0.1f, (nextPoint - previousPoint).magnitude / 2);
+						lineSegments[simulatedSegments].transform.localScale = new Vector3(0.075f, 0.075f, (nextPoint - previousPoint).magnitude / 2);
 						simulatedSegments += 1;
-						if (Physics.Raycast(previousPoint, nextPoint - previousPoint, out hit, (nextPoint - previousPoint).magnitude, ~chargeIgnoreRays))
+						if (Physics.SphereCast(previousPoint,projectilePrefab.transform.localScale.x, nextPoint - previousPoint, out hit, (nextPoint - previousPoint).magnitude, ~chargeIgnoreRays))
 						{
 							nextPoint = hit.point;
 							simulationComplete = true;
                             targetOrb = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                             Destroy(targetOrb.GetComponent<SphereCollider>());
                             targetOrb.transform.position = hit.point;
-                            targetOrb.transform.localScale *= 0.6f;
+                            targetOrb.transform.localScale *= projectilePrefab.transform.localScale.x;
                             targetOrb.GetComponent<Renderer>().material = hitpointCol;
                         }
 
