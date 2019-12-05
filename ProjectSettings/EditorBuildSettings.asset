@@ -86,4 +86,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Challenge Levels/Level 9 Challenge.unity
     guid: f70912cb13707f14c96e567e32b0876b
+  - enabled: 1
+    path: Assets/Scenes/Challenge Levels/Level 10 Challenge.unity
+    guid: 7ae377e481aa193499f20f700e468af3
   m_configObjects: {}
