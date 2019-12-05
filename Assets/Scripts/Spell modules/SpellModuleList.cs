@@ -134,14 +134,7 @@ public class SpellModuleList : MonoBehaviour
 
 		lineRenderer = GetComponent<LineRenderer>();
 
-        if (Info.IsCurrentlyVR())
-        {
-            rotationReference = FindObjectOfType<InheritYRotation>().gameObject;
-        }
-        else
-        {
-            rotationReference = FindObjectOfType<PlayerController>().gameObject;
-        }
+		rotationReference = Info.IsCurrentlyVR() ? FindObjectOfType<InheritYRotation>().gameObject : FindObjectOfType<PlayerController>().gameObject;
     }
 
 	//Calls components based on a parsed list
@@ -492,16 +485,10 @@ public class SpellModuleList : MonoBehaviour
 			
 			arm.SetTrigger(PlayerController.chargeHash);
 
-			while (arm.GetCurrentAnimatorStateInfo(0).IsTag("Neutral"))
+			while (!arm.GetCurrentAnimatorStateInfo(0).IsTag("Intermediate"))
 			{
 				yield return info;
 			}
-
-			//if i get the charge anim split
-			/*while (arm.GetCurrentAnimatorStateInfo(0).IsTag("Start"))
-			{
-				yield return info;
-			}*/
 		}
 
 		Vector3 origin;
@@ -525,7 +512,7 @@ public class SpellModuleList : MonoBehaviour
 		Vector3 projectedPoint;
 		Vector3 projectedDirection;
 
-		while (IsChargeHeld(isVR))
+		while (isVR ? !holdAction.GetLastStateUp(obj.hand) : Input.GetButton("Fire2"))
         {
             if (isVR)
             {
@@ -588,20 +575,7 @@ public class SpellModuleList : MonoBehaviour
 
 		NotifySpellCasted();
 	}
-
-	//Get if the charge button is held
-	bool IsChargeHeld(bool isVR)
-	{
-		if (isVR)
-		{
-			return !holdAction.GetLastStateUp(obj.hand);
-		}
-		else
-		{
-			return Input.GetButton("Fire2");
-		}
-	}
-
+	
 	//Produce spell efects at the player's hand
 	IEnumerator Touch(SpellInfo info)
 	{

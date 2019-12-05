@@ -713,6 +713,7 @@ MonoBehaviour:
   nullShader: {fileID: 4800000, guid: 358e88ce5fba08e48ae42706c075c8ea, type: 3}
   nullParticles: {fileID: 357902674088087968, guid: ca155e5af7fb294468fd36fa81da59f6,
     type: 3}
+  ToggleSound: {fileID: 0}
   isProjection: 0
 --- !u!1001 &385271377
 PrefabInstance:
@@ -2975,6 +2976,7 @@ MonoBehaviour:
   nullShader: {fileID: 4800000, guid: 358e88ce5fba08e48ae42706c075c8ea, type: 3}
   nullParticles: {fileID: 357902674088087968, guid: ca155e5af7fb294468fd36fa81da59f6,
     type: 3}
+  ToggleSound: {fileID: 0}
   isProjection: 0
 --- !u!1 &2022980769
 GameObject:
@@ -3219,7 +3221,7 @@ PrefabInstance:
     - target: {fileID: 6292848557462751606, guid: b8ef9db6933a38e499a23b2504bf2dfd,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4904143775574446979, guid: b8ef9db6933a38e499a23b2504bf2dfd,
         type: 3}
@@ -3275,6 +3277,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2856121076637203293, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.025
+      objectReference: {fileID: 0}
+    - target: {fileID: 1295245744200059214, guid: b8ef9db6933a38e499a23b2504bf2dfd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8ef9db6933a38e499a23b2504bf2dfd, type: 3}
