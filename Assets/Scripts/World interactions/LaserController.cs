@@ -51,6 +51,11 @@ public class LaserController : MonoBehaviour
 	//Handle laser and impact
 	void Update()
 	{
+		if (Info.isPaused)
+		{
+			return;
+		}
+
 		laserObject.SetActive(isActivated);
 
 		if (isActivated)
