@@ -78,8 +78,10 @@ public class ExitManager : MonoBehaviour
 			{
 				SceneManager.LoadScene(Info.IsCurrentlyVR() ? "VR Menu" : "PC Menu");
 			}
-
-			SceneManager.LoadScene(nextLevel);
+			else
+			{
+				SceneManager.LoadScene(nextLevel);
+			}
 		}
 	}
 
