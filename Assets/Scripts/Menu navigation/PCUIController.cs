@@ -18,6 +18,9 @@ public class PCUIController : MonoBehaviour
 	public Button[] modeButtons;
 	public Button startButton;
 
+    public Sprite[] levelImages;
+    public Sprite[] challengeLevelImages;
+
 	[Space(10)]
 
 	//Stats display
@@ -84,6 +87,7 @@ public class PCUIController : MonoBehaviour
 		{
 			case (GameMode.Story):
 				ChangeAvailability(stats.storyClearData);
+                Changepictures(levelImages, levelButtons);
 
 				break;
 			case (GameMode.NewGamePlus):
@@ -91,19 +95,21 @@ public class PCUIController : MonoBehaviour
 				{
 					levelButtons[i].interactable = true;
 				}
-
-				break;
+                Changepictures(levelImages, levelButtons);
+                break;
 			case (GameMode.Challenge):
 				ChangeAvailability(stats.extraClearData);
+                Changepictures(challengeLevelImages, levelButtons);
 
-				break;
+                break;
 			case (GameMode.Sandbox):
 				if(selectedLevel == -1)
 				{
 					selectedLevel = 1;
 				}
+                Changepictures(levelImages, levelButtons);
 
-				startButton.interactable = true;
+                startButton.interactable = true;
 
 				for (int i = 0; i < levelButtons.Length; i++)
 				{
@@ -231,6 +237,14 @@ public class PCUIController : MonoBehaviour
 			{
 				SceneManager.LoadScene("Sandbox");
 			}
+        }
+    }
+
+    public void Changepictures (Sprite[] images, Button [] buttons)
+    {
+        for(int i = 0; i < buttons.Length; i++ )
+        {
+            buttons[i].image.sprite = images[i];
         }
     }
 	#endregion
