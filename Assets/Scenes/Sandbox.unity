@@ -3805,6 +3805,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6052993534978006706, guid: 0d98f2536113cb24fb2d2a651f23cbb3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1654239520921516028, guid: 0d98f2536113cb24fb2d2a651f23cbb3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1265932090549564272, guid: 0d98f2536113cb24fb2d2a651f23cbb3,
         type: 3}
       propertyPath: m_IsActive
@@ -3856,16 +3866,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6331512126097881858, guid: 0d98f2536113cb24fb2d2a651f23cbb3,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6052993534978006706, guid: 0d98f2536113cb24fb2d2a651f23cbb3,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1654239520921516028, guid: 0d98f2536113cb24fb2d2a651f23cbb3,
         type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -4331,16 +4331,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.33333334
       objectReference: {fileID: 0}
-    - target: {fileID: 7496469561113527520, guid: d21d6a65e64882e438c9cd369a03917e,
-        type: 3}
-      propertyPath: levelNumber
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7496469561113527520, guid: d21d6a65e64882e438c9cd369a03917e,
-        type: 3}
-      propertyPath: nextLevel
-      value: Sandbox
-      objectReference: {fileID: 0}
     - target: {fileID: 3325608004857951382, guid: d21d6a65e64882e438c9cd369a03917e,
         type: 3}
       propertyPath: wallTileSize.x
@@ -4360,6 +4350,16 @@ PrefabInstance:
         type: 3}
       propertyPath: ceilingTileSize.y
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7496469561113527520, guid: d21d6a65e64882e438c9cd369a03917e,
+        type: 3}
+      propertyPath: levelNumber
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7496469561113527520, guid: d21d6a65e64882e438c9cd369a03917e,
+        type: 3}
+      propertyPath: nextLevel
+      value: Sandbox
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d21d6a65e64882e438c9cd369a03917e, type: 3}
@@ -4683,7 +4683,7 @@ PrefabInstance:
     - target: {fileID: 8976923395433943868, guid: 9ba680b70c1d90740aca399cc51ee96f,
         type: 3}
       propertyPath: targetPlatform
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8976923395433943868, guid: 9ba680b70c1d90740aca399cc51ee96f,
         type: 3}
