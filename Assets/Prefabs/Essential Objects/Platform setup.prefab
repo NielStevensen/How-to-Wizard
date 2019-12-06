@@ -44,5 +44,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPlatform: -1
+  bgmControll: {fileID: 4328992457211123239, guid: 71b171535f9575b4d89e42bbee3cd9bf,
+    type: 3}
+  clips:
+  - {fileID: 8300000, guid: 694f5fedaffbb074699ded82ac8ba403, type: 3}
+  - {fileID: 8300000, guid: 83f9500d0f66eaf44897663e965048a2, type: 3}
+  - {fileID: 8300000, guid: 943f1b0f8221d0b448741da86ada45b6, type: 3}
   destroyOnPC: []
   destroyOnVR: []

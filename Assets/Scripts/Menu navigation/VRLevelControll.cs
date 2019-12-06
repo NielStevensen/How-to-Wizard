@@ -19,6 +19,7 @@ public class VRLevelControll : MonoBehaviour
 
     //Stats display
     public Sprite[] levelPics;
+    public Sprite[] challangelevelPics;
     public PlayerData stats;
     public Image display;
     public Text time;
@@ -73,7 +74,14 @@ public class VRLevelControll : MonoBehaviour
                 }
             }
         }
-        display.sprite = levelPics[selectedLevel - 1];
+        if (Info.currentGameMode == GameMode.Challenge)
+        {
+            display.sprite = challangelevelPics[selectedLevel - 1];
+        }
+        else
+        {
+            display.sprite = levelPics[selectedLevel - 1];
+        }
         if (Info.currentGameMode == GameMode.Sandbox) display.sprite = levelPics[15]; // overirde picture for snadbox mode
          DisplayStats();
     }
