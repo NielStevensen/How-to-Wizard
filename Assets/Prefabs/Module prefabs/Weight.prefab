@@ -124,9 +124,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weightMask:
     serializedVersion: 2
-    m_Bits: 411905
+    m_Bits: 395521
   weightSound: {fileID: 8300000, guid: d0a7e525dba304e44850193f5716bbe1, type: 3}
-  weightFX: {fileID: 6564230237751211074, guid: 4cdbf5a1e15ade4498449359b53a259c,
+  weightSpawnFX: {fileID: 6564230237751211074, guid: 4cdbf5a1e15ade4498449359b53a259c,
+    type: 3}
+  weightFailFX: {fileID: 6564230237751211074, guid: c9996f84ab0c8be469a1bb933b7e2eff,
     type: 3}
 --- !u!114 &-4200811709711082274
 MonoBehaviour:
@@ -143,4 +145,6 @@ MonoBehaviour:
   isNulled: 0
   willNullDestroy: 1
   nullShader: {fileID: 0}
+  nullParticles: {fileID: 0}
+  ToggleSound: {fileID: 0}
   isProjection: 0

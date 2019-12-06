@@ -7,10 +7,15 @@ public class WeightRepositioner : MonoBehaviour
 	//Layermask
 	[Tooltip("The layers that weight repositioning should ignore.")]
 	public LayerMask weightMask;
+    [Tooltip("The weight spawn sound effect.")]
     public AudioClip weightSound;
-    public GameObject weightFX;
-	//Try to reposition the weight to not intersect with anything
-	private void Start()
+    [Tooltip("The weight spawn particle effect.")]
+    public GameObject weightSpawnFX;
+    [Tooltip("The weight spawn failure particle effect.")]
+    public GameObject weightFailFX;
+
+    //Try to reposition the weight to not intersect with anything
+    private void Start()
 	{
 		//Intersection values
 		bool isIntersecting = true;
@@ -31,9 +36,13 @@ public class WeightRepositioner : MonoBehaviour
 		BoxCollider weightCollider = GetComponent<BoxCollider>();
 		weightCollider.size *= transform.localScale.x;
 
-		//Handle repositioning
-		while (isIntersecting)
+        //Original position (for fail fx)
+        Vector3 originalPos = transform.position;
+        
+        //Handle repositioning
+        while (isIntersecting)
 		{
+
 			//Determine all objects intersecting with the weight
 			hits = Physics.BoxCastAll(transform.position, transform.localScale * 0.5f - Vector3.one * 0.01f, Vector3.up, transform.rotation, 0.01f, weightMask, QueryTriggerInteraction.Ignore);
 
@@ -61,11 +70,12 @@ public class WeightRepositioner : MonoBehaviour
 
 				//Determine if the target object has been tested
 				bool alreadyTested = false;
-
+                
 				foreach(GameObject obj in testedObjects)
 				{
-					if(obj == target)
+                    if (obj == target)
 					{
+
 						alreadyTested = true;
 
 						print("double test. object: " + target.name);
@@ -84,12 +94,19 @@ public class WeightRepositioner : MonoBehaviour
 
 				//Determine repositioning amount
 				Physics.ComputePenetration(weightCollider, transform.position, transform.rotation, hits_[0].collider, target.transform.position, target.transform.rotation, out direction, out distance);
-				
-				repos = direction * distance / transform.localScale.x;
-				reposTotal += repos;
 
+                if(direction.y < 0.0f)
+                {
+                    distance *= 1.01f;
+                }
+
+                print(Mathf.Max(distance, 0.3125f));
+
+                repos = direction * Mathf.Max(distance, 0.3125f);
+				reposTotal += repos;
+                
 				//If the weight requires too much repositioning, it's in too small a space
-				if(reposTotal.magnitude > transform.localScale.x * 1.5f)
+				if(reposTotal.magnitude > transform.localScale.x * 1.75f)
 				{
 					print("moved too far. move distance: " + reposTotal.magnitude);
 
@@ -104,11 +121,11 @@ public class WeightRepositioner : MonoBehaviour
 		//The weight failed its repositioning
 		if (isIntersecting)
 		{
-			//produce particle effect
+            GameObject FX = Instantiate(weightFailFX);
+            FX.transform.position = originalPos + (Vector3.down * transform.localScale.x * 0.5f);
+            FX.transform.localScale *= transform.localScale.x;
 
-			//gameObject.GetComponent<Renderer>().enabled = true;
-
-			Destroy(gameObject);
+            Destroy(gameObject);
 		}
 		//The weight was successfully repositioned
 		else
@@ -118,11 +135,11 @@ public class WeightRepositioner : MonoBehaviour
 			weightCollider.attachedRigidbody.isKinematic = false;
 			weightCollider.attachedRigidbody.useGravity = true;
 			gameObject.GetComponent<Renderer>().enabled = true;
-
-            //produce particle effect
-            AudioSource.PlayClipAtPoint(weightSound, transform.position, Info.optionsData.sfxLevel); // oc do not steal
-            GameObject FX = Instantiate(weightFX);
-            FX.transform.position = transform.position;
+            
+            AudioSource.PlayClipAtPoint(weightSound, transform.position, Info.optionsData.sfxLevel);
+            GameObject FX = Instantiate(weightSpawnFX);
+            FX.transform.position = transform.position + (Vector3.down * transform.localScale.x * 0.5f);
+            FX.transform.localScale *= transform.localScale.x;
         }
     }
 }
