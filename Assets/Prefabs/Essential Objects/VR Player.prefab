@@ -3212,7 +3212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ignoreRays:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   waistHeight: 0.6
   slots:
   - {fileID: 1785664909}

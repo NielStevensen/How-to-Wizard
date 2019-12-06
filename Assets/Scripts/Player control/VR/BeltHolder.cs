@@ -7,7 +7,7 @@ public class BeltHolder : MonoBehaviour
     GameObject relativeTo;
     public LayerMask ignoreRays; // layers to ignore
     float floorY;
-    RaycastHit hit;
+    RaycastHit[] hit;
     [Tooltip("propotion of the head height to place spell")]
     public float waistHeight;
     public GameObject[] slots;
@@ -19,8 +19,17 @@ public class BeltHolder : MonoBehaviour
     void Start()
     {
         relativeTo = GameObject.FindObjectOfType<VRMovement>().gameObject.GetComponentInChildren<CameraController>().gameObject;
-        Physics.Raycast(relativeTo.transform.position, transform.up* -1, out hit, 1000.0f, ~ignoreRays);
-        floorY = hit.point.y;
+        hit = Physics.RaycastAll(relativeTo.transform.position, transform.up* -1, 1000.0f, ignoreRays);
+        
+        foreach(RaycastHit hit_ in hit)
+        {
+            if (hit_.collider.gameObject.name.Split(' ')[0] == "Floor")
+            {
+                floorY = hit_.point.y;
+
+                break;
+            }
+        }
     }
 
 // Update is called once per frame

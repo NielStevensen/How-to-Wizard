@@ -25,34 +25,39 @@ public class PlatformSetup : MonoBehaviour
 	//Setup target platform if it is not already setup. Set up cursor and destroy objects based on platform
 	private void Awake()
     {
-        bool flag = false;
         AudioSource[] sources = GameObject.FindObjectsOfType<AudioSource>();
-        GameObject bgm = null;
+        PersistentBGM bgm = FindObjectOfType<PersistentBGM>();
 
-        foreach ( AudioSource a in sources)
+        if(bgm == null)
         {
-            if(a.gameObject.name == "BGMController")
-            {
-                flag = true;
-                bgm = a.gameObject;
-            }
+            bgm = Instantiate(bgmControll).GetComponent<PersistentBGM>();
         }
-        if (!flag) bgm = Instantiate(bgmControll);
-
         
         if(SceneManager.GetActiveScene().name.Contains("Menu"))
         {
-            bgm.GetComponent<AudioSource>().clip = clips[0];
+            if (bgm.GetComponent<AudioSource>().clip != clips[0])
+            {
+                bgm.GetComponent<AudioSource>().clip = clips[0];
+                bgm.GetComponent<AudioSource>().Play();
+            }
         }
         else if(Info.currentGameMode == GameMode.Challenge)
         {
-            bgm.GetComponent<AudioSource>().clip = clips[1];
+            if (bgm.GetComponent<AudioSource>().clip != clips[1])
+            {
+                bgm.GetComponent<AudioSource>().clip = clips[1];
+                bgm.GetComponent<AudioSource>().Play();
+            }
         }
         else
         {
-            bgm.GetComponent<AudioSource>().clip = clips[2];
+            if (bgm.GetComponent<AudioSource>().clip != clips[2])
+            {
+                bgm.GetComponent<AudioSource>().clip = clips[2];
+                bgm.GetComponent<AudioSource>().Play();
+            }
+
         }
-        bgm.GetComponent<AudioSource>().Play();
 
         if (Info.optionsData != null)
         {
