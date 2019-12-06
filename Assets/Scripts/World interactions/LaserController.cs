@@ -34,6 +34,8 @@ public class LaserController : MonoBehaviour
 	private float scaleModifier = 1.0f;
 
     public GameObject DestroyFX;
+    public GameObject HitFX;
+    public AudioClip destroySound;
 
 	//Log an error if there is no origin
 	void Start()
@@ -58,8 +60,9 @@ public class LaserController : MonoBehaviour
 		}
 
 		laserObject.SetActive(isActivated);
+        HitFX.SetActive(isActivated);
 
-		if (isActivated)
+        if (isActivated)
 		{
 			RaycastHit hit;
 			
@@ -67,6 +70,7 @@ public class LaserController : MonoBehaviour
 
 			if (Physics.Raycast(laserOrigin.position, laserOrigin.forward, out hit, 1000.0f, ~laserIgnore))
 			{
+                HitFX.transform.position = hit.point;
 				laserLength = hit.distance * scaleModifier;
 
 				if (hit.collider.gameObject != impactObject)
@@ -91,6 +95,7 @@ public class LaserController : MonoBehaviour
 					{
 						Destroy(impactObject);
                         GameObject FX = Instantiate(DestroyFX);
+                        AudioSource.PlayClipAtPoint(destroySound, hit.point, Info.optionsData.sfxLevel);
                         FX.transform.position = impactObject.transform.position;
                         FX.transform.localScale = impactObject.transform.localScale *0.5f;
                         impactObject = null;

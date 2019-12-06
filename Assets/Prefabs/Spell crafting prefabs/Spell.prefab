@@ -843,6 +843,7 @@ MonoBehaviour:
     actionPath: /actions/default/in/Hold
     needsReinit: 0
   touchDistance: 1.5
+  touchDistanceVR: 0.1
   touchSize: 0.3
   aoeSizeAmplifier: 2.5
   maxForceDistance: 5

@@ -63,6 +63,7 @@ public class SpellModuleList : MonoBehaviour
 
     //Touch values
     public float touchDistance;
+    public float touchDistanceVR;
     public float touchSize;
 
     [Space(10)]
@@ -319,11 +320,11 @@ public class SpellModuleList : MonoBehaviour
 						simulatedSegments += 1;
 						if (Physics.SphereCast(previousPoint,projectilePrefab.transform.localScale.x, nextPoint - previousPoint, out hit, (nextPoint - previousPoint).magnitude, ~chargeIgnoreRays))
 						{
-							nextPoint = hit.point;
+							nextPoint = previousPoint + (lineSegments[simulatedSegments -1].transform.forward * hit.distance);
 							simulationComplete = true;
                             targetOrb = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                             Destroy(targetOrb.GetComponent<SphereCollider>());
-                            targetOrb.transform.position = hit.point;
+                            targetOrb.transform.position = nextPoint;
                             targetOrb.transform.localScale *= projectilePrefab.transform.localScale.x;
                             targetOrb.GetComponent<Renderer>().material = hitpointCol;
                         }
@@ -370,8 +371,8 @@ public class SpellModuleList : MonoBehaviour
                 yield return info;
             }
         }
-        
-		GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+        direction = transform.forward;
+        GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
         AudioSource.PlayClipAtPoint(ProjectileSpawn, transform.position, Info.optionsData.sfxLevel);
         projectile.GetComponent<ProjectileReturn>().modifier = modifier;
         projectile.GetComponent<ProjectileReturn>().caller = this;
@@ -585,6 +586,7 @@ public class SpellModuleList : MonoBehaviour
 
 		if (Info.IsCurrentlyVR())
 		{
+            if(Physics.Raycast(transform.position, transform.forward, out hit, touchDistanceVR, ~chargeIgnoreRays))
 			touchPoint = handTransform.position;
 		}
 		else
@@ -603,14 +605,16 @@ public class SpellModuleList : MonoBehaviour
 				yield return info;
 			}
 
-			if (Physics.Raycast(transform.position, transform.forward, out hit, touchDistance))
-			{
-				touchPoint = hit.point;
-			}
-			else
-			{
-				touchPoint = Camera.main.transform.position + Camera.main.transform.forward * touchDistance;
-			}
+            touchPoint = Physics.Raycast(transform.position, transform.forward, out hit, touchDistance, ~chargeIgnoreRays) ? hit.point : Camera.main.transform.position + Camera.main.transform.forward * touchDistance;
+            
+   //         if (Physics.Raycast(transform.position, transform.forward, out hit, touchDistance))
+			//{
+			//	touchPoint = hit.point;
+			//}
+			//else
+			//{
+			//	touchPoint = Camera.main.transform.position + Camera.main.transform.forward * touchDistance;
+			//}
 		}
 		
         info.collisionPoints.Add(touchPoint);
