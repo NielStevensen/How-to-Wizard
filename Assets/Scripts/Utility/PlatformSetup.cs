@@ -11,6 +11,9 @@ public class PlatformSetup : MonoBehaviour
 		"\nUnset will default to PC.")]
 	public Platform targetPlatform = Platform.Unset;
 
+    public GameObject bgmControll;
+    public AudioClip[] clips;
+
 	[Space(10)]
 
 	//Objects to destroy on particular platforms
@@ -22,6 +25,39 @@ public class PlatformSetup : MonoBehaviour
 	//Setup target platform if it is not already setup. Set up cursor and destroy objects based on platform
 	private void Awake()
     {
+        bool flag = false;
+        AudioSource[] sources = GameObject.FindObjectsOfType<AudioSource>();
+        GameObject bgm = null;
+
+        foreach ( AudioSource a in sources)
+        {
+            if(a.gameObject.name == "BGMController")
+            {
+                flag = true;
+                bgm = a.gameObject;
+            }
+        }
+        if (!flag) bgm = Instantiate(bgmControll);
+
+        
+        if(SceneManager.GetActiveScene().name.Contains("Menu"))
+        {
+            bgm.GetComponent<AudioSource>().clip = clips[0];
+        }
+        else if(Info.currentGameMode == GameMode.Challenge)
+        {
+            bgm.GetComponent<AudioSource>().clip = clips[1];
+        }
+        else
+        {
+            bgm.GetComponent<AudioSource>().clip = clips[2];
+        }
+        bgm.GetComponent<AudioSource>().Play();
+
+        if (Info.optionsData != null)
+        {
+            bgm.GetComponent<AudioSource>().volume = Info.optionsData.bgmLevel;
+        }
 		if (Info.targetPlatform == Platform.Unset)
 		{
 			if(targetPlatform == Platform.Unset)
