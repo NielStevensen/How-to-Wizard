@@ -71,14 +71,18 @@ public class BurnController : MonoBehaviour
 
         if (burnTime == 2.5f)
         {
-            if (Info.IsCurrentlyVR())
-            {
-                FindObjectOfType<SpellCreation>().isSpellCollected = true;
-            }
-            else
-            {
-                FindObjectOfType<PlayerController>().isSpellCollected = true;
-            }
+			SpellCreation table = FindObjectOfType<SpellCreation>();
+
+			table.isCraftCooldown = false;
+			table.isSpellCollected = true;
+
+			if (!Info.IsCurrentlyVR())
+			{
+				PlayerController player = FindObjectOfType<PlayerController>();
+
+				player.isCraftCooldown = false;
+				player.isSpellCollected = true;
+			}
         }
         
         if(pfx != null)
