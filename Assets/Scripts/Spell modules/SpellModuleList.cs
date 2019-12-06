@@ -586,8 +586,14 @@ public class SpellModuleList : MonoBehaviour
 
 		if (Info.IsCurrentlyVR())
 		{
-            if(Physics.Raycast(transform.position, transform.forward, out hit, touchDistanceVR, ~chargeIgnoreRays))
-			touchPoint = handTransform.position;
+            if (Physics.Raycast(transform.position, transform.forward, out hit, touchDistanceVR, ~chargeIgnoreRays))
+            {
+                touchPoint = hit.point;
+            }
+            else
+            {
+                touchPoint = transform.position + transform.forward * touchDistanceVR;
+            }
 		}
 		else
 		{
