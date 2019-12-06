@@ -1022,7 +1022,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9337084ea3365fd44a7328c8ed7cba95, type: 3}
   - {fileID: 21300000, guid: 65ebf3e4a99d5574e9e43f052829edc6, type: 3}
   - {fileID: 21300000, guid: fe116a2b4a1737941a05c162d84124cb, type: 3}
-  unlockedPictures: 0000000000000000000000000000000000000000
+  - {fileID: 21300000, guid: d981eb84aa43a094ba02a7550c628b03, type: 3}
+  unlockedPictures: 000000000000000000000000000000000000000000
   fadeImage: {fileID: 5590915638288071847}
   startFadeDuration: 1.25
   resetFadeDuration: 0.375
@@ -1663,7 +1664,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7023620993011591626
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3615,7 +3616,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6581596437265555971
 RectTransform:
   m_ObjectHideFlags: 0

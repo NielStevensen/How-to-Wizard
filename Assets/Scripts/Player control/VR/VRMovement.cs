@@ -101,7 +101,7 @@ public class VRMovement : MonoBehaviour
     public GameObject pointer;
     public Image Instuction;
     public Sprite[] menuPictures;
-    private bool[] unlockedPictures = new bool[20];
+    private bool[] unlockedPictures = new bool[21];
     int currentText;
 
 	//Fade transition values
@@ -162,6 +162,7 @@ public class VRMovement : MonoBehaviour
 
         //check unlocked pictures baserd on progression
         PlayerData data = SaveSystem.LoadGame();
+        unlockedPictures[20] = true;
         for (int  i = 0; i < 8;i++)
         {
             unlockedPictures[i] = true;
@@ -199,6 +200,7 @@ public class VRMovement : MonoBehaviour
         {
             unlockedPictures[19] = true;
         }
+        unlockedPictures[20] = true;
     }
 
     //Handle hitbox, movement and teleportation
@@ -389,7 +391,7 @@ public class VRMovement : MonoBehaviour
     public void cycletext(int start,int direction)
     {
         bool found = false;
-        for(int i = start; i < 20 && i >= 0; i += direction)
+        for(int i = start; i < 21 && i >= 0; i += direction)
         {
             if(unlockedPictures[i] && found == false)
             {
@@ -411,7 +413,7 @@ public class VRMovement : MonoBehaviour
         else if (direction == -1)
         {
             // run again from the top
-            cycletext(19, -1);
+            cycletext(20, -1);
         }
     }
 

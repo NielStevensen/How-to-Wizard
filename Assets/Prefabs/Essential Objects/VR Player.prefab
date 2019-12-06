@@ -883,6 +883,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 65ebf3e4a99d5574e9e43f052829edc6, type: 3}
   - {fileID: 21300000, guid: 9337084ea3365fd44a7328c8ed7cba95, type: 3}
   - {fileID: 21300000, guid: fe116a2b4a1737941a05c162d84124cb, type: 3}
+  - {fileID: 21300000, guid: 7af27ada902437445aed4815ae46ce35, type: 3}
   fadeImage: {fileID: 7850280417582139049}
   startFadeDuration: 1.25
   resetFadeDuration: 0.375

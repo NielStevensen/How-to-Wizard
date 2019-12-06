@@ -154,6 +154,7 @@ public class PlayerController : MonoBehaviour {
         {
             unlockedPictures[19] = true;
         }
+        unlockedPictures[20] = true;
 
         initialY = transform.position.y;
 
@@ -832,7 +833,7 @@ public class PlayerController : MonoBehaviour {
     {
         int start = currentText + direction;
         bool found = false;
-        for (int i = start; i < 20 && i >= 0; i += direction)
+        for (int i = start; i < 21 && i >= 0; i += direction)
         {
             if (unlockedPictures[i] && found == false)
             {
@@ -854,7 +855,7 @@ public class PlayerController : MonoBehaviour {
         else if (direction == -1)
         {
             // run again from the top
-            currentText = 20;
+            currentText = 21;
             cycletext(-1);
         }
     }
