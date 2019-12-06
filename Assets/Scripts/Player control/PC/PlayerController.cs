@@ -643,7 +643,7 @@ public class PlayerController : MonoBehaviour {
 
 			selectedSpell = -1;
 
-			selectionBorder.localPosition = new Vector3(-1000.0f, -500, 0);
+			selectionBorder.localPosition = new Vector3(-1000.0f, -475, 0);
 		}
 		else
 		{
@@ -655,7 +655,7 @@ public class PlayerController : MonoBehaviour {
 
 			selectedSpell = slot;
 
-			selectionBorder.localPosition = new Vector3(-1000.0f + (slot + 1) * 100.0f, -500, 0);
+			selectionBorder.localPosition = new Vector3(-1000.0f + (slot + 1) * 100.0f, -475, 0);
 		}
 	}
 	#endregion
